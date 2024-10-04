@@ -1,0 +1,26 @@
+name: Deploy Staging To DigitalOceans
+
+on:
+  push:
+    branches:
+      - 'staging'
+    paths:
+      - 'Backend/Auth/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd Backend/Auth && docker build -t integrationschd/auth .
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push integrationschd/auth
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEN_ACCESS_TOKEN }}
+      - run: doctl kubernetes cluster kubeconfig save inv2
+      - run: kubectl rollout restart deployment auth-depl
