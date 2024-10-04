@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: depl-logs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logs
+  template:
+    metadata:
+      labels:
+        app: logs
+    spec:
+      containers:
+        - name: logs
+          image: integrationschd/inv2-logs
+          # image: inv2registry.azurecr.io/demo/logs
+          env:
+            - name: PORT
+              valueFrom:
+                secretKeyRef:
+                  name: logs.depl
+                  key: PORT
+            - name: NODE_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: logs.depl
+                  key: NODE_ENV
+            - name: DB_MONGO_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: logs.depl
+                  key: DB_MONGO_HOST
+            - name: DB_MONGO_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: logs.depl
+                  key: DB_MONGO_PORT
+            - name: DB_MONGO_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: logs.depl
+                  key: DB_MONGO_DB_NAME
+            - name: RABBITMQ
+              valueFrom:
+                secretKeyRef:
+                  name: common.depl
+                  key: RABBITMQ
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logs-srv
+spec:
+  selector:
+    app: logs
+  ports:
+    - name: logs
+      protocol: TCP
+      port: 3100
+      targetPort: 3100

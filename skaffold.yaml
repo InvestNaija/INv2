@@ -1,0 +1,29 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+    - "./inv2-infra/k8s/*"
+    - "./inv2-infra/k8s-dev/*"
+build:
+  # local:
+  #   push: false
+  
+  artifacts:
+    - image: integrationschd/inv2-auth
+    # - image: inv2registry.azurecr.io/demo/auth
+      context: backend/auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: 'src/**/*.ts'
+    - image: integrationschd/inv2-logs
+    # - image: inv2registry.azurecr.io/demo/auth
+      context: backend/logs
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: 'src/**/*.ts'

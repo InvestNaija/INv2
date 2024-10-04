@@ -1,0 +1,43 @@
+export class DBEnums {
+   static get MediaType() {
+      return [
+         {code: 101, name: 'avatar', label: 'Avatar'}, 
+         {code: 102, name: 'logo', label: 'Logo'}, 
+         {code: 103, name: 'logo', label: 'Logo'}, 
+         {code: 104, name: 'banner', label: 'Banner'}, 
+         {code: 105, name: 'offer-documents', label: 'Offer Documents'},
+         {code: 106, name: 'pop', label: 'Proof of Payment'},
+      ];
+   };
+   static get UserGender(){
+      return [
+         {code: 101, name: 'male', label: 'Male'}, 
+         {code: 102, name: 'female', label: 'Female',},
+         {code: 120, name: 'other', label: 'Other'},
+      ];
+   };
+   static get NOKRelationships() {
+      return [
+         {code: 101, name: "mother", label: "Mother"},
+         {code: 102, name: "father", label: "Father"},
+         {code: 103, name: "husband", label: "Husband"},
+         {code: 104, name: "wife", label: "Wife"},
+         {code: 105, name: "son", label: "Son"},
+         {code: 106, name: "daughter", label: "Daughter"},
+         {code: 107, name: "brother", label: "Brother"},
+         {code: 108, name: "sister", label: "Sister"},
+         {code: 109, name: "friend", label: "Friend"},
+         {code: 110, name: "partner", label: "Partner"},
+         {code: 111, name: "manager", label: "Manager"},
+         {code: 130, name: "other", label: "Other"},
+      ];
+   };
+   static get TenantType(){
+      return [
+         {code: 101, name: 'SA', label: 'Super Admin'}, 
+         {code: 105, name: 'business', label: 'Business'}, 
+         {code: 110, name: 'bank', label: 'Bank',},
+         {code: 150, name: 'other', label: 'Other'},
+      ];
+   };  
+}
