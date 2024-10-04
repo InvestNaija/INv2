@@ -51,11 +51,11 @@ spec:
                 secretKeyRef:
                   name: common.depl
                   key: REDIS_SERVER
-            - name: MANDRILL_KEY
+            - name: MAIL_ZEPTO_KEY
               valueFrom:
                 secretKeyRef:
                   name: common.depl
-                  key: MANDRILL_KEY
+                  key: MAIL_ZEPTO_KEY
             - name: NODE_ENV
               valueFrom:
                 secretKeyRef:

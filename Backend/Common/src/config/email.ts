@@ -11,11 +11,11 @@ handlebars.registerHelper('breaklines', (text) => {
 });
 
 const zeptomail = new ZeptomailTransport({
-  apiKey: "Zoho-enczapikey wSsVR60n/Ub4C/90ymL5Jb08nw9cUlnyHUh021uivXWqSPrB88dtnkzGAwGuGfBOGWU6F2cU97N/mEwH1mEM3d14ylEFWSiF9mqRe1U4J3x17qnvhDzMX25emxSPKI0OxgVinWBjFs0h+g=="
+  apiKey: process.env.MAIL_ZEPTO_KEY
 })
-const mandrill = new MandrillTransport({
-  apiKey: process.env.MANDRILL_KEY!
-});
+// const mandrill = new MandrillTransport({
+//   apiKey: process.env.MANDRILL_KEY!
+// });
 let transport = nodemailer.createTransport(zeptomail);
 
 export const sendEmail = async  (options: any) => {

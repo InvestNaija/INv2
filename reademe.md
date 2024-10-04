@@ -44,10 +44,6 @@
 # Skaffold
 To manage orchestration in dev environment, get skaffold (on windows, ensure chocolatey is installed): `choco install -y skaffold`  
 
-# Ingress  
-- `https://kubernetes.github.io/ingress-nginx/deploy` - Installation
-- `https://{{service}}.{{namespace}}.svc.cluster.local/` - To access a service in a namespace...e.g accessing ingress-nginx service from another node
-
 # NPM
 - login to npm `npm login`
 - publish to public `npm publish --access public`
@@ -85,6 +81,11 @@ If you get an unsafe error on chrome browser, simply type `thisisunsafe`
 - In your terminal, enter `doctl kubernetes cluster kubeconfig save <cluster_name>`
 
 ## Deployment
+
+__Ingress__  
+- `https://kubernetes.github.io/ingress-nginx/deploy` - Installation
+- `https://{{service}}.{{namespace}}.svc.cluster.local/` - To access a service in a namespace...e.g accessing ingress-nginx service from another node
+
 __Nomenclature__
 - deploy-m2p-INv2-Auth.yml ==> deploy-mainbranch2prod-INv2-Auth.yml
 - deploy-s2do-INv2-Auth.yml ==> deploy-stagingbranch2digitalOcean-INv2-Auth.yml
