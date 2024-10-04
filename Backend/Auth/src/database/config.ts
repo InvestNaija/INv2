@@ -28,14 +28,6 @@ const Config = {
             "dialect": "postgres",
             "timezone": process.env.DB_PG_TIMEZONE,
             "models": [__dirname + `/sequelize/INv2/models`],
-            "ssl": true,
-            "rejectUnauthorized": false,
-            "dialectOptions": {
-               "ssl": {
-                  "require": true,
-                  "rejectUnauthorized": false
-               }
-            }
          },
 
          /** TypeORM */
@@ -70,14 +62,6 @@ const Config = {
             "dialect": "postgres",
             "timezone": process.env.DB_PG_TIMEZONE,
             "models": [__dirname + `/sequelize/INv2/models`],
-            "ssl": true,
-            "rejectUnauthorized": false,
-            "dialectOptions": {
-               "ssl": {
-                  "require": true,
-                  "rejectUnauthorized": false
-               }
-            }
          },
       },
    },
