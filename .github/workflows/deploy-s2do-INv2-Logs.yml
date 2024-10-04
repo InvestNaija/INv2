@@ -1,4 +1,4 @@
-name: Deploy Staging To DigitalOceans
+name: Deploy Logs-Staging To DigitalOceans
 
 on:
   push:
