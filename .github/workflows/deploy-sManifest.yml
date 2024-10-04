@@ -3,7 +3,7 @@ name: Deploy Manifests to Staging
 on:
   push:
     branches:
-      - 'staging'
+      - staging
     paths:
       - 'infra/**'
 
