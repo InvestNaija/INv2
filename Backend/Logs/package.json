@@ -4,6 +4,7 @@
   "description": "To hold all logs from all services",
   "main": "index.js",
   "scripts": {
+    "start:prod": "node dist/index.js",
     "start": "ts-node-dev src/index.ts",
     "test": "jest --watchAll --no-cache"
   },
