@@ -1,4 +1,4 @@
-name: Deploy Staging To DigitalOceans
+name: Deploy Manifests to Staging
 
 on:
   push:
