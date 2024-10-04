@@ -25,7 +25,7 @@ spec:
             - name: NODE_ENV
               valueFrom:
                 secretKeyRef:
-                  name: logs.depl
+                  name: common.depl
                   key: NODE_ENV
             - name: DB_MONGO_HOST
               valueFrom:

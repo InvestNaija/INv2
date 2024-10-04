@@ -59,6 +59,50 @@ const Config = {
          // }
       },
    },
+   "staging": {
+      "databases": {
+         /** Sequelize */
+         "pgINv2": {
+            "database": process.env.DB_PG_DB_NAME,
+            "username": process.env.DB_PG_USERNAME,
+            "password": process.env.DB_PG_PASSWORD,
+            "host": process.env.DB_PG_HOST,
+            "dialect": "postgres",
+            "timezone": process.env.DB_PG_TIMEZONE,
+            "models": [__dirname + `/sequelize/INv2/models`],
+            "ssl": true,
+            "rejectUnauthorized": false,
+            "dialectOptions": {
+               "ssl": {
+                  "require": true,
+                  "rejectUnauthorized": false
+               }
+            }
+         },
+      },
+   },
+   "production": {
+      "databases": {
+         /** Sequelize */
+         "pgINv2": {
+            "database": process.env.DB_PG_DB_NAME,
+            "username": process.env.DB_PG_USERNAME,
+            "password": process.env.DB_PG_PASSWORD,
+            "host": process.env.DB_PG_HOST,
+            "dialect": "postgres",
+            "timezone": process.env.DB_PG_TIMEZONE,
+            "models": [__dirname + `/sequelize/INv2/models`],
+            "ssl": true,
+            "rejectUnauthorized": false,
+            "dialectOptions": {
+               "ssl": {
+                  "require": true,
+                  "rejectUnauthorized": false
+               }
+            }
+         },
+      },
+   },
 };
 
 export = Config;
