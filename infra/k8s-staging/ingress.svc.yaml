@@ -31,3 +31,4 @@ spec:
                 name: logs-srv
                 port:
                   number: 3100
+                  
