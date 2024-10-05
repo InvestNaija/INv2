@@ -1,48 +1,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: depl-auth-postgres
+  name: depl-saveplan-postgres
   namespace: inv2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth-postgres
+      app: saveplan-postgres
   template:
     metadata:
       labels:
-        app: auth-postgres
+        app: saveplan-postgres
     spec:
       containers:
-        - name: auth-postgres
+        - name: saveplan-postgres
           image: postgres:latest
           ports:
             - containerPort: 5432
           env:
             - name: POSTGRES_DB
-              value: auth_db
+              value: saveplan_db
             - name: POSTGRES_USER
-              value: auth_usr
+              value: saveplan_usr
             - name: POSTGRES_PASSWORD
-              value: auth_pwd
+              value: saveplan_pwd
           volumeMounts:
             - mountPath: "/var/lib/postgresql/data"
-              name: "auth-pgdata"
+              name: "saveplan-pgdata"
       volumes:
         - hostPath:
             path: "/home/docker/pgdata"
-          name: auth-pgdata
+          name: saveplan-pgdata
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-postgres-srv
+  name: saveplan-postgres-srv
   namespace: inv2
 spec:
   selector:
-    app: auth-postgres
+    app: saveplan-postgres
   ports:
-    - name: auth-postgres
+    - name: saveplan-postgres
       protocol: TCP
       port: 5432
       targetPort: 5432
