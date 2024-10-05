@@ -79,6 +79,8 @@ If you get an unsafe error on chrome browser, simply type `thisisunsafe`
 - download doctl and place in your environment path
 - In terminal, enter `doctl auth init`, then paste your auth token from digital oceans
 - In your terminal, enter `doctl kubernetes cluster kubeconfig save <cluster_name>`
+- Once you purchase your domainname, add `ns1.digitalocean.com`, `ns2.digitalocean.com`, `ns3.digitalocean.com` to your nameserver list
+  In Remember to add the domain name under networking in 
 
 ## Deployment
 
