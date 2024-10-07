@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: inv2.loc
+    - host: www.inv2test.com.ng
       http:
         paths:
           - pathType: Prefix
@@ -37,7 +37,7 @@ kind: Service
 metadata:
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: 'false'
-    service.beta.kubernetes.io/do-loadbalancer-hostname: 'http://159.89.251.151/'
+    service.beta.kubernetes.io/do-loadbalancer-hostname: 'http://inv2test.com.ng'
   labels:
     helm.sh/chart: ingress-nginx-2.0.3
     app.kubernetes.io/name: ingress-nginx

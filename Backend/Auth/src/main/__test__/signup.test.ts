@@ -7,8 +7,8 @@ it(`Returns 400 if required params are not supplied`, async ()=>{
       .send({
          firstName: "Abimbs",
          lastName: "Hans",
-         phone: "yygiyggy23",
-         password: "W8SNi8zxlU5FHmgLr9hN0A=="
+         phone: "1031314139",
+         password: "ecdb16de9e22e30877d96820140b0e91.89714cc2ad55373c717b53b4625a712b"
       })
       .expect(400);
    await request(app)
@@ -17,7 +17,7 @@ it(`Returns 400 if required params are not supplied`, async ()=>{
          "firstName": "Abimbs",
          "lastName": "Hans",
          "email": "a@b.com",
-         "phone": "yygiyggy23",
+         "phone": "1031314140",
       })
       .expect(400);
 }, 20000);
@@ -27,9 +27,9 @@ it(`Returns 201 on successful signup`, async ()=>{
       .send({
          "firstName": "Abimbs",
          "lastName": "Hans",
-         "phone": "yygiyggy23",
+         "phone": "1031314141",
          "email": "a@b.com",
-         "password": "W8SNi8zxlU5FHmgLr9hN0A=="
+         "password": "ecdb16de9e22e30877d96820140b0e91.89714cc2ad55373c717b53b4625a712b"
       })
       .expect(200);
 
