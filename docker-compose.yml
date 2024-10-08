@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  auth:
+    image: integrationschd/inv2-auth
+    build:
+      context: backend/auth
+      dockerfile: Dockerfile
+  logs:
+    image: integrationschd/inv2-logs
+    build:
+      context: backend/logs
+      dockerfile: Dockerfile
+    
