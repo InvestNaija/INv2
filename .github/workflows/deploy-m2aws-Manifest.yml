@@ -1,0 +1,21 @@
+name: Deploy Manifests to Prod
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'infra/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Pem file and connect to Prod
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          key: ${{ secrets.AWS_SSH_KEY }}
+          username: ${{ secrets.AWS_USER }}
+          script: |
+            kubectl apply -f infra/k8s -n inv2 && kubectl apply -f infra/k8s-prod/default && kubectl apply -f infra/k8s-prod/-n-inv2 -n inv2
