@@ -11,6 +11,7 @@ class AuthRoutes {
    }
 
    public routes(): Router {
+      this.router.get('/healthz', AuthController.healthz);
       this.router.post('/user/signup', AuthController.signup);
       this.router.post('/user/signin', AuthMiddleware.checkLoginDetails, AuthMiddleware.check2FA, AuthController.signin);
       this.router.post('/user/signin-choose-tenant', AuthMiddleware.checkLoginDetails, AuthController.signin);

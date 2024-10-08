@@ -6,8 +6,8 @@ ENV WDS_SOCKET_PORT=0
 
 WORKDIR /app
 COPY package.json ./
-RUN npm install --omit=dev
-COPY . . 
+RUN npm install
+COPY . .
 
 ENV TZ=Africa/Lagos
 EXPOSE 3000
