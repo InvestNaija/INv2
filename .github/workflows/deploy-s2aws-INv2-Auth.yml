@@ -13,10 +13,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Create Pem file and connect to 
         run: |
-          mkdir -p ~/.ssh/
-          echo "$AWS_SSH_KEY" > private.pem
+          mkdir -p ~/.ssh/private.pem
+          echo "$AWS_SSH_KEY" > ~/.ssh/private.pem
           sudo chmod 600 private.key
-      - run: ssh -i private.pem ec2-user@bastation-chd.zanibal.com
+      - run: ssh -i ~/.ssh/private.pem ec2-user@bastation-chd.zanibal.com
         env:
           DOCKER_USERNAME: ${{ secrets.AWS_SSH_KEY }}
       - run: kubectl rollout restart deployment invest -n invest
