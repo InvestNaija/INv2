@@ -11,8 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Pem file and connect to Prod
-        uses: appleboy/ssh-action@master
+      - uses: actions/checkout@v2
+      - uses: appleboy/ssh-action@master
+        name: Create Pem file and connect to Prod
         with:
           host: ${{ secrets.AWS_HOST }}
           key: ${{ secrets.AWS_SSH_KEY }}
