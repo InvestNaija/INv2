@@ -16,7 +16,7 @@ jobs:
           mkdir -p ~/.ssh && touch private.pem
           echo "$AWS_SSH_KEY" > ~/.ssh/private.pem
           sudo chmod 600 ~/.ssh/private.pem
-      - run: ssh -i ~/.ssh/private.pem ec2-user@bastation-chd.zanibal.com
+      - run: cat ~/.ssh/private.pem
         env:
           DOCKER_USERNAME: ${{ secrets.AWS_SSH_KEY }}
       - run: kubectl rollout restart deployment invest -n invest
