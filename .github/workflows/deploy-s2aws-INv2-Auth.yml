@@ -1,22 +1,21 @@
-name: Deploy Auth-Master To DigitalOceans
+name: Deploy Auth-Master To AWS
 
 on:
   push:
     branches:
       - 'master'
+    paths:
+      - 'Backend/Auth/**'
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    environment: staging
     steps:
-      - uses: actions/checkout@v2
-      - name: Create Pem file and connect to 
-        run: |
-          mkdir -p ~/.ssh && touch private.pem
-          echo "$AWS_SSH_KEY" > ~/.ssh/private.pem
-          sudo chmod 600 ~/.ssh/private.pem
-      - run: ssh -i $AWS_SSH_KEY ec2-user@bastation-chd.zanibal.com
-        env:
-          AWS_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
-      - run: kubectl rollout restart deployment invest -n invest
+      - name: Create Pem file and connect to Prod
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          key: ${{ secrets.AWS_SSH_KEY }}
+          username: ${{ secrets.AWS_USER }}
+          script: |
+            kubectl rollout restart deployment invest -n invest
