@@ -8,16 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: staging
     steps:
-      - uses: actions/checkout@v3
       - name: Create Pem file and connect to Prod
-        run: |
-          echo $AWS_SSH_KEY > private.pem
-          cat private.pem
-          ssh -tt -i private.pem ec2-user@bastation-chd.zanibal.com << ENDSSH
-          exit
-          ENDSSH
-        shell: bash
-        env:
-          AWS_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
+        uses: appleboy/ssh-action@master
+        with:
+          host: bastation-chd.zanibal.com
+          key: ${{ secrets.AWS_SSH_KEY }}
+          username: ec2-user
+          script: |
+            kubectl rollout restart deployment invest -n invest
