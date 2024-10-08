@@ -18,4 +18,4 @@ jobs:
           key: ${{ secrets.AWS_SSH_KEY }}
           username: ${{ secrets.AWS_USER }}
           script: |
-            kubectl rollout restart deployment invest -n invest
+            kubectl rollout restart deployment depl-auth -n inv2
