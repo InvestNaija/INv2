@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Create Pem file and connect to Prod
         run: |
+          mkdir -p ~/.ssh && touch private.pem
           echo $AWS_SSH_KEY > ~/.ssh/private.pem
           cat src/.env
         shell: bash
