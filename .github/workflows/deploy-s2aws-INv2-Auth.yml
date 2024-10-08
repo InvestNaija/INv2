@@ -18,5 +18,5 @@ jobs:
           sudo chmod 600 ~/.ssh/private.pem
       - run: cat ~/.ssh/private.pem
         env:
-          DOCKER_USERNAME: ${{ secrets.AWS_SSH_KEY }}
+          AWS_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
       - run: kubectl rollout restart deployment invest -n invest
