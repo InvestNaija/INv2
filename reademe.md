@@ -1,11 +1,11 @@
-- To see your services (cluster IP), do...  
-`kubectl get services`
-- To get all your existing deployments, run...  
-`kubectl get deployments`
-- To automatically delete existing deployment and pull latest from docker, do...  
-`kubectl rollout restart deployment depl-auth`
-- To delete existing secret, do 
-`kubectl delete secret jwt-secret --ignore-not-found`
+`k port-forward depl-auth-postgres-57b4c98d46-pzjk4 -n inv2 5432:5432`
+`k port-forward depl-redis-7f8b6fd5b-4kzd4 -n inv2 6379:6379`
+`k port-forward depl-rabbitmq-0 -n inv2 5672:5672`
+
+- To see your services (cluster IP), do...  `kubectl get services`
+- To get all your existing deployments, run...  `kubectl get deployments`
+- To automatically delete existing deployment and pull latest from docker, do... `kubectl rollout restart deployment depl-auth`
+- To delete existing secret, do `kubectl delete secret jwt-secret --ignore-not-found`
  Then, in your container, add an env section like so...
 ```docker
   container:
@@ -79,6 +79,8 @@ If you get an unsafe error on chrome browser, simply type `thisisunsafe`
 - download doctl and place in your environment path
 - In terminal, enter `doctl auth init`, then paste your auth token from digital oceans
 - In your terminal, enter `doctl kubernetes cluster kubeconfig save <cluster_name>`
+- Once you purchase your domainname, add `ns1.digitalocean.com`, `ns2.digitalocean.com`, `ns3.digitalocean.com` to your nameserver list
+  In Remember to add the domain name under networking in 
 
 ## Deployment
 

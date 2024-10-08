@@ -1,11 +1,11 @@
-name: Deploy Logs-Staging To DigitalOceans
+name: Deploy SavePlan-Staging To DigitalOceans
 
 on:
   push:
     branches:
       - 'staging'
     paths:
-      - 'Backend/Logs/**'
+      - 'Backend/SavePlan/**'
 
 jobs:
   build:
@@ -13,14 +13,14 @@ jobs:
     environment: staging
     steps:
       - uses: actions/checkout@v2
-      - run: cd Backend/Logs && docker build -t integrationschd/inv2-logs .
+      - run: cd Backend/SavePlan && docker build -t integrationschd/inv2-saveplan .
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker push integrationschd/inv2-logs
+      - run: docker push integrationschd/inv2-saveplan
       - uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEN_ACCESS_TOKEN }}
       - run: doctl kubernetes cluster kubeconfig save inv2
-      - run: kubectl rollout restart deployment depl-logs -n inv2
+      - run: kubectl rollout restart deployment depl-saveplan -n inv2

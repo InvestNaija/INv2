@@ -1,0 +1,14 @@
+name: Test Auth
+
+on:
+  pull_request:
+    paths:
+      - 'Backend/Auth/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd Backend/Auth && npm install && npm run test:ci

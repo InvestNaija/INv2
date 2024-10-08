@@ -17,4 +17,4 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEN_ACCESS_TOKEN }}
       - run: doctl kubernetes cluster kubeconfig save inv2
-      - run: kubectl apply -f infra/k8s && kubectl apply -f infra/k8s-staging
+      - run: kubectl apply -f infra/k8s -n inv2 && kubectl apply -f infra/k8s-staging/default && kubectl apply -f infra/k8s-staging/-n-inv2 -n inv2

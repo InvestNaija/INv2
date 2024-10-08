@@ -5,6 +5,9 @@ import { AuthValidation } from '../validations/auth.schema';
 import { AuthService } from '../services';
 
 export class AuthController {
+   public static async healthz(req: Request, res: Response): Promise<void> {
+      res.status(200).json({status:200, message: "Auth server is Healthy"});
+   }
    @JoiMWDecorator(AuthValidation.signup)
    public static async signup(req: Request, res: Response, next: NextFunction): Promise<void> {
       // const profiler = Logger.logger.startTimer();
