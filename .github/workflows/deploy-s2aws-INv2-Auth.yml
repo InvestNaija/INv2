@@ -11,6 +11,11 @@ jobs:
     environment: staging
     steps:
       - uses: actions/checkout@v2
+      - name: Create Pem file and connect to 
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$AWS_SSH_KEY" > ../private.pem
+          sudo chmod 600 ../private.key
       - run: ssh -i $AWS_SSH_KEY ec2-user@bastation-chd.zanibal.com
         env:
           DOCKER_USERNAME: ${{ secrets.AWS_SSH_KEY }}
