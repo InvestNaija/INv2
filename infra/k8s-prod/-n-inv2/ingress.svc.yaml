@@ -25,4 +25,3 @@ spec:
                 name: auth-srv
                 port:
                   number: 3000
-                  
