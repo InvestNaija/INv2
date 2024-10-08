@@ -9,14 +9,26 @@ on:
 
 jobs:
   build:
+    # runs-on: ubuntu-latest
+    # steps:
+    #   - uses: actions/checkout@v2
+    #   - uses: appleboy/ssh-action@master
+    #     name: Create Pem file and connect to Prod
+    #     with:
+    #       host: ${{ secrets.AWS_HOST }}
+    #       key: ${{ secrets.AWS_SSH_KEY }}
+    #       username: ${{ secrets.AWS_USER }}
+    #       script: |
+    #         kubectl apply -f infra/k8s -n inv2 && kubectl apply -f infra/k8s-prod/default && kubectl apply -f infra/k8s-prod/-n-inv2 -n inv2
+            
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: appleboy/ssh-action@master
-        name: Create Pem file and connect to Prod
+      - uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
         with:
-          host: ${{ secrets.AWS_HOST }}
-          key: ${{ secrets.AWS_SSH_KEY }}
-          username: ${{ secrets.AWS_USER }}
-          script: |
-            kubectl apply -f infra/k8s -n inv2 && kubectl apply -f infra/k8s-prod/default && kubectl apply -f infra/k8s-prod/-n-inv2 -n inv2
+          ORIGIN: ${{ secrets.AWS_HOST }}
+          SSHKEY: ${{ secrets.AWS_SSH_KEY }}
+          NAME: production
+          PORT: 22
+          USER: ${{ secrets.AWS_USER }}
+      - run: ssh production kubectl apply -f infra/k8s -n inv2 && kubectl apply -f infra/k8s-prod/-n-inv2 -n inv2
