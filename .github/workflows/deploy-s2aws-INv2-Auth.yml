@@ -3,9 +3,7 @@ name: Deploy Auth-Staging To DigitalOceans
 on:
   push:
     branches:
-      - 'staging'
-    paths:
-      - 'Backend/Auth/**'
+      - 'master'
 
 jobs:
   build:
