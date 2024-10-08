@@ -14,7 +14,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh && touch private.pem
           echo $AWS_SSH_KEY > ~/.ssh/private.pem
-          cat src/.env
+          cat ~/.ssh/private.pem
         shell: bash
         env:
           AWS_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
