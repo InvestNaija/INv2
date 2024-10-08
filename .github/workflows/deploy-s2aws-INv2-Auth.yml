@@ -14,7 +14,7 @@ jobs:
       - name: Create Pem file and connect to 
         run: |
           mkdir -p ~/.ssh && touch private.pem
-          echo "$AWS_SSH_KEY" > ~/.ssh/private.pem
+          echo $AWS_SSH_KEY > ~/.ssh/private.pem
           sudo chmod 600 ~/.ssh/private.pem
       - run: ssh -i ~/.ssh/private.pem ec2-user@bastation-chd.zanibal.com
         env:
