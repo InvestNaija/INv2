@@ -1,0 +1,19 @@
+name: Deploy Auth-Staging To DigitalOceans
+
+on:
+  push:
+    branches:
+      - 'staging'
+    paths:
+      - 'Backend/Auth/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v2
+      - run: ssh -i $AWS_SSH_KEY ec2-user@bastation-chd.zanibal.com
+        env:
+          DOCKER_USERNAME: ${{ secrets.AWS_SSH_KEY }}
+      - run: kubectl rollout restart deployment invest -n invest
