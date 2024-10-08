@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: www.inv2test.com.ng
+    - host: app.edugate.com.ng
       http:
         paths:
           - pathType: Prefix

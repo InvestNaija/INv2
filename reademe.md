@@ -98,3 +98,10 @@ __GitHub secrets__
 - Go to settings
 - Locate **Secrets and Varibles** under **Security** on the left side bar
 - Under the _Secrets_ tab, enter the type of secret required
+__Prod__
+- create a github personal access token (PAT). Make it limitless
+- Git clone your repo
+- Go to AWS and clone the repo for the first time, enter the github username and PAT
+- Store this credential globally on AWS like so `git config --global credential.helper cache` and `git config --global credential.helper store`
+- Delete the cloned repo
+- Horray! Now you can run your deployments normally
