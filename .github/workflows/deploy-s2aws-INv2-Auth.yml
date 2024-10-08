@@ -10,14 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     steps:
-      - uses: actions/checkout@v2
-      - name: Create Pem file and connect to 
+      - name: Create Pem file and connect to Prod
         run: |
-          mkdir -p ~/.ssh && touch private.pem
           echo $AWS_SSH_KEY > ~/.ssh/private.pem
-          sudo chmod 600 ~/.ssh/private.pem
-      - run: cat ~/.ssh/private.pem
-      - run: ssh -i ~/.ssh/private.pem ec2-user@bastation-chd.zanibal.com
+          cat src/.env
+        shell: bash
         env:
           AWS_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
-      - run: kubectl rollout restart deployment invest -n invest
