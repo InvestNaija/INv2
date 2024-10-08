@@ -18,4 +18,4 @@ jobs:
         shell: bash
         env:
           AWS_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
-      - run: ssh -T -i private.pem ec2-user@bastation-chd.zanibal.com
+      - run: ssh -tt -i private.pem ec2-user@bastation-chd.zanibal.com
