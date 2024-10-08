@@ -14,12 +14,9 @@ jobs:
       - name: Create Pem file and connect to Prod
         run: |
           echo $AWS_SSH_KEY > private.pem
-          cat private.pem
-        shell: bash
-        env:
-          AWS_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
-      # - run: ssh -tt -i private.pem ec2-user@bastation-chd.zanibal.com
-      - run: |
           ssh -tt -i private.pem ec2-user@bastation-chd.zanibal.com << ENDSSH
           exit
           ENDSSH
+        shell: bash
+        env:
+          AWS_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
