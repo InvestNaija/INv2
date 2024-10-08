@@ -4,16 +4,18 @@ on:
   push:
     branches:
       - 'master'
+    paths:
+      - 'Backend/Auth/**'
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Create Pem file and connect to Prod
         uses: appleboy/ssh-action@master
         with:
-          host: bastation-chd.zanibal.com
+          host: ${{ secrets.AWS_HOST }}
           key: ${{ secrets.AWS_SSH_KEY }}
-          username: ec2-user
+          username: ${{ secrets.AWS_USER }}
           script: |
             kubectl rollout restart deployment invest -n invest
