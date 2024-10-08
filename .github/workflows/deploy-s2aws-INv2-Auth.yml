@@ -10,13 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Create Pem file and connect to Prod
         run: |
-          mkdir -p ~/.ssh && touch private.pem
-          echo $AWS_SSH_KEY > ~/.ssh/private.pem
-          cat ~/.ssh/private.pem
+          echo $AWS_SSH_KEY > pem/private.pem
+          cat pem/private.pem
         shell: bash
         env:
           AWS_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
-      - run: ssh -T -i ~/.ssh/private.pem ec2-user@bastation-chd.zanibal.com
+      - run: ssh -T -i pem/private.pem ec2-user@bastation-chd.zanibal.com
