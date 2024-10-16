@@ -11,7 +11,7 @@ handlebars.registerHelper('breaklines', (text) => {
 });
 
 const zeptomail = new ZeptomailTransport({
-  apiKey: process.env.MAIL_ZEPTO_KEY
+  apiKey: process.env.MAIL_ZEPTO_KEY!
 })
 // const mandrill = new MandrillTransport({
 //   apiKey: process.env.MANDRILL_KEY!
