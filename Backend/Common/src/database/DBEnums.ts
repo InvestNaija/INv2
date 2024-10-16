@@ -40,4 +40,16 @@ export class DBEnums {
          {code: 150, name: 'other', label: 'Other'},
       ];
    };  
+   static get LMSType(){
+      return [
+         {code: 101, name: 'art', label: 'Articles'}, 
+         {code: 105, name: 'pod', label: 'Podcast'}, 
+         {code: 110, name: 'eps', label: 'Episode'}, 
+         {code: 115, name: 'vid', label: 'Video',},
+         {code: 120, name: 'qz', label: 'Quiz',},
+         {code: 125, name: 'rsh', label: 'Research',},
+         {code: 130, name: 'ch', label: 'Chapter',},
+         {code: 135, name: 'crs', label: 'Course',},
+      ];
+   };  
 }
