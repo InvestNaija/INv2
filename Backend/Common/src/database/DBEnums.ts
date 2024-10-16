@@ -52,4 +52,14 @@ export class DBEnums {
          {code: 135, name: 'crs', label: 'Course',},
       ];
    };  
+   static get QuestionType(){
+      return [
+         {code: 101, name: 'yn', label: 'Yes/No'}, 
+         {code: 105, name: 'mcsa', label: 'MultiChoice-SingleAnswer'}, 
+         {code: 110, name: 'mcma', label: 'Multi Choice-MultiAnswer'}, 
+         {code: 115, name: 'mtc', label: 'Match The Column',},
+         {code: 120, name: 'sa', label: 'Short Answer',},
+         {code: 125, name: 'la', label: 'Long Answer',},
+      ];
+   };  
 }
