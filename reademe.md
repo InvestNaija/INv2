@@ -105,3 +105,4 @@ __Prod__
 - Store this credential globally on AWS like so `git config --global credential.helper cache` and `git config --global credential.helper store`
 - Delete the cloned repo
 - Horray! Now you can run your deployments normally
+- Note: to remove the credential, do `git config --global --unset credential.helper` and `git config --system --unset credential.helper`
