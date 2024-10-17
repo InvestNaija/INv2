@@ -61,5 +61,16 @@ export class DBEnums {
          {code: 120, name: 'sa', label: 'Short Answer',},
          {code: 125, name: 'la', label: 'Long Answer',},
       ];
-   };  
+   };
+   static get OrderStatus() {
+      return [
+         {code: 100, label: 'pending'}, 
+         {code: 101, label: 'failed'},
+         {code: 102, label: 'cancelled'},
+         {code: 103, label: 'success',},
+         {code: 104, label: 'inprogress',},
+         {code: 105, label: 'done'},
+         {code: 106, label: 'completed'},
+      ]
+   }
 }
