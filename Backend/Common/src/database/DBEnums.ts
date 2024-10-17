@@ -64,13 +64,13 @@ export class DBEnums {
    };
    static get OrderStatus() {
       return [
-         {code: 100, label: 'pending'}, 
-         {code: 101, label: 'failed'},
-         {code: 102, label: 'cancelled'},
-         {code: 103, label: 'success',},
-         {code: 104, label: 'inprogress',},
-         {code: 105, label: 'done'},
-         {code: 106, label: 'completed'},
+         {code: 100, name: 'pending', label: 'pending'}, 
+         {code: 101, name: 'failed', label: 'failed'},
+         {code: 102, name: 'cancelled', label: 'cancelled'},
+         {code: 103, name: 'success', label: 'success',},
+         {code: 104, name: 'inprogress', label: 'inprogress',},
+         {code: 105, name: 'done', label: 'done',},
+         {code: 106, name: 'completed', label: 'completed'},
       ]
    }
 }
