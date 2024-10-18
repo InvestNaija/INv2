@@ -40,4 +40,37 @@ export class DBEnums {
          {code: 150, name: 'other', label: 'Other'},
       ];
    };  
+   static get LMSType(){
+      return [
+         {code: 101, name: 'art', label: 'Articles'}, 
+         {code: 105, name: 'pod', label: 'Podcast'}, 
+         {code: 110, name: 'eps', label: 'Episode'}, 
+         {code: 115, name: 'vid', label: 'Video',},
+         {code: 120, name: 'qz', label: 'Quiz',},
+         {code: 125, name: 'rsh', label: 'Research',},
+         {code: 130, name: 'ch', label: 'Chapter',},
+         {code: 135, name: 'crs', label: 'Course',},
+      ];
+   };  
+   static get QuestionType(){
+      return [
+         {code: 101, name: 'yn', label: 'Yes/No'}, 
+         {code: 105, name: 'mcsa', label: 'MultiChoice-SingleAnswer'}, 
+         {code: 110, name: 'mcma', label: 'Multi Choice-MultiAnswer'}, 
+         {code: 115, name: 'mtc', label: 'Match The Column',},
+         {code: 120, name: 'sa', label: 'Short Answer',},
+         {code: 125, name: 'la', label: 'Long Answer',},
+      ];
+   };
+   static get OrderStatus() {
+      return [
+         {code: 100, name: 'pending', label: 'pending'}, 
+         {code: 101, name: 'failed', label: 'failed'},
+         {code: 102, name: 'cancelled', label: 'cancelled'},
+         {code: 103, name: 'success', label: 'success',},
+         {code: 104, name: 'inprogress', label: 'inprogress',},
+         {code: 105, name: 'done', label: 'done',},
+         {code: 106, name: 'completed', label: 'completed'},
+      ]
+   }
 }

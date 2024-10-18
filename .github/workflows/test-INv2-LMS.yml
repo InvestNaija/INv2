@@ -1,0 +1,14 @@
+name: Test LMS
+
+on:
+  pull_request:
+    paths:
+      - 'Backend/LMS/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd Backend/LMS && npm install && npm run test:ci

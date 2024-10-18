@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-nginx
+  namespace: inv2
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: https://inv2.edugate.com.ng
+      http:
+        paths:
+          - pathType: Prefix
+            path: /api/v2/auth/?(.*)
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 3001
+          - pathType: Prefix
+            path: /api/v2/users/?(.*)
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 3000
+    - host: https://app.edugate.com.ng
+      http:
+        paths:
+          - pathType: Prefix
+            path: /?(.*)
+            backend:
+              service:
+                name: client-srv
+                port:
+                  number: 3000
+    - host: https://admin.edugate.com.ng
+      http:
+        paths:
+          - pathType: Prefix
+            path: /?(.*)
+            backend:
+              service:
+                name: admin-srv
+                port:
+                  number: 3000

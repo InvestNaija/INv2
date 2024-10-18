@@ -19,4 +19,9 @@ jobs:
           key: ${{ secrets.AWS_SSH_KEY }}
           username: ${{ secrets.AWS_USER }}
           script: |
-            kubectl apply -f infra/k8s -n inv2 && kubectl apply -f infra/k8s-prod/default && kubectl apply -f infra/k8s-prod/-n-inv2 -n inv2
+            git clone https://github.com/InvestNaija/INv2.git
+            cd INv2
+            kubectl apply -f infra/k8s -n inv2 && kubectl apply -f infra/k8s-prod -n inv2
+            cd ..
+            sudo rm -r INv2
+            
