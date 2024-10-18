@@ -6,10 +6,7 @@ export class UserCreatedListener extends Listener<UserCreatedEvent> {
    readonly subject = Subjects.UserCreated; 
    queueName = 'auth-service';
    onMessage(data: UserCreatedEvent['data'], channel: Channel, msg: Message): void {
-      console.log('======> LMS ==>', data,);
-      const tenant = [{...data.tenant, roles: [data.role]}];
-      console.log(tenant);
-
+      console.log('======> LMS received user created with id: ', data.user.id,);
       User.create({
          id: data.user.id,
          pId: data.user.pId,
