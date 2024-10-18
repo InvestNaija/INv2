@@ -1,48 +1,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: depl-auth-postgres
+  name: depl-inv2-postgres
   namespace: inv2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth-postgres
+      app: inv2-postgres
   template:
     metadata:
       labels:
-        app: auth-postgres
+        app: inv2-postgres
     spec:
       containers:
-        - name: auth-postgres
+        - name: inv2-postgres
           image: postgres:latest
           ports:
             - containerPort: 5432
           env:
             - name: POSTGRES_DB
-              value: auth_db
+              value: inv2_db
             - name: POSTGRES_USER
-              value: auth_usr
+              value: inv2_usr
             - name: POSTGRES_PASSWORD
-              value: auth_pwd
+              value: inv2_pwd
           volumeMounts:
             - mountPath: "/var/lib/postgresql/data"
-              name: "auth-pgdata"
+              name: "inv2-pgdata"
       volumes:
         - hostPath:
-            path: "/home/docker/pgdata"
-          name: auth-pgdata
+            path: "/home/inv2/pgdata"
+          name: inv2-pgdata
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-postgres-srv
+  name: inv2-postgres-srv
   namespace: inv2
 spec:
   selector:
-    app: auth-postgres
+    app: inv2-postgres
   ports:
-    - name: auth-postgres
+    - name: inv2-postgres
       protocol: TCP
       port: 5432
       targetPort: 5432

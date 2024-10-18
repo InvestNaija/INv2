@@ -1,7 +1,12 @@
 import { Sequelize, Op } from "sequelize";
 export { Sequelize, Op };
-export * from "./models/BvnData";
-export * from "./models/Tenant";
+export * from "./models/LMS";
 export * from "./models/User";
-export * from "./models/Role";
-export * from "./models/TenantUserRole";
+export * from "./models/UserLMS";
+export * from "./models/Order";
+export * from "./models/Quiz";
+export * from "./models/Question";
+export * from "./models/QuestionAnswer";
+export * from "./models/QuizQuestion";
+export * from "./models/QuizAttempt";
+export * from "./models/QuizAttemptAnswer";

@@ -27,6 +27,71 @@ spec:
                 secretKeyRef:
                   name: common.depl
                   key: BACKEND_BASE
+            - name: ACCESS_TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: common.depl
+                  key: ACCESS_TOKEN_SECRET
+            - name: ACCESS_TOKEN_TIME
+              valueFrom:
+                secretKeyRef:
+                  name: common.depl
+                  key: ACCESS_TOKEN_TIME
+            - name: AES_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: common.depl
+                  key: AES_SECRET_KEY
+            - name: RABBITMQ
+              valueFrom:
+                secretKeyRef:
+                  name: common.depl
+                  key: RABBITMQ
+            - name: REDIS_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: common.depl
+                  key: REDIS_SERVER
+            - name: MAIL_ZEPTO_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: common.depl
+                  key: MAIL_ZEPTO_KEY
+            - name: NODE_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: common.depl
+                  key: NODE_ENV
+            - name: PORT
+              valueFrom:
+                secretKeyRef:
+                  name: lms.depl
+                  key: PORT
+            - name: DB_PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: lms.depl
+                  key: DB_PG_HOST
+            - name: DB_PG_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: lms.depl
+                  key: DB_PG_DB_NAME
+            - name: DB_PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lms.depl
+                  key: DB_PG_PASSWORD
+            - name: DB_PG_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: lms.depl
+                  key: DB_PG_USERNAME
+            - name: DB_PG_TIMEZONE
+              valueFrom:
+                secretKeyRef:
+                  name: lms.depl
+                  key: DB_PG_TIMEZONE
 ---
 apiVersion: v1
 kind: Service
