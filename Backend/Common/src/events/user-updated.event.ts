@@ -1,13 +1,7 @@
 import { Subjects } from "./subjects";
+import { CreateUserDto } from "../_dtos";
 
 export interface UserUpdatedEvent {
    subject: Subjects.UserUpdated;
-   data: {
-      id: string;
-      version: number;
-      title: string;
-      price: number;
-      userId: string;
-      orderId?: string;
-   }
+   data: CreateUserDto;
 }
