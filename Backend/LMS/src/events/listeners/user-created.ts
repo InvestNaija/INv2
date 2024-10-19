@@ -11,6 +11,7 @@ export class UserCreatedListener extends Listener<UserCreatedEvent> {
          id: data.user.id,
          pId: data.user.pId,
          details: data.user,
+         // version: data.user.version,
          tenantRoles: [{...data.tenant, roles: [data.role]}]
       });
       

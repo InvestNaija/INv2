@@ -18,7 +18,7 @@ export class User extends Model {
    declare updatedAt: Date;
    @Column({ type: DataType.DATE, })
    declare deletedAt: Date;
-   @Column({ type: DataType.INTEGER, })
+   @Column({ type: DataType.INTEGER, defaultValue: 0 })
    declare version: number;
 
    @Column({
@@ -52,7 +52,5 @@ export class User extends Model {
    set tenantRoles(value: string) {
       this.setDataValue('tenantRoles', JSON.stringify(value));
    }
-   
-}
 
-// export default {User};
+}
