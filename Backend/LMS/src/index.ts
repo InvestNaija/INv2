@@ -7,7 +7,7 @@ import { app } from './app';
 import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from './rabbitmq.wrapper';
 import { redisWrapper } from './redis.wrapper';
-import { UserCreatedListener } from "./events/listeners";
+import { UserCreatedListener, UserUpdatedListener } from "./events/listeners";
 const PORT = process.env.PORT || 3000;
 
 export class Main {
@@ -44,6 +44,7 @@ export class Main {
 
       // Set up all listeners
       new UserCreatedListener(rabbitmqWrapper.connection).listen();
+      new UserUpdatedListener(rabbitmqWrapper.connection).listen();
    }
    private async startHttpServer(httpServer: http.Server): Promise<void> {
       httpServer.listen(PORT, () => {

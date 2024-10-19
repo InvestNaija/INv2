@@ -1,4 +1,4 @@
-import { Model, Table, Column, DataType, HasMany, HasOne, BeforeUpdate, BeforeCreate } from "sequelize-typescript";
+import { Model, Table, Column, DataType, HasMany, HasOne, BeforeUpdate, BeforeCreate, BeforeFind } from "sequelize-typescript";
 // import { InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
 
 import { BvnData, TenantUserRole } from "../";
@@ -10,7 +10,8 @@ import { PasswordManager } from "../../../../main/_utils/PasswordManager";
    timestamps: true,
    tableName: "users",
    underscored: true,
-   paranoid: true
+   paranoid: true,
+   version: true,
 })
 // export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 export class User extends Model {
@@ -26,7 +27,7 @@ export class User extends Model {
    declare updatedAt: Date;
    @Column({ type: DataType.DATE, })
    declare deletedAt: Date;
-   @Column({ type: DataType.INTEGER, })
+   @Column({ type: DataType.INTEGER, defaultValue: 0 })
    declare version: number;
    @Column({
       primaryKey: true,
@@ -111,13 +112,21 @@ export class User extends Model {
    
    @Column({ type: DataType.BOOLEAN, defaultValue: false })
    declare twoFactorAuth: boolean;
-
+   
+   @BeforeFind
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   static async beforeReturn(options: any) {
+      options?.attributes?.push('version');
+   }
    @BeforeUpdate
    @BeforeCreate
-   static async savePassword(instance: User) {
+   static async changes(instance: User) {
       if(instance.changed('password')) {
          const hashed = await PasswordManager.toHash(instance.password);
          instance.password = hashed;
+      }
+      if(instance.isNewRecord) { 
+         instance.version = 0;
       }
    }
 }

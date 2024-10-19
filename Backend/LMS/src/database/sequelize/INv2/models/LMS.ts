@@ -50,7 +50,7 @@ export class LMS extends Model {
    @Column({ type: DataType.TEXT, })
    declare content: string;
    @Column({ type: DataType.DECIMAL(10,2), })
-   declare price: string;
+   declare price: number;
 }
 
 // export default {User};

@@ -1,7 +1,7 @@
 import { CreateUserDto, UserTenantRoleDto, CustomError, Exception, IResponse, UserDto, Helper, OtpService} from "@inv2/common";
 import { User, TenantUserRole, Op, Tenant, Role, } from "../../database/sequelize/INv2";
 import { Transaction, ValidationError, SequelizeScopeError, DatabaseError } from "sequelize";
-import { UserCreatedPublisher } from "../../events/publishers/user-created";
+import { UserCreatedPublisher, UserUpdatedPublisher } from "../../events/publishers";
 import { rabbitmqWrapper } from "../../rabbitmq.wrapper";
 import { redisWrapper } from '../../redis.wrapper';
 
@@ -67,10 +67,19 @@ export class UserService {
       return { success: true, code: 200, message: `User created successfully`, data: user };
    }
    async set2FA (currentUser: UserTenantRoleDto, body: {enable2fa: boolean}): Promise<IResponse> {
-      await User.update({
+      const user = await User.findOne({
+         attributes: ["id","twoFactorAuth"],
+         where:  {id: currentUser.user.id},
+      });
+      if (!user) throw new Exception({code: 404, message: 'Wrong email or password'});
+      if (!user.isEnabled && user.isLocked) throw new Exception({code: 423, message: 'Account inactive and locked. Please activate to continue'});
+      await user.update({
          twoFactorAuth: body.enable2fa
       }, {where: {id: currentUser.user.id}});
       
+      await new UserUpdatedPublisher(rabbitmqWrapper.connection).publish({
+         user: (user.toJSON() as UserDto),
+      });
       return { success: true, code: 200, message: `2FA ${body.enable2fa ? 'enabled' : 'disabled'}` };
    }
    async loginByEmail (body: Partial<UserDto>, tenant?: Partial<Tenant>) {
@@ -92,9 +101,12 @@ export class UserService {
       // if (!user.isEnabled) throw new AppError('Account not active. Please activate to continue', __line, __path.basename(__filename), { status: 404, show: true });
       await user.update({
          uuidToken: Helper.generateOTCode(32, true),
-         firstLogin: false   
+         firstLogin: false,
+         version: +user.version + 1
       });
-
+      await new UserUpdatedPublisher(rabbitmqWrapper.connection).publish({
+         user: (user.toJSON() as UserDto),
+      });
       return { success: true, code: 200, message: `User login successful`, data: user };
    }
    static reformat (user: User)  {
