@@ -87,6 +87,11 @@ spec:
                 secretKeyRef:
                   name: lms.depl
                   key: DB_PG_USERNAME
+            - name: DB_PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: auth.depl
+                  key: DB_PG_PORT
             - name: DB_PG_TIMEZONE
               valueFrom:
                 secretKeyRef:
