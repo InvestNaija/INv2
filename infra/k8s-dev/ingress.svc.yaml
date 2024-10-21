@@ -44,3 +44,23 @@ spec:
           #       name: logs-srv
           #       port:
           #         number: 3100
+    - host: app.inv2.loc
+      http:
+        paths:
+          - pathType: Prefix
+            path: /?(.*)
+            backend:
+              service:
+                name: client-srv
+                port:
+                  number: 3000
+    - host: admin.inv2.loc
+      http:
+        paths:
+          - pathType: Prefix
+            path: /?(.*)
+            backend:
+              service:
+                name: admin-srv
+                port:
+                  number: 3000

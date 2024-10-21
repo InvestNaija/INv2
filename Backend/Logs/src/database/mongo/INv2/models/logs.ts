@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 /** Interface that describes how to create a new Log */
 interface ILogAttrs {
+   id: string;
    service: string;
    level: string;
    message: string;
@@ -45,7 +46,7 @@ const logSchema = new mongoose.Schema({
    }
 });
 logSchema.statics.build = (attrs: ILogAttrs)=>{
-   return new Log(attrs)
+   return new Log({...attrs, ...(attrs.id && {_id: attrs.id})})
 }
 
 const Log = mongoose.model<LogDoc, LogModel>('Log', logSchema);

@@ -19,8 +19,15 @@ build:
           - dest: .
             src: 'src/**/*.ts'
     - image: integrationschd/inv2-logs
-    # - image: inv2registry.azurecr.io/demo/auth
       context: backend/logs
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: 'src/**/*.ts'
+    - image: integrationschd/inv2-lms
+      context: backend/lms
       docker:
         dockerfile: Dockerfile
       sync:

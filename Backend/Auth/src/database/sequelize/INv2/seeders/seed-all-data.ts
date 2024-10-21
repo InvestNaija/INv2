@@ -16,13 +16,13 @@ const up = async (queryInterface: QueryInterface) => {
       ], {transaction});
       console.log('Tenants created');
       await queryInterface.bulkInsert('users', [
-         ...[{ id: '646d4127-1c58-4ba0-a4a1-6943f178d16a',  bvn: '12345678901', first_name: 'Super', last_name: 'Admin', email: 'integrations@investinltd.com'
+         ...[{ id: '646d4127-1c58-4ba0-a4a1-6943f178d16a', version: 0, bvn: '12345678901', first_name: 'Super', last_name: 'Admin', email: 'integrations@investinltd.com'
             , password: '$2a$10$Bg8dRZwJP5hBR75DgrVQHeeE3TkokdLIUEnYW0Db0E8DnVxf7o0wO', is_enabled: true, is_locked: false
             , created_at: new Date(), updated_at: new Date() }],
-         ...[{ id: '30e6b26b-4363-4c2a-ade2-ce97b1144d39',  bvn: '12345258902', first_name: 'CHDS Admin', last_name: 'Frances', email: 'fajumobi@investinltd.com'
+         ...[{ id: '30e6b26b-4363-4c2a-ade2-ce97b1144d39', version: 0, bvn: '12345258902', first_name: 'CHDS Admin', last_name: 'Frances', email: 'fajumobi@investinltd.com'
             , password: '$2a$10$Bg8dRZwJP5hBR75DgrVQHeeE3TkokdLIUEnYW0Db0E8DnVxf7o0wO', is_enabled: true, is_locked: false
             , created_at: new Date(), updated_at: new Date() }],
-         ...[{ id: '30e6b26b-4363-4c2a-ade2-ce97b1145d39',  bvn: '12345258903', first_name: 'CHDS Admin', last_name: 'Abimbola', email: 'ahassan@investinltd.com'
+         ...[{ id: '30e6b26b-4363-4c2a-ade2-ce97b1145d39', version: 0, bvn: '12345258903', first_name: 'CHDS Admin', last_name: 'Abimbola', email: 'ahassan@investinltd.com'
             , password: '$2a$10$Bg8dRZwJP5hBR75DgrVQHeeE3TkokdLIUEnYW0Db0E8DnVxf7o0wO', is_enabled: true, is_locked: false
             , created_at: new Date(), updated_at: new Date() }],
       ], {transaction});
