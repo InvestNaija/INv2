@@ -42,6 +42,6 @@ spec:
             path: /?(.*)
             backend:
               service:
-                name: web-admin-srv
+                name: admin-admin-srv
                 port:
                   number: 3000
