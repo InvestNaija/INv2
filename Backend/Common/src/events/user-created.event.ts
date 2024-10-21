@@ -3,5 +3,5 @@ import { Subjects } from "./subjects";
 
 export interface UserCreatedEvent {
    subject: Subjects.UserCreated;
-   data: CreateUserDto
+   data: Partial<CreateUserDto>
 }
