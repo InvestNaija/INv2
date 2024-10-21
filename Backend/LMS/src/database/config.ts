@@ -51,8 +51,16 @@ const Config = {
             "password": process.env.DB_PG_PASSWORD,
             "port": process.env.DB_PG_PORT,
             "timezone": process.env.DB_PG_TIMEZONE,
-            "dialect": "postgres",
             "models": [__dirname + `/sequelize/INv2/models`],
+            "dialect": "postgres",
+            "ssl": true,
+            "rejectUnauthorized": false,
+            "dialectOptions": {
+               "ssl": {
+                  "require": true,
+                  "rejectUnauthorized": false
+               }
+            }
          },
          // "sqliteINv2": {
          //    "database": process.env.DB_PG_DB_NAME,
