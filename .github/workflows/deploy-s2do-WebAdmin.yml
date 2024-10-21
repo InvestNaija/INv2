@@ -1,0 +1,32 @@
+name: Deploy WebAdmin-Staging To DigitalOceans
+
+on:
+  push:
+    branches:
+      - 'staging'
+    paths:
+      - 'Frontend/web/admin/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd Frontend/web/admin && docker build -t integrationschd/inv2-web-admin .
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push integrationschd/inv2-web-admin
+      
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    environment: staging
+    steps:
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEN_ACCESS_TOKEN }}
+      - run: doctl kubernetes cluster kubeconfig save inv2
+      - run: kubectl rollout restart deployment depl-web-admin -n inv2
