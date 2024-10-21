@@ -51,7 +51,7 @@ spec:
             path: /?(.*)
             backend:
               service:
-                name: client-srv
+                name: web-client-srv
                 port:
                   number: 3000
     - host: admin.inv2.loc
@@ -61,6 +61,6 @@ spec:
             path: /?(.*)
             backend:
               service:
-                name: admin-srv
+                name: web-admin-srv
                 port:
                   number: 3000

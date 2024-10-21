@@ -34,3 +34,11 @@ build:
         manual:
           - dest: .
             src: 'src/**/*.ts'
+    - image: integrationschd/inv2-web-client
+      context: frontend/web/client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: 'src/**/*.ts'

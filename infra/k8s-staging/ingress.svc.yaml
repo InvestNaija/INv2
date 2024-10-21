@@ -41,7 +41,7 @@ spec:
               service:
                 name: client-srv
                 port:
-                  number: 3000
+                  number: 80
     - host: admin.inv2test.com.ng
       http:
         paths:
@@ -51,4 +51,4 @@ spec:
               service:
                 name: admin-srv
                 port:
-                  number: 3000
+                  number: 80
