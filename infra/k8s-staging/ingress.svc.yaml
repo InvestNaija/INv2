@@ -49,6 +49,6 @@ spec:
             path: /?(.*)
             backend:
               service:
-                name: admin-admin-srv
+                name: web-admin-srv
                 port:
                   number: 80
