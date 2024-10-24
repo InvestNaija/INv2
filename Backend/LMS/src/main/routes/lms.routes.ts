@@ -1,7 +1,8 @@
 import express, { Router } from 'express';
-// import { UserController } from '../controllers/user.controller';
+import { LmsController } from '../controllers';
+import { requireAuth } from '@inv2/common';
 
-class UserRoutes {
+class LmsRoutes {
    private router: Router;
 
    constructor() {
@@ -9,13 +10,14 @@ class UserRoutes {
    }
 
    public routes(): Router {
-      // this.router.post('/', Create.prototype.create);
-      // this.router.get('/', UserController.login);
-      // this.router.get('/get-apps/:device_id', authMiddleware.checkAuthentication, Get.prototype.read);
-      // this.router.post('/update-app-status', authMiddleware.checkAuthentication, Update.prototype.updateStatus);
+      this.router.get('/healthz', LmsController.healthz);
+      this.router.get('/', requireAuth, LmsController.getLms);
+      this.router.patch('/:id', requireAuth, LmsController.updateLms);
+      this.router.post('/', requireAuth, LmsController.createLms);
+      this.router.delete('/:id', requireAuth, LmsController.deleteLms);
 
       return this.router;
    }
 }
 
-export const userRoutes: UserRoutes = new UserRoutes();
+export const lmsRoutes: LmsRoutes = new LmsRoutes();
