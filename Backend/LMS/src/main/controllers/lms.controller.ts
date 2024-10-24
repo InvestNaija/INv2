@@ -13,18 +13,14 @@ export class LmsController {
 
    @JoiMWDecorator(LmsValidation.createLms)
    public static async createLms(req: Request, res: Response, next: NextFunction): Promise<void> {
-      // const profiler = Logger.logger.startTimer();
       try {         
          const body = req.body;
          const lmsService = new LmsService;
          const lms = await lmsService.createLms(body);
          res.status(lms.code).json(lms);
-         // profiler.done({message: `Finished processing login request`});
       } catch (error: unknown|Error) {
          if(error instanceof CustomError) next( new Exception(error));
       }
-      // console.log(cxn.postgres.manager.find(INUser));
-      // console.log(await cxn.default?.pgINv2?.models?.User.findAll());
    }
    @JoiMWDecorator(LmsValidation.updateLms)
    public static async updateLms(req: Request, res: Response, next: NextFunction): Promise<void> {
