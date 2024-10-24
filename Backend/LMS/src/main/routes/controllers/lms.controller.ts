@@ -11,7 +11,7 @@ export class LmsController {
       res.status(200).json({status:200, message: "Auth server is Healthy"});
    }
 
-   @JoiMWDecorator(LmsValidation.signup)
+   @JoiMWDecorator(LmsValidation.createLms)
    public static async createLms(req: Request, res: Response, next: NextFunction): Promise<void> {
       // const profiler = Logger.logger.startTimer();
       try {         
@@ -26,7 +26,7 @@ export class LmsController {
       // console.log(cxn.postgres.manager.find(INUser));
       // console.log(await cxn.default?.pgINv2?.models?.User.findAll());
    }
-   @JoiMWDecorator(LmsValidation.signup)
+   @JoiMWDecorator(LmsValidation.updateLms)
    public static async updateLms(req: Request, res: Response, next: NextFunction): Promise<void> {
       try {
          const body = req.body;
