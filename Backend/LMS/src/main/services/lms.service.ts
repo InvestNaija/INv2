@@ -3,8 +3,6 @@ import { IResponse, Exception, CustomError } from "@inv2/common";
 import { Transaction, Op, ValidationError, SequelizeScopeError, DatabaseError } from "sequelize";
 import { LMS } from "../../database/sequelize/INv2";
 import {LmsDto, QueryDto} from "../dtos";
-import { LmsCreatedPublisher, LmsUpdatedPublisher } from "../../events/publishers";
-import { rabbitmqWrapper } from "../../rabbitmq.wrapper";
 
 export class LmsService {
 
@@ -22,11 +20,6 @@ export class LmsService {
 
          const createdEntry = await LMS.create(data, { transaction: t, returning: true });
          if (!transaction) await t.commit();
-         await new LmsCreatedPublisher(rabbitmqWrapper.connection).publish({
-            tenant: tur.tenant,
-            user: (createdUser.toJSON() as UserDto),
-            role: tur.role
-         });
 
          return { success: true, code: 201, message: `Record created successfully`, data: createdEntry };
       } catch (error) {
@@ -44,13 +37,6 @@ export class LmsService {
 
          await entry.update(data, { transaction: t });
          if (!transaction) await t.commit();
-
-         await new LmsUpdatedPublisher(rabbitmqWrapper.connection).publish({
-            tenant: tur.tenant,
-            user: (createdUser.toJSON() as UserDto),
-            role: tur.role
-         });
-
          return { success: true, code: 200, message: `Record updated successfully`, data: entry };
       } catch (error) {
          if (!transaction) await t.rollback();
