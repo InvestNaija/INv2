@@ -95,7 +95,7 @@ spec:
             - name: DB_PG_TIMEZONE
               valueFrom:
                 secretKeyRef:
-                  name: common.depl
+                  name: saveplan.depl
                   key: DB_PG_TIMEZONE
 ---
 apiVersion: v1
