@@ -1,20 +1,20 @@
 import { Model, Table, Column, DataType, ForeignKey, } from "sequelize-typescript";
-import { User, LMS } from "../";
+import { User, SavePlan } from "..";
 
 @Table({
    timestamps: true,
-   tableName: "user_lms",
+   tableName: "saveplan_users",
    underscored: true,
    paranoid: true,
 })
-export class UserLMS extends Model {
+export class SavePlanUser extends Model {
    @ForeignKey(() => User)
    @Column
-   declare userId: string;
+   declare userId: number;
   
-   @ForeignKey(() => LMS)
+   @ForeignKey(() => SavePlan)
    @Column
-   declare lmsId: string;
+   declare saveplanId: number;
    
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
@@ -23,10 +23,10 @@ export class UserLMS extends Model {
    @Column({ type: DataType.DATE, })
    declare deletedAt: Date;
    
-   @Column({ type: DataType.DATEONLY, })
-   declare startDate: Date;
-   @Column({ type: DataType.DATEONLY, })
-   declare endDate: Date;
-   @Column({ type: DataType.DATEONLY, })
-   declare nextBillingDate: Date;
+   @Column({ type: DataType.BIGINT, })
+   declare price: number;
+   @Column({ type: DataType.SMALLINT, })
+   declare rating: number;
+   @Column({ type: DataType.SMALLINT, })
+   declare like: number;
 }
