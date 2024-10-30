@@ -2,7 +2,7 @@
 import { IResponse, Exception, CustomError } from "@inv2/common";
 import { Transaction, Op, ValidationError, SequelizeScopeError, DatabaseError } from "sequelize";
 import { LMS } from "../../database/sequelize/INv2";
-import {LmsDto, QueryDto} from "../dtos";
+import {LmsDto, GetLmsDto} from "../dtos";
 
 export class LmsService {
 
@@ -10,13 +10,6 @@ export class LmsService {
    async createLms(data: Partial<LmsDto>, transaction?: Transaction): Promise<IResponse> {
       const t = transaction ?? (await LMS.sequelize?.transaction()) as Transaction;
       try {
-         const existingRecord = await LMS.findOne({
-            where: { title: { [Op.iLike]: data.title } }
-         });
-      
-         if (existingRecord) {
-            throw new Exception({ code: 400, message: `Record with this title already exists` });
-         }
 
          const createdEntry = await LMS.create(data, { transaction: t, returning: true });
          if (!transaction) await t.commit();
@@ -62,7 +55,7 @@ export class LmsService {
    }
 
    // Get entries (all, search, or single)
-   async getLms(query: Partial<QueryDto>): Promise<IResponse> {
+   async getLms(query: Partial<GetLmsDto>): Promise<IResponse> {
       try {
          const { search, id } = query;
       

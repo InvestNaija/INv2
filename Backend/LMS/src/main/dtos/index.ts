@@ -1,2 +1,2 @@
 export * from "./lms.dto";
-export * from "./query.dto";
+export * from "./getLms.dto";
