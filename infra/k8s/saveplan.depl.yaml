@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: depl-lms
+  name: depl-saveplan
   namespace: inv2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lms
+      app: saveplan
   template:
     metadata:
       labels:
-        app: lms
+        app: saveplan
     spec:
       containers:
-        - name: lms
-          # image: inv2registry.azurecr.io/demo/lms
-          image: integrationschd/inv2-lms
+        - name: saveplan
+          # image: inv2registry.azurecr.io/demo/saveplan
+          image: integrationschd/inv2-saveplan
           env:
             - name: NATS_CLIENT_ID
               valueFrom:
@@ -65,49 +65,49 @@ spec:
             - name: PORT
               valueFrom:
                 secretKeyRef:
-                  name: lms.depl
+                  name: saveplan.depl
                   key: PORT
             - name: DB_PG_HOST
               valueFrom:
                 secretKeyRef:
-                  name: lms.depl
+                  name: saveplan.depl
                   key: DB_PG_HOST
             - name: DB_PG_DB_NAME
               valueFrom:
                 secretKeyRef:
-                  name: lms.depl
+                  name: saveplan.depl
                   key: DB_PG_DB_NAME
             - name: DB_PG_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: lms.depl
+                  name: saveplan.depl
                   key: DB_PG_PASSWORD
             - name: DB_PG_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: lms.depl
+                  name: saveplan.depl
                   key: DB_PG_USERNAME
             - name: DB_PG_PORT
               valueFrom:
                 secretKeyRef:
-                  name: lms.depl
+                  name: saveplan.depl
                   key: DB_PG_PORT
             - name: DB_PG_TIMEZONE
               valueFrom:
                 secretKeyRef:
-                  name: lms.depl
+                  name: saveplan.depl
                   key: DB_PG_TIMEZONE
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: lms-srv
+  name: saveplan-srv
   namespace: inv2
 spec:
   selector:
-    app: lms
+    app: saveplan
   ports:
-    - name: lms
+    - name: saveplan
       protocol: TCP
       port: 3001
       targetPort: 3001

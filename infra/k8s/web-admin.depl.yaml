@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: depl-web-admin
+  namespace: inv2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-admin
+  template:
+    metadata:
+      labels:
+        app: web-admin
+    spec:
+      containers:
+        - name: web-admin
+          image: integrationschd/inv2-web-admin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-admin-srv
+  namespace: inv2
+spec:
+  selector:
+    app: web-admin
+  ports:
+    - name: web-admin
+      protocol: TCP
+      port: 80
+      targetPort: 80

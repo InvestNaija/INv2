@@ -48,7 +48,7 @@ To manage orchestration in dev environment, get skaffold (on windows, ensure cho
 - login to npm `npm login`
 - publish to public `npm publish --access public`
 - To change the version number for npm ->`npm version patch`
-### To update the NPM package
+### To update the NPM package in the common module
 1. `git add . && git commit -m ""`
 2. `npm version patch && npm run build && npm publish --access public`
 * Run them one by one...never do this in production...cos you will only ever patch the verison number and always have a generic commit message

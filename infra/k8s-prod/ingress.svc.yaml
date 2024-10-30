@@ -32,9 +32,9 @@ spec:
             path: /?(.*)
             backend:
               service:
-                name: client-srv
+                name: web-client-srv
                 port:
-                  number: 3000
+                  number: 80
     - host: https://admin.edugate.com.ng
       http:
         paths:
@@ -42,6 +42,6 @@ spec:
             path: /?(.*)
             backend:
               service:
-                name: admin-srv
+                name: web-admin-srv
                 port:
-                  number: 3000
+                  number: 80
