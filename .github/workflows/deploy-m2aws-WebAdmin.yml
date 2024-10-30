@@ -1,0 +1,21 @@
+name: Deploy WebClient-Master To AWS
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'Frontend/web/admin/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Pem file and connect to Prod
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          key: ${{ secrets.AWS_SSH_KEY }}
+          username: ${{ secrets.AWS_USER }}
+          script: |
+            kubectl rollout restart deployment depl-web-admin -n inv2

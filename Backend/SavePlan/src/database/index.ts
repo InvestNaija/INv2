@@ -26,7 +26,7 @@ const load = async()=>{
       });
       if(env !== 'production') {
          console.log(dbPath);
-         // await cxn[database].sync({ alter: true });
+         await cxn[database].sync({ alter: true });
       };
       cxn[database].authenticate()
          .then(() => console.log(`${database} connected....`))
