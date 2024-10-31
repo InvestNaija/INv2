@@ -1,5 +1,5 @@
-import { Model, Table, Column, DataType, BelongsToMany, } from "sequelize-typescript";
-import { User, SavePlanUser } from "..";
+import { Model, Table, Column, DataType, HasMany, BelongsToMany, } from "sequelize-typescript";
+import { User, SavePlanUser, SavePlanChargeType } from "..";
 import { DBEnums } from "@inv2/common";
 
 @Table({
@@ -12,6 +12,8 @@ export class SavePlan extends Model {
    
    @BelongsToMany(() => User, () => SavePlanUser)
    declare users: User[];
+   @HasMany(() => SavePlanChargeType)
+   declare savePlanChargeTypes: SavePlanChargeType[];
    
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
@@ -31,6 +33,8 @@ export class SavePlan extends Model {
 
    @Column({ type: DataType.STRING(300), })
    declare title: string;
+   @Column({ type: DataType.STRING(300), })
+   declare slug: string;
 
    @Column({ type: DataType.SMALLINT, })
    get type(): { code: number; name: string; label: string; } | undefined {
@@ -41,13 +45,39 @@ export class SavePlan extends Model {
       const result = DBEnums?.LMSType?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
       this.setDataValue('type', result);
    }
+   @Column({ type: DataType.SMALLINT, })
+   get calculator(): { code: number; name: string; label: string; } | undefined {
+      const rawValue = this.getDataValue('calculator');
+      return DBEnums.LMSType.find(g=>g.code===rawValue);
+   }
+   set calculator(value: number|string) {
+      const result = DBEnums?.LMSType?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
+      this.setDataValue('calculator', result);
+   }
+   @Column({ type: DataType.SMALLINT, })
+   get currency(): { code: number; name: string; label: string; } | undefined {
+      const rawValue = this.getDataValue('currency');
+      return DBEnums.LMSType.find(g=>g.code===rawValue);
+   }
+   set currency(value: number|string) {
+      const result = DBEnums?.LMSType?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
+      this.setDataValue('currency', result);
+   }
 
    @Column({ type: DataType.STRING(1000), })
    declare summary: string;
    @Column({ type: DataType.TEXT, })
    declare content: string;
    @Column({ type: DataType.DECIMAL(10,2), })
-   declare price: number;
+   declare interestRate: number;
+   @Column({ type: DataType.DECIMAL(10,2), })
+   declare minDuration: number;
+   @Column({ type: DataType.DECIMAL(10,2), })
+   declare maxDuration: number;
+   @Column({ type: DataType.DECIMAL(10,2), })
+   declare minAmount: number;
+   @Column({ type: DataType.DECIMAL(10,2), })
+   declare maxAmount: number;
 }
 
 // export default {User};

@@ -1,5 +1,5 @@
 `k port-forward depl-auth-postgres-57b4c98d46-pzjk4 -n inv2 5432:5432`
-`k port-forward depl-redis-7f8b6fd5b-4kzd4 -n inv2 6379:6379`
+`k port-forward depl-redis-664db5d7c-fnf8v -n inv2 6379:6379`
 `k port-forward depl-rabbitmq-0 -n inv2 5672:5672`
 
 - To see your services (cluster IP), do...  `kubectl get services`
