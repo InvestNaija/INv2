@@ -4,7 +4,7 @@ import { Application } from 'express';
 
 const BaseRoutes = (app: Application) => {
    const routes = () => {
-      // app.use(`/api/v2/auth`, authRoutes.routes());
+      // app.use(`/api/v2/saveplan`, authRoutes.routes());
    };
    routes();
 };

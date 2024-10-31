@@ -33,7 +33,7 @@ export class Main {
       await redisWrapper.connect(`redis://${process.env.REDIS_SERVER}`);
       await rabbitmqWrapper.connect(`amqp://${process.env.RABBITMQ}`);
 
-      INLogger.init('Auth', rabbitmqWrapper.connection);
+      INLogger.init('SavePlan', rabbitmqWrapper.connection);
       
       rabbitmqWrapper.connection.on('close', ()=>{
          console.log(`RabbitMQ connection closed!`);

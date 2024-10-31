@@ -1,4 +1,11 @@
 export class DBEnums {
+   static get Currency() {
+      return [
+         {code: 101, name: 'NGN', label: 'Nigerian Naira'}, 
+         {code: 102, name: 'USD', label: 'US Dollars'}, 
+         {code: 103, name: 'GBP', label: 'British Pounds'},
+      ];
+   };
    static get MediaType() {
       return [
          {code: 101, name: 'avatar', label: 'Avatar'}, 
@@ -39,7 +46,20 @@ export class DBEnums {
          {code: 110, name: 'bank', label: 'Bank',},
          {code: 150, name: 'other', label: 'Other'},
       ];
-   };  
+   };
+   static get SaveplanType(){
+      return [
+         {code: 101, name: 'savein', label: 'SaveIN'}, 
+         {code: 105, name: 'planin', label: 'PlanIN'},
+         {code: 105, name: 'custom', label: 'Custom'},
+      ];
+   };
+   static get SaveplanCalculatorType(){
+      return [
+         {code: 101, name: 'savein', label: 'SaveIN Calculator'}, 
+         {code: 105, name: 'planin', label: 'PlanIN Calculator'},
+      ];
+   };
    static get LMSType(){
       return [
          {code: 101, name: 'art', label: 'Articles'}, 
@@ -71,6 +91,21 @@ export class DBEnums {
          {code: 104, name: 'inprogress', label: 'inprogress',},
          {code: 105, name: 'done', label: 'done',},
          {code: 106, name: 'completed', label: 'completed'},
-      ]
+      ];
+   }
+   static get PmtType() {
+      return [
+         {code: 105, name: 'credit', label: 'Credit'}, 
+         {code: 110, name: 'debit', label: 'Debit'}, 
+         {code: 115, name: 'charge', label: 'Charge',},
+         {code: 120, name: 'interest', label: 'Interest',},
+      ];
+   }
+   static get GatewayType() {
+      return [
+         {code: 100, name: 'bank', label: 'Bank'}, 
+         {code: 105, name: 'card', label: 'Card'}, 
+         {code: 110, name: 'pwt', label: 'Pay With Transfer'},
+      ];
    }
 }
