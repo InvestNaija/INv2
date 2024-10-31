@@ -46,18 +46,19 @@ export class UpdateLms {
 }
 
 export class GetLms {
-   static item() {
+   static item(id = "{{id}}", search = "{{search}}") {
       return new Item({
          name: `Get LMS`,
          description: `API to get and search LMS`,
          request: {
             header: [{ key: "Accept", value: "application/json" }],
-            url: "{{BASE_URL}}/lms",
+            url: `{{BASE_URL}}/lms?id=${id}&search=${search}`,  // Add both query params
             method: 'GET',
          },
       });
    }
 }
+ 
 
 export class DeleteLms {
    static item(id: string) {

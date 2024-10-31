@@ -41,7 +41,7 @@ const postmanCollection = new Collection({
          item: [
             CreateLms.item(),
             UpdateLms.item("123"),
-            GetLms.item(),
+            GetLms.item("123", "example"),
             DeleteLms.item("123")
          ]
       }
