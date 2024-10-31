@@ -1,5 +1,5 @@
-import { Model, Table, Column, DataType, ForeignKey, } from "sequelize-typescript";
-import { User, SavePlan } from "..";
+import { Model, Table, Column, DataType, ForeignKey, HasMany, } from "sequelize-typescript";
+import { User, SavePlan, SavePlanPmtTxn } from "..";
 
 @Table({
    timestamps: true,
@@ -16,12 +16,24 @@ export class SavePlanUser extends Model {
    @Column
    declare saveplanId: number;
    
+   @HasMany(() => SavePlanPmtTxn)
+   declare savePlanPmtTxns: SavePlanPmtTxn[];
+   
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
    @Column({ type: DataType.DATE, })
    declare updatedAt: Date;
    @Column({ type: DataType.DATE, })
    declare deletedAt: Date;
+   @Column({ type: DataType.INTEGER, })
+   declare version: number;
+   
+   @Column({
+      primaryKey: true,
+      type: DataType.UUID,
+      defaultValue: DataType.UUIDV4,
+   })
+   declare id: string;
    
    @Column({ type: DataType.BIGINT, })
    declare price: number;

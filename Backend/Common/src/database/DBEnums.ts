@@ -101,4 +101,11 @@ export class DBEnums {
          {code: 120, name: 'interest', label: 'Interest',},
       ];
    }
+   static get GatewayType() {
+      return [
+         {code: 100, name: 'bank', label: 'Bank'}, 
+         {code: 105, name: 'card', label: 'Card'}, 
+         {code: 110, name: 'pwt', label: 'Pay With Transfer'},
+      ];
+   }
 }
