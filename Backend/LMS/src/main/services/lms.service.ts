@@ -1,17 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IResponse, Exception, CustomError } from "@inv2/common";
+import { IResponse, Exception, UserTenantRoleDto, CustomError } from "@inv2/common";
 import { Transaction, Op, ValidationError, SequelizeScopeError, DatabaseError } from "sequelize";
-import { LMS } from "../../database/sequelize/INv2";
+import { LMS, UserLMS } from "../../database/sequelize/INv2";
 import {LmsDto, GetLmsDto} from "../dtos";
 
 export class LmsService {
 
    // Create a new entry
-   async createLms(data: Partial<LmsDto>, transaction?: Transaction): Promise<IResponse> {
+   async createLms(currentUser: UserTenantRoleDto ,data: Partial<LmsDto>, transaction?: Transaction): Promise<IResponse> {
       const t = transaction ?? (await LMS.sequelize?.transaction()) as Transaction;
       try {
 
          const createdEntry = await LMS.create(data, { transaction: t, returning: true });
+         // Add associated users using the add method if userIds are provided
+         if (currentUser && currentUser.user.id) {
+            // Manually insert into UserLMS join table
+            await UserLMS.create(
+               { userId: currentUser.user.id, lmsId: createdEntry.id },
+               { transaction: t }
+            );
+         }
          if (!transaction) await t.commit();
 
          return { success: true, code: 201, message: `Record created successfully`, data: createdEntry };
@@ -83,15 +91,17 @@ export class LmsService {
 
    // Error handler
    private handleError(error: any): IResponse {
-      const err = error as Error;
-  
       if (error instanceof CustomError) {
-         throw new Exception(error);  // Custom errors can be thrown
-      } else if (error instanceof (ValidationError || SequelizeScopeError || DatabaseError)) {
-         return { code: 500, message: error.errors[0].message, success: false };
-      } else {
-         return { code: 500, message: err.message, success: false };
+         throw new Exception(error);
+      } else if (error instanceof ValidationError) {
+         return { code: 400, message: error.errors.map(e => e.message).join(", "), success: false };
+      } else if (error instanceof DatabaseError) {
+         return { code: 500, message: "Database error occurred", success: false };
+      } else if (error instanceof SequelizeScopeError) {
+         return { code: 500, message: "Scope error with the database query", success: false };
       }
+      return { code: 500, message: "An unknown error occurred", success: false };
    }
+   
   
 }

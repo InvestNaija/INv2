@@ -16,7 +16,7 @@ export class LmsController {
       try {         
          const body = req.body;
          const lmsService = new LmsService;
-         const lms = await lmsService.createLms(body);
+         const lms = await lmsService.createLms(req.currentUser!, body);
          res.status(lms.code).json(lms);
       } catch (error: unknown|Error) {
          if(error instanceof CustomError) next( new Exception(error));
