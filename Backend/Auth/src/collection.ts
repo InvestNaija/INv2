@@ -3,6 +3,7 @@
 import { Collection } from 'postman-collection';
 import * as fs from 'fs';
 import { Signup } from "./collections/auth/signup";
+import { CreateLms, UpdateLms, GetLms, DeleteLms } from "./collections/lms/lms";
 
 // This is the our postman collection
 const postmanCollection = new Collection({
@@ -12,7 +13,7 @@ const postmanCollection = new Collection({
    variable: [
       {
          key: "BASE_URL",
-         value: "http://localhost:4545/api/v1",
+         value: "http://localhost:4545/api/v2",
          type: "string"
       },
    ],
@@ -37,7 +38,12 @@ const postmanCollection = new Collection({
       },
       {
          name: "LMS",
-         item: []
+         item: [
+            CreateLms.item(),
+            UpdateLms.item("123"),
+            GetLms.item("123", "example"),
+            DeleteLms.item("123")
+         ]
       }
    ],
 });
