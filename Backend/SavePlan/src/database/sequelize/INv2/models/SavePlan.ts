@@ -39,28 +39,28 @@ export class SavePlan extends Model {
    @Column({ type: DataType.SMALLINT, })
    get type(): { code: number; name: string; label: string; } | undefined {
       const rawValue = this.getDataValue('type');
-      return DBEnums.LMSType.find(g=>g.code===rawValue);
+      return DBEnums.SaveplanType.find(g=>g.code===rawValue);
    }
    set type(value: number|string) {
-      const result = DBEnums?.LMSType?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
+      const result = DBEnums?.SaveplanType?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
       this.setDataValue('type', result);
    }
    @Column({ type: DataType.SMALLINT, })
    get calculator(): { code: number; name: string; label: string; } | undefined {
       const rawValue = this.getDataValue('calculator');
-      return DBEnums.LMSType.find(g=>g.code===rawValue);
+      return DBEnums.SaveplanCalculatorType.find(g=>g.code===rawValue);
    }
    set calculator(value: number|string) {
-      const result = DBEnums?.LMSType?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
+      const result = DBEnums?.SaveplanCalculatorType?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
       this.setDataValue('calculator', result);
    }
    @Column({ type: DataType.SMALLINT, })
    get currency(): { code: number; name: string; label: string; } | undefined {
       const rawValue = this.getDataValue('currency');
-      return DBEnums.LMSType.find(g=>g.code===rawValue);
+      return DBEnums.Currency.find(g=>g.code===rawValue);
    }
    set currency(value: number|string) {
-      const result = DBEnums?.LMSType?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
+      const result = DBEnums?.Currency?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
       this.setDataValue('currency', result);
    }
 

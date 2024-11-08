@@ -1,10 +1,10 @@
 import { Application } from 'express';
-// import { authRoutes } from './lms.routes';
+import { saveplanRoutes } from './saveplan.routes';
 
 
 const BaseRoutes = (app: Application) => {
    const routes = () => {
-      // app.use(`/api/v2/saveplan`, authRoutes.routes());
+      app.use(`/api/v2/saveplan`, saveplanRoutes.routes());
    };
    routes();
 };

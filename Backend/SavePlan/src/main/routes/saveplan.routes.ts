@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
-// import { UserController } from '../controllers/user.controller';
+import { SaveplanController } from '../controllers/saveplan.controller';
 
-class UserRoutes {
+class SaveplanRoutes {
    private router: Router;
 
    constructor() {
@@ -9,7 +9,8 @@ class UserRoutes {
    }
 
    public routes(): Router {
-      // this.router.post('/', Create.prototype.create);
+      this.router.get('/healthz', SaveplanController.healthz);
+      this.router.post('/list', SaveplanController.list);
       // this.router.get('/', UserController.login);
       // this.router.get('/get-apps/:device_id', authMiddleware.checkAuthentication, Get.prototype.read);
       // this.router.post('/update-app-status', authMiddleware.checkAuthentication, Update.prototype.updateStatus);
@@ -18,4 +19,4 @@ class UserRoutes {
    }
 }
 
-export const userRoutes: UserRoutes = new UserRoutes();
+export const saveplanRoutes: SaveplanRoutes = new SaveplanRoutes();
