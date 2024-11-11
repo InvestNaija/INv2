@@ -1,4 +1,4 @@
-import { ValidationError, SequelizeScopeError, DatabaseError } from "sequelize";
+import { ValidationError, SequelizeScopeError, DatabaseError, SequelizeDatabaseError } from "sequelize";
 
 export interface IResponse {
    code: number;
@@ -69,7 +69,7 @@ export const handleError = (error: any): IResponse => {
       throw new Exception(error);
    } else if (error instanceof ValidationError) {
       return { code: 400, message: error.errors.map((e: any) => e.message).join(", "), success: false };
-   } else if (error instanceof DatabaseError) {
+   } else if (error instanceof DatabaseError || error instanceof SequelizeDatabaseError) {
       return { code: 500, message: "Database error occurred", success: false };
    } else if (error instanceof SequelizeScopeError) {
       return { code: 500, message: "Scope error with the database query", success: false };
