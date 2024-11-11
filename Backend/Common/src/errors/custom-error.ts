@@ -1,3 +1,5 @@
+import { ValidationError, SequelizeScopeError, DatabaseError } from "sequelize";
+
 export interface IResponse {
    code: number;
    success?: boolean;
@@ -60,4 +62,17 @@ export class Exception extends CustomError {
    //    this.params = found??this.params
    //    return { ...this.params };
    // }
+}
+
+export const handleError = (error: Error): IResponse {
+   if (error instanceof CustomError) {
+      throw new Exception(error);
+   } else if (error instanceof ValidationError) {
+      return { code: 400, message: error.errors.map(e => e.message).join(", "), success: false };
+   } else if (error instanceof DatabaseError) {
+      return { code: 500, message: "Database error occurred", success: false };
+   } else if (error instanceof SequelizeScopeError) {
+      return { code: 500, message: "Scope error with the database query", success: false };
+   }
+   return { code: 500, message: "An unknown error occurred", success: false };
 }
