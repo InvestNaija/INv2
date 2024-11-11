@@ -64,11 +64,11 @@ export class Exception extends CustomError {
    // }
 }
 
-export const handleError = (error: Error): IResponse => {
+export const handleError = (error: any): IResponse => {
    if (error instanceof CustomError) {
       throw new Exception(error);
    } else if (error instanceof ValidationError) {
-      return { code: 400, message: error.errors.map(e => e.message).join(", "), success: false };
+      return { code: 400, message: error.errors.map((e: any) => e.message).join(", "), success: false };
    } else if (error instanceof DatabaseError) {
       return { code: 500, message: "Database error occurred", success: false };
    } else if (error instanceof SequelizeScopeError) {
