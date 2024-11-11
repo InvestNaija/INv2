@@ -64,7 +64,7 @@ export class Exception extends CustomError {
    // }
 }
 
-export const handleError = (error: Error): IResponse {
+export const handleError = (error: Error): IResponse => {
    if (error instanceof CustomError) {
       throw new Exception(error);
    } else if (error instanceof ValidationError) {
