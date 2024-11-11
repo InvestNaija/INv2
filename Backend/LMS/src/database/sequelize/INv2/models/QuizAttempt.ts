@@ -40,5 +40,22 @@ export class QuizAttempt extends Model {
    })
    @ForeignKey(() => User)
    declare userId: string;
+   @Column({
+      type: DataType.DATE,
+      defaultValue: DataType.NOW,
+   })
+   declare attemptStart: Date;
+   @Column({
+      type: DataType.DATE,
+      allowNull: true,
+      defaultValue: null
+   })
+   declare attemptEnd: Date;
+   @Column({
+      type: DataType.STRING,
+      allowNull: true,
+      defaultValue: null,
+   })
+   declare attemptIp: string;
 }
 
