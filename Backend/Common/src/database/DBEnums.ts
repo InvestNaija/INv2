@@ -51,7 +51,7 @@ export class DBEnums {
       return [
          {code: 101, name: 'savein', label: 'SaveIN'}, 
          {code: 105, name: 'planin', label: 'PlanIN'},
-         {code: 105, name: 'custom', label: 'Custom'},
+         {code: 110, name: 'custom', label: 'Custom'},
       ];
    };
    static get SaveplanCalculatorType(){
