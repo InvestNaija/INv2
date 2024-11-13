@@ -5,4 +5,6 @@ export * from "./getQuiz.dto";
 export * from "./question.dto";
 export * from "./getQuestion.dto";
 export * from "./quizQuestion.dto";
+export * from "./questionAnswer.dto";
 export * from "./getQuizQuestion.dto";
+export * from "./getQuestionAnswer.dto";
