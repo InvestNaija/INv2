@@ -24,11 +24,10 @@ export class QuestionValidation {
 
    static updateQuestion = {
       body: Joi.object().keys({
+         userId: Joi.string().optional(),
          title: Joi.string().optional(),
          detail: Joi.string().optional(),
-         startDate: Joi.string().optional(),
-         endDate: Joi.string().optional(),
-         isImmediateAnswer: Joi.string().optional(),
+         type: Joi.string().optional(),
       }).unknown().strict()
    };
 };
