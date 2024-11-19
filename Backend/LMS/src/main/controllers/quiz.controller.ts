@@ -4,11 +4,6 @@ import { QuizValidation } from '../validations/quiz.schema';
 import { QuizService } from '../services';
 
 export class QuizController {
-
-   public static async healthz(req: Request, res: Response): Promise<void> {
-      res.status(200).json({status:200, message: "Auth server is Healthy"});
-   }
-
    @JoiMWDecorator(QuizValidation.createQuiz)
    public static async createQuiz(req: Request, res: Response, next: NextFunction): Promise<void> {
       try {         

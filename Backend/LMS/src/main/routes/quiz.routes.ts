@@ -10,7 +10,6 @@ class QuizRoutes {
    }
 
    public routes(): Router {
-      this.router.get('/healthz', QuizController.healthz);
       this.router.get('/', requireAuth, QuizController.getQuiz);
       this.router.patch('/:id', requireAuth, QuizController.updateQuiz);
       this.router.post('/', requireAuth, QuizController.createQuiz);
