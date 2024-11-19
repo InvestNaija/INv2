@@ -1,6 +1,6 @@
 import { Item } from 'postman-collection';
 
-const BASE_URL = "{{BASE_URL}}/attempt-answer"
+const BASE_URL = "{{BASE_URL}}/attempt/answer"
 
 export class AnswerAttempt {
    static item() {
