@@ -16,10 +16,10 @@ export abstract class Publisher<T extends Event> {
          const channel = await this.connection.createChannel();
          await channel.assertExchange(this.exchangeName, this.exchangeType, { durable: true });
          
-         const isPublished = channel.publish(this.exchangeName, this.subject, Buffer.from(JSON.stringify(data)))
+         const isPublished = channel.publish(this.exchangeName, this.subject, Buffer.from(JSON.stringify(data)), {deliveryMode: 2, persistent: true})
          if(!isPublished) return reject(`Error publishing to exchange`);
          
-         console.log(`The message was sent to ${this.exchangeName} exchange`, data);         
+         console.log(`The message was sent to ${this.exchangeName} exchange at channel ${this.subject}`);
          resolve();
       })
    }
