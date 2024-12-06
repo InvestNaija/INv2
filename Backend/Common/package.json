@@ -1,6 +1,6 @@
 {
   "name": "@inv2/common",
-  "version": "1.2.16",
+  "version": "1.2.17",
   "description": "A common module for v2",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "clean": "rimraf build/",
-    "copy-files": "copyfiles -u 1 src/public/** build/",
+    "copy-files": "copyfiles -u 1 src/public/** build/ && cp -r src/public build/",
     "build": "npm run clean && tsc && npm run copy-files"
   },
   "keywords": [
@@ -40,7 +40,8 @@
     "rate-limit-redis": "^4.2.0",
     "redis": "^4.7.0",
     "sequelize": "^6.37.5",
-    "winston": "^3.14.2"
+    "winston": "^3.14.2",
+    "winston-transport": "^4.9.0"
   },
   "devDependencies": {
     "@types/nodemailer": "^6.4.15",
