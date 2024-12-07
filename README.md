@@ -37,6 +37,14 @@
 `npm i -D @types/express`
 `tsc --init` - Remember to run this and `"esModuleInterop": true`, else your tests will fail
 `npm init @eslint/config@latest`...Remember to add `"overrides": { "eslint": "^9.9.0" }` to your package.json
+## Dependency Injection
+You may want to use DI in your service, 
+- `npm i tsyringe reflect-metadata ` tsyringe is a module from microsoft
+- ensure __experimentalDecorators__ and __emitDecoratorMetadata__ are set to true
+- In your Controller/Service that depends on a service, at the top put @autoInjectable() metadata
+- In your index file, `import 'reflect-metadata'` and `import {container} from tsyringe`
+- Then you can get the controller like so, `const bookController = container.resolve(BookController)`
+
 ## For running test use jest and supertest
 `npm i -D @types/jest @types/supertest jest ts-jest supertest mongodb-memory-server` 
 - Notice we are using an in-memory mongodb server. Use it only when we are using MongoDB server
