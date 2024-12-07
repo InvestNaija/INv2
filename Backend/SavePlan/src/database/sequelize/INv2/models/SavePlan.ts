@@ -13,7 +13,7 @@ export class SavePlan extends Model {
    @BelongsToMany(() => User, () => SavePlanUser)
    declare users: User[];
    @HasMany(() => SavePlanChargeType)
-   declare savePlanChargeTypes: SavePlanChargeType[];
+   declare saveplanChargeTypes: SavePlanChargeType[];
    
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
