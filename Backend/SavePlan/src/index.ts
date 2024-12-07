@@ -1,9 +1,9 @@
 import { Application } from 'express';
 import http from 'http';
+import { app } from './app';
 // Initiate DB connection here
 import "./database";
 
-import { app } from './app';
 import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from './rabbitmq.wrapper';
 import { redisWrapper } from './redis.wrapper';

@@ -41,16 +41,15 @@ export class UserService {
          },{ transaction: t });
          delete createdUser.dataValues.password;
          // Publish the newly created user to the queue
-         await new UserCreatedPublisher(rabbitmqWrapper.connection).publish({
+         new UserCreatedPublisher(rabbitmqWrapper.connection).publish({
             tenant: tur.tenant,
             user: (createdUser.toJSON() as UserDto),
             role: tur.role
-         });
-
+         });         
          const otpResp = await (new OtpService(redisWrapper.client)).generateOTP({user: {id: createdUser.id, email: createdUser.email, name: createdUser.firstName}});
          if(!otpResp || !otpResp.success) throw new Exception({ code: 400, message: `Error occured while processing request` });
-
-         if(!transaction) await t.commit();
+         
+         if(!transaction) await t.commit();         
          return { success: true, code: 201, message: `User created successfully`, data: createdUser };
       } catch (error) {
          const err = (error as Error);

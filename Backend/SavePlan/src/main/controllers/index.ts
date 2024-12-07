@@ -1,1 +1,1 @@
-export * from "./saveplan.controller";
+export * from "./customer.controller";
