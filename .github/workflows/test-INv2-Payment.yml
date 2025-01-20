@@ -1,0 +1,14 @@
+name: Test Payment
+
+on:
+  pull_request:
+    paths:
+      - 'Backend/Payment/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd Backend/Payment && npm install && npm run test:ci
