@@ -49,10 +49,10 @@ You may want to use DI in your service,
 `npm i -D @types/jest @types/supertest jest ts-jest supertest mongodb-memory-server` 
 - Notice we are using an in-memory mongodb server. Use it only when we are using MongoDB server
 
-# Skaffold
+## Skaffold
 To manage orchestration in dev environment, get skaffold (on windows, ensure chocolatey is installed): `choco install -y skaffold`  
 
-# NPM
+## NPM
 - login to npm `npm login`
 - publish to public `npm publish --access public`
 - To change the version number for npm ->`npm version patch`
@@ -61,18 +61,21 @@ To manage orchestration in dev environment, get skaffold (on windows, ensure cho
 2. `npm version patch && npm run build && npm publish --access public`
 * Run them one by one...never do this in production...cos you will only ever patch the verison number and always have a generic commit message
 
-# RabbitMq
+## RabbitMq
 - Manage RabbitMQ from console `docker exec {{containerid}} rabbitmqctl add_user {{username}} {{password}}`
 e.g `docker exec f64695eec0ad rabbitmqctl add_user infinitizon Dickele_1`
 - set user as admin `docker exec f64695eec0ad rabbitmqctl set_user_tags infinitizon administrator`
 - Delete user `docker exec f64695eec0ad rabbitmqctl delete_user infinitizon`
-## Clients
+### Clients
 `npm i amqplib`
 
-# Chrome
+## Chrome
 If you get an unsafe error on chrome browser, simply type `thisisunsafe`
 
-# Azure
+
+## Deployment
+
+__Azure__
 - First go to Azure and create your AKS 
 - Then install azure cli by downloading `az` at `https://learn.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster?tabs=azure-cli`
 - Run `az aks install-cli`
@@ -83,14 +86,13 @@ If you get an unsafe error on chrome browser, simply type `thisisunsafe`
 - We now need to allow AKS access ACR `az aks update --resource-group CHD_Mobile-2 --name INv2-Test --attach-acr {{registryName}}`  
   e.g. `az aks update --resource-group CHD_Mobile-2 --name INv2-Test --attach-acr INv2Registry`
 - Remember that image names must be tagged as `{{RegistryName}}.azurecr.io/{{applicationName}}` e.g inv2registry.azurecr.io/demo/auth
-# Digital Oceans
+__Digital Oceans__
 - download doctl and place in your environment path
-- In terminal, enter `doctl auth init`, then paste your auth token from digital oceans
+- In terminal, enter `doctl auth init`, then paste your auth token from digital oceans. If we are updating the token `doctl auth init --access-token <new token>`
 - In your terminal, enter `doctl kubernetes cluster kubeconfig save <cluster_name>`
+- If token expres, go to API section under Digital Oceans and generate new token and type  
 - Once you purchase your domainname, add `ns1.digitalocean.com`, `ns2.digitalocean.com`, `ns3.digitalocean.com` to your nameserver list
   In Remember to add the domain name under networking in 
-
-## Deployment
 
 __Ingress__  
 - `https://kubernetes.github.io/ingress-nginx/deploy` - Installation

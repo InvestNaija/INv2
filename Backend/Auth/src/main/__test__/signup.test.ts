@@ -19,7 +19,7 @@ it(`Returns 400 if required params are not supplied`, async ()=>{
          "lastName": "Hans",
          "email": "a@b.com",
          "phone": "1031314140",
-      })
+      }) 
       .expect(400);
 }, 20000);
 it(`Returns 201 on successful signup`, async ()=>{
