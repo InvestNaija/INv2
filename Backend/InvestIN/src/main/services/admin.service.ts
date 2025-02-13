@@ -1,13 +1,24 @@
-import { INLogger, IResponse, DBEnums, Exception, handleError, } from "@inv2/common";
-import { SavePlan, } from "../../database/sequelize/INv2";
-import { SaveplanDto } from "../_dtos";
+import { IResponse, DBEnums, Exception, handleError, } from "@inv2/common";
+import { Asset, } from "../../database/sequelize/INv2";
+import { AssetDto } from "../_dtos";
 import { Transaction } from "sequelize";
 
 export class AdminService {
 
+   async create(body: AssetDto): Promise<IResponse> {
+      try {
+         const saveplan = await Asset.create({
+            ...body
+         });
+      
+         return { success: true, code: 201, message: `User created successfully`, data: saveplan };
+      } catch (error) {
+         throw new Exception(handleError(error));
+      }
+   }
    async list(type: string|number): Promise<IResponse> {
       try {
-         const saveplans = await SavePlan.findAndCountAll({
+         const saveplans = await Asset.findAndCountAll({
             attributes: ["id", "title", "slug", "type", "calculator", "currency", "interestRate", "minDuration", "maxDuration"],
             where: {...(type && {type: DBEnums?.SaveplanType?.find(g=>(g.code==type || g.label==type || g.name==type))?.code})}
          });
@@ -17,21 +28,10 @@ export class AdminService {
          throw new Exception(handleError(error));
       }
    }
-   async create(body: SaveplanDto): Promise<IResponse> {
+   async update(id: string, body: Partial<AssetDto>, transaction?: Transaction): Promise<IResponse> {
+      const t = transaction ?? (await Asset.sequelize?.transaction()) as Transaction;    
       try {
-         const saveplan = await SavePlan.create({
-            ...body
-         });
-
-         return { success: true, code: 201, message: `User created successfully`, data: saveplan };
-      } catch (error) {
-         throw new Exception(handleError(error));
-      }
-   }
-   async update(id: string, body: Partial<SaveplanDto>, transaction?: Transaction): Promise<IResponse> {
-      const t = transaction ?? (await SavePlan.sequelize?.transaction()) as Transaction;    
-      try {
-         const saveplan = await SavePlan.findByPk(id, {transaction: t});
+         const saveplan = await Asset.findByPk(id, {transaction: t});
          if(!saveplan) throw new Exception({code: 400, message: `Plan not found`});
 
          saveplan.update({
