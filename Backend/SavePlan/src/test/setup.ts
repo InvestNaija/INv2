@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // import * from 'auth.setup'
-// import fs from "fs";
+import path from "path";
 import { Sequelize } from "sequelize-typescript";
 import { up } from "../database/sequelize/INv2/seeders/seed-all-data";
 
@@ -9,19 +9,24 @@ import { up } from "../database/sequelize/INv2/seeders/seed-all-data";
 //    var getAuthCookie: () => string[];
 // }
 
-// jest.mock('../nats-wrapper');
+jest.mock('../rabbitmq.wrapper');
+jest.mock('../redis.wrapper');
+import { INLogger } from '@inv2/common';
+import { rabbitmqWrapper } from "../rabbitmq.wrapper";
 let sequelize: Sequelize;
 beforeAll(async ()=>{
-   jest.clearAllMocks();   
+   jest.clearAllMocks();
+   jest.useFakeTimers();
    // process.env.ACCESS_TOKEN_SECRET = '2NjQ5fQ.BpnmhQBqzLfYf';
    // process.env.NODE_ENV = 'test'
+   INLogger.init('SavePlan', rabbitmqWrapper.connection);
    
    sequelize = new Sequelize({
       dialect: "sqlite",
       // storage: __dirname+"/test.sqlite",
       storage: ":memory:",
       logging: false,
-      models: [__path.join(__dirname, `../database/sequelize/INv2/models`)]
+      models: [path.join(__dirname, `../database/sequelize/INv2/models`)]
    });
    await sequelize.sync({ force: true });
    await sequelize.authenticate()

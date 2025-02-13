@@ -84,7 +84,7 @@ export class UserService {
    async loginByEmail (body: Partial<UserDto>, tenant?: Partial<Tenant>) {
       const user = await User.findOne({
          attributes: ["id","bvn","firstName","lastName","firstLogin", "email","password", "uuidToken", "isEnabled", "isLocked"],
-         where: { email: {[Op.iLike]: body.email}, },
+         where: { email:{[Op[User.sequelize?.getDialect()==='postgres'?'iLike':'like']]: body.email}, },
          include: [
             {
                model: TenantUserRole, where: { ...(tenant?.id && { tenantId: tenant.id })}, required: false,
@@ -97,7 +97,6 @@ export class UserService {
       });
       if (!user) throw new Exception({code: 404, message: 'Wrong email or password'});
       if (!user.isEnabled && user.isLocked) throw new Exception({code: 423, message: 'Account inactive and locked. Please activate to continue'});
-      // if (!user.isEnabled) throw new AppError('Account not active. Please activate to continue', __line, __path.basename(__filename), { status: 404, show: true });
       await user.update({
          uuidToken: Helper.generateOTCode(32, true),
          firstLogin: false,

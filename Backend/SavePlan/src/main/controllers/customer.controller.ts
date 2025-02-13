@@ -11,6 +11,8 @@ export class CustomerController {
    }
 
    public static async list(req: Request, res: Response, next: NextFunction): Promise<void> {
+      // console.log(req?.currentUser);
+      
       const profiler = INLogger.log.startTimer();
       try {         
          const saveplanSvc = new CustomerService;
