@@ -5,8 +5,8 @@ import { adminRoutes } from './admin.routes';
 
 const BaseRoutes = (app: Application) => {
    const routes = () => {
-      app.use(`/api/v2/saveplan/customer`, customerRoutes.routes());
-      app.use(`/api/v2/saveplan/admin`, adminRoutes.routes());
+      app.use(`/api/v2/customer/saveplan`, customerRoutes.routes());
+      app.use(`/api/v2/admin/saveplan`, adminRoutes.routes());
    };
    routes();
 };

@@ -39,13 +39,13 @@ export class Asset extends Model {
    }
 
    @Column({ type: DataType.STRING, })
-   declare assetCode: string;              // Should be thesame as external_identifier
+   declare assetCode: string;                // Should be thesame as external_identifier
    @Column({ type: DataType.STRING, })
    declare description: string;
    @Column({ type: DataType.STRING(3), })
    declare currency: string;
    @Column({ type: DataType.DECIMAL, })
-   declare price: number;                 // Formerly sharePrice
+   declare price: number;                    // Formerly sharePrice
    @Column({ type: DataType.DECIMAL, })
    declare yield: number;
 
@@ -64,17 +64,19 @@ export class Asset extends Model {
    declare maturityDate: Date;
 
    @Column({ type: DataType.BIGINT, })
-   declare anticipatedMinPrice: number;
+   declare minPricePayable: number;          // Formerly anticipatedMinPrice
    @Column({ type: DataType.DECIMAL, })
-   declare anticipatedMaxPrice: number;
+   declare maxPricePayable: number;          // Formerly anticipatedMaxPrice
    @Column({ type: DataType.DECIMAL, })
-   declare unitsAvailableForSale: number;  // Formerly availableShares
+   declare unitsAvailableForSale: number;    // Formerly availableShares
    @Column({ type: DataType.DECIMAL, })
-   declare minPurchaseUnits: number;       // Formerly minimumNoOfUnits
+   declare minUnitsBuyable: number;          // Formerly minimumNoOfUnits
    @Column({ type: DataType.DECIMAL, })
-   declare subsequentMultiples: number;    // Formerly subsequentMultipleUnit
+   declare maxUnitsBuyable: number;
+   @Column({ type: DataType.DECIMAL, })      // Formerly subsequentMultipleUnit
+   declare subsequentMultiplesPrice: number;
    @Column({ type: DataType.DECIMAL, })
-   declare subsequentMinAmt: number;       // Formerly subsequentMinAmount
+   declare subsequentMultiplesUnit: number;  // Formerly subsequentMinAmount
 
    @BeforeUpdate
    @BeforeCreate

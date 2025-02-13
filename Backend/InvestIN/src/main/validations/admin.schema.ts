@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 export class AdminValidation {
-   static create = {
+   static  create = {
       body: Joi.object().keys({
          title: Joi.string().required().messages({
             'string.empty': `Title cannot be empty`,

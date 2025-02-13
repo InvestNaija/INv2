@@ -1,1 +1,1 @@
-export * from "./saveplan.dto";
+export * from "./asset.dto";
