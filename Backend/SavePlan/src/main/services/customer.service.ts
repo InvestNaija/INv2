@@ -9,8 +9,7 @@ export class CustomerService {
          attributes: ["id", "title", "slug", "type", "calculator", "currency", "interestRate", "minDuration", "maxDuration"],
          where: {...(type && {type: DBEnums?.SaveplanType?.find(g=>(g.code==type || g.label==type || g.name==type))?.code})}
       });
-      INLogger.log.info(`Server running on port`);
-      return { success: true, code: 201, message: `User created successfully`, count: saveplans.count, data: saveplans.rows };
+      return { success: true, code: 200, message: `SavePlans retrieved successfully`, count: saveplans.count, data: saveplans.rows };
       // } catch (error) {
       //    throw new Exception(handleError(error));
       // }
