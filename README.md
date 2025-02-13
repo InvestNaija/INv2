@@ -3,8 +3,8 @@
 `k port-forward depl-rabbitmq-0 -n inv2 5672:5672`
 
 - To see your services (cluster IP), do...  `kubectl get services`
-- To get all your existing deployments, run...  `kubectl get deployments`
-- To automatically delete existing deployment and pull latest from docker, do... `kubectl rollout restart deployment depl-auth`
+- To get all your existing deployments, run...  `kubectl get deployments -n inv2`
+- To automatically delete existing deployment and pull latest from docker, do... `kubectl rollout restart deployment depl-auth -n inv2`
 - To delete existing secret, do `kubectl delete secret jwt-secret --ignore-not-found`
  Then, in your container, add an env section like so...
 ```docker

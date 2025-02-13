@@ -9,8 +9,8 @@ export class AdminController {
       const profiler = INLogger.log.startTimer();
       try {         
          const saveplanSvc = new AdminService;
-         const user = await saveplanSvc.list(req.params.type);
-         res.status(user.code).json(user);
+         const saveplan = await saveplanSvc.list(req.params.type);
+         res.status(saveplan.code).json(saveplan);
          profiler.done({service: `SavePlan`, message: `List of saveplas retrieved successfully`});
       } catch (error: unknown|Error) {
          next(new Exception(handleError(error)));
@@ -21,8 +21,8 @@ export class AdminController {
       const profiler = INLogger.log.startTimer();
       try {         
          const adminSvc = new AdminService;
-         const user = await adminSvc.create(req.body);
-         res.status(user.code).json(user);
+         const saveplan = await adminSvc.create(req.body);
+         res.status(saveplan.code).json(saveplan);
          profiler.done({service: `SavePlan`, message: `New SavePlan created successfully`});
       } catch (error: unknown|Error) {
          next(new Exception(handleError(error)));
@@ -33,8 +33,8 @@ export class AdminController {
       const profiler = INLogger.log.startTimer();
       try {         
          const adminSvc = new AdminService;
-         const user = await adminSvc.update(req.params.id, req.body);
-         res.status(user.code).json(user);
+         const saveplan = await adminSvc.update(req.params.id, req.body);
+         res.status(saveplan.code).json(saveplan);
          
          profiler.done({service: `SavePlan`, message: `Update SavePlan with id ${req.params.id} successfully`});
       } catch (error: unknown|Error) {

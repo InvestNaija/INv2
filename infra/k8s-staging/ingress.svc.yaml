@@ -19,19 +19,33 @@ spec:
                 port:
                   number: 3001
           - pathType: Prefix
-            path: /api/v2/users/?(.*)
-            backend:
-              service:
-                name: auth-srv
-                port:
-                  number: 3001
-          - pathType: Prefix
             path: /api/v2/logs/?(.*)
             backend:
               service:
                 name: logs-srv
                 port:
                   number: 3100
+          - pathType: Prefix
+            path: /api/v2/customer/saveplan/?(.*)
+            backend:
+              service:
+                name: saveplan-srv
+                port:
+                  number: 3100
+          - pathType: Prefix
+            path: /api/v2/admin/saveplan/?(.*)
+            backend:
+              service:
+                name: saveplan-srv
+                port:
+                  number: 3100
+          - pathType: Prefix
+            path: /api/v2/users/?(.*)
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 3001
     - host: app.inv2test.com.ng
       http:
         paths:

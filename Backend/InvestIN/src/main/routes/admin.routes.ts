@@ -12,8 +12,8 @@ class SaveplanRoutes {
    }
 
    public routes(): Router {
-      this.router.get('/:type?', AdminController.list); //List all types of saveplan, e.g Save a Million, 100M65
-      this.router.post('/', AdminController.create); //Create a new saveplan, e.g Save a Million, 100M65
+      this.router.get('/asset/:type?', AdminController.list); //List all types of saveplan, e.g Save a Million, 100M65
+      this.router.post('/asset', AdminController.create); //Create a new Asset
       this.router.patch('/:id', AdminController.update); //List all types of saveplan, e.g Save a Million, 100M65
 
       return this.router;
