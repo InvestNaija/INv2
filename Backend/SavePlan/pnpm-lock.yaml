@@ -55,11 +55,7 @@ importers:
         version: 2.1.6(@types/node@22.13.2)(@types/validator@13.12.2)(reflect-metadata@0.2.2)(sequelize@6.37.5(pg-hstore@2.3.4)(pg@8.13.3)(sqlite3@5.1.7))
       ts-node-dev:
         specifier: ^2.0.0
-<<<<<<< HEAD
-        version: 2.0.0(@types/node@22.7.8)(typescript@5.6.3)
-=======
         version: 2.0.0(@types/node@22.13.2)(typescript@5.7.3)
->>>>>>> staging
       tsyringe:
         specifier: ^4.8.0
         version: 4.8.0
@@ -382,17 +378,12 @@ packages:
     resolution: {integrity: sha512-JBxkERygn7Bv/GbN5Rv8Ul6LVknS+5Bp6RgDC/O8gEBU/yeH5Ui5C/OlWrTb6qct7LjjfT6Re2NxB0ln0yYybA==}
     engines: {node: '>=18.18'}
 
-<<<<<<< HEAD
-  '@inv2/common@1.2.16':
-    resolution: {integrity: sha512-cfEd1UsYbu2McoRGgpd/3PE0C9xUDYvxMc00jkuN2hD+siis/wUD71DDiijtM5N+TDtcF4sioNAAsJMDKPSLbQ==}
-=======
   '@humanwhocodes/retry@0.4.1':
     resolution: {integrity: sha512-c7hNEllBlenFTHBky65mhq8WD2kbN9Q6gk0bTk8lSBvc554jpXSkST1iePudpt7+A/AQvuHs9EMqjHDXMY1lrA==}
     engines: {node: '>=18.18'}
 
   '@inv2/common@1.2.20':
     resolution: {integrity: sha512-kzqvItVsos7Db7F1jCE22E4E72c/KZGJTMyFKj5vOxBFqiqKgbpvQnr4FgJbpzI8pcla/vPAMJ59etrzo/RM9Q==}
->>>>>>> staging
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
