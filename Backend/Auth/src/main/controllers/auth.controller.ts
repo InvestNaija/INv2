@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Exception, CustomError, JoiMWDecorator } from "@inv2/common";
+import { Exception, CustomError, JoiMWDecorator, INLogger } from "@inv2/common";
 import { AuthValidation } from '../validations/auth.schema';
 
 import { AuthService } from '../services';
@@ -10,13 +10,13 @@ export class AuthController {
    }
    @JoiMWDecorator(AuthValidation.signup)
    public static async signup(req: Request, res: Response, next: NextFunction): Promise<void> {
-      // const profiler = Logger.logger.startTimer();
+      const profiler = INLogger.log.startTimer();
       try {         
          const body = req.body;
          const authService = new AuthService;
          const user = await authService.signup(body);
          res.status(user.code).json(user);
-         // profiler.done({message: `Finished processing login request`});
+         profiler.done({message: `Finished processing login request`});
       } catch (error: unknown|Error) {
          if(error instanceof CustomError) next( new Exception(error));
       }

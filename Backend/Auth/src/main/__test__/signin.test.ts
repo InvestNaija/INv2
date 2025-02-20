@@ -31,7 +31,11 @@ it(`Returns 201 on successful signin`, async ()=>{
    await request(app)
       .post('/api/v2/auth/user/signin')
       .send({
+<<<<<<< HEAD
          email: "infinitizon@gmail.com",
+=======
+         email: "ahassan@investinltd.com",
+>>>>>>> staging
          password: "ecdb16de9e22e30877d96820140b0e91.89714cc2ad55373c717b53b4625a712b"
       })
       .expect(200);
