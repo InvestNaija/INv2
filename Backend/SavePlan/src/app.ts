@@ -54,7 +54,4 @@ app.use((req: Request, res: Response) => {
 });
 app.use(errorHandler);
 
-console.log('Got here');
-
-
 export { app };
