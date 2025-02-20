@@ -22,7 +22,7 @@ export class LmsService {
          }
          if (!transaction) await t.commit();
 
-         return { success: true, code: 201, message: `Record created successfully`, data: createdEntry };
+         return { success: true, code: 200, message: `Record created successfully`, data: createdEntry };
       } catch (error) {
          if (!transaction) await t.rollback();
          return this.handleError(error);

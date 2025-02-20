@@ -30,7 +30,7 @@ it(`Returns 201 on successful creation with parent ID`, async () => {
          "type": "Podcast",
          "pId": "8f72d5a3-4c71-401e-acba-05e5bac5c94c",
       })
-      .expect(201);
+      .expect(200);
 }, 20000);
 
 it(`Returns 201 on successful creation without parent ID`, async () => {
@@ -41,5 +41,42 @@ it(`Returns 201 on successful creation without parent ID`, async () => {
          "title": "grooidy",
          "type": "Podcast",
       })
-      .expect(201);
+      .expect(200);
+}, 20000);
+
+
+it(`Returns 200 on successful GET`, async () => {
+   await request(app)
+      .get('/api/v2/lms')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+}, 20000);
+
+
+it(`Returns 200 on successful GET by ID`, async () => {
+   await request(app)
+      .get('/api/v2/lms')
+      .query({id: '30e6b26b-4363-4c2a-ade2-ce97b1145d39'})
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+}, 20000);
+
+
+it(`Returns 200 on successful delete`, async () => {
+   await request(app)
+      .delete('/api/v2/lms/30e6b26b-4363-4c2a-ade2-ce97b1145d39')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+}, 20000);
+
+
+it(`Returns 201 on successful update`, async () => {
+   await request(app)
+      .patch('/api/v2/lms/200ab26b-4363-4c2a-ade2-ce97b1145d39')
+      .set('Authorization', `Bearer ${token}`)
+      .send({   
+         "title": "grooidy",
+         "type": "Podcast",
+      })
+      .expect(200);
 }, 20000);
