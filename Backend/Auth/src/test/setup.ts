@@ -11,21 +11,15 @@ import { up } from "../database/sequelize/INv2/seeders/seed-all-data";
 
 jest.mock('../rabbitmq.wrapper');
 jest.mock('../redis.wrapper');
-<<<<<<< HEAD
-=======
 
 import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from "../rabbitmq.wrapper";
 // import { redisWrapper } from "../redis.wrapper";
->>>>>>> staging
 let sequelize: Sequelize;
 beforeAll(async ()=>{
    jest.clearAllMocks();
    jest.useFakeTimers();
-<<<<<<< HEAD
-=======
    INLogger.init('Auth', rabbitmqWrapper.connection);
->>>>>>> staging
    // process.env.ACCESS_TOKEN_SECRET = '2NjQ5fQ.BpnmhQBqzLfYf';
    // process.env.NODE_ENV = 'test'
    
