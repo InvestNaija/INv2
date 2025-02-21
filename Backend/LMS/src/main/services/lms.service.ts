@@ -13,13 +13,11 @@ export class LmsService {
 
          const createdEntry = await LMS.create(data, { transaction: t, returning: true });
          // Add associated users using the add method if userIds are provided
-         if (currentUser && currentUser?.user?.id && createdEntry.id) {
-            // Manually insert into UserLMS join table
-            await UserLMS.create(
-               { userId: currentUser?.user?.id, lmsId: createdEntry.id },
-               { transaction: t }
-            );
-         }
+         console.log(currentUser.user?.id);
+         console.log(createdEntry.id);
+         if (currentUser?.user?.id && createdEntry.id) {
+            await (createdEntry as any).addUsers([currentUser.user.id], { transaction: t });
+        }
          if (!transaction) await t.commit();
 
          return { success: true, code: 200, message: `Record created successfully`, data: createdEntry };
