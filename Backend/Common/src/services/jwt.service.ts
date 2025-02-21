@@ -2,10 +2,10 @@ import jwt from 'jsonwebtoken';
 import { Exception, IResponse } from '../errors/custom-error';
 
 export class JWTService {
-   static createJWTToken(value: any, secret: string, time: string): IResponse {
+   static createJWTToken(value: any, secret?: string, time?: string): IResponse {
       try {
          const token = jwt.sign(value, secret||process.env.ACCESS_TOKEN_SECRET!, {
-            expiresIn: "1h"
+            expiresIn: time||"1h"
          })
   
          return { code: 200, success: true, message: `Token generated successfully`, data: token };
