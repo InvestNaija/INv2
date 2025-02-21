@@ -1,0 +1,14 @@
+name: Test TradeIN
+
+on:
+  pull_request:
+    paths:
+      - 'Backend/TradeIN/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd Backend/TradeIN && npm install && npm run test:ci

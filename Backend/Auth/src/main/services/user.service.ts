@@ -41,16 +41,15 @@ export class UserService {
          },{ transaction: t });
          delete createdUser.dataValues.password;
          // Publish the newly created user to the queue
-         await new UserCreatedPublisher(rabbitmqWrapper.connection).publish({
+         new UserCreatedPublisher(rabbitmqWrapper.connection).publish({
             tenant: tur.tenant,
             user: (createdUser.toJSON() as UserDto),
             role: tur.role
-         });
-
+         });         
          const otpResp = await (new OtpService(redisWrapper.client)).generateOTP({user: {id: createdUser.id, email: createdUser.email, name: createdUser.firstName}});
          if(!otpResp || !otpResp.success) throw new Exception({ code: 400, message: `Error occured while processing request` });
-
-         if(!transaction) await t.commit();
+         
+         if(!transaction) await t.commit();         
          return { success: true, code: 201, message: `User created successfully`, data: createdUser };
       } catch (error) {
          const err = (error as Error);
@@ -85,7 +84,7 @@ export class UserService {
    async loginByEmail (body: Partial<UserDto>, tenant?: Partial<Tenant>) {
       const user = await User.findOne({
          attributes: ["id","bvn","firstName","lastName","firstLogin", "email","password", "uuidToken", "isEnabled", "isLocked"],
-         where: { email: {[Op.iLike]: body.email}, },
+         where: { email:{[Op[User.sequelize?.getDialect()==='postgres'?'iLike':'like']]: body.email}, },
          include: [
             {
                model: TenantUserRole, where: { ...(tenant?.id && { tenantId: tenant.id })}, required: false,
@@ -98,7 +97,6 @@ export class UserService {
       });
       if (!user) throw new Exception({code: 404, message: 'Wrong email or password'});
       if (!user.isEnabled && user.isLocked) throw new Exception({code: 423, message: 'Account inactive and locked. Please activate to continue'});
-      // if (!user.isEnabled) throw new AppError('Account not active. Please activate to continue', __line, __path.basename(__filename), { status: 404, show: true });
       await user.update({
          uuidToken: Helper.generateOTCode(32, true),
          firstLogin: false,

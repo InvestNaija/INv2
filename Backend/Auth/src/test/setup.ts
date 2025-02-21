@@ -10,9 +10,16 @@ import { up } from "../database/sequelize/INv2/seeders/seed-all-data";
 // }
 
 jest.mock('../rabbitmq.wrapper');
+jest.mock('../redis.wrapper');
+
+import { INLogger } from '@inv2/common';
+import { rabbitmqWrapper } from "../rabbitmq.wrapper";
+// import { redisWrapper } from "../redis.wrapper";
 let sequelize: Sequelize;
 beforeAll(async ()=>{
-   jest.clearAllMocks();   
+   jest.clearAllMocks();
+   jest.useFakeTimers();
+   INLogger.init('Auth', rabbitmqWrapper.connection);
    // process.env.ACCESS_TOKEN_SECRET = '2NjQ5fQ.BpnmhQBqzLfYf';
    // process.env.NODE_ENV = 'test'
    
@@ -40,6 +47,7 @@ beforeEach(async()=>{
 });
 
 afterAll(async () => {
+   jest.useRealTimers();
    // if (sequelize) {
    //    await sequelize.close();
    //    // fs.unlinkSync(__dirname+"/test.sqlite");
