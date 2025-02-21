@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IResponse, Exception, UserTenantRoleDto, CustomError } from "@inv2/common";
 import { Transaction, Op, ValidationError, SequelizeScopeError, DatabaseError } from "sequelize";
-import { LMS, UserLMS } from "../../database/sequelize/INv2";
+import { LMS } from "../../database/sequelize/INv2";
 import {LmsDto, GetLmsDto} from "../dtos";
 
 export class LmsService {
@@ -13,8 +13,6 @@ export class LmsService {
 
          const createdEntry = await LMS.create(data, { transaction: t, returning: true });
          // Add associated users using the add method if userIds are provided
-         console.log(currentUser.user?.id);
-         console.log(createdEntry.id);
          if (currentUser?.user?.id && createdEntry.id) {
             await (createdEntry as any).addUsers([currentUser.user.id], { transaction: t });
         }
