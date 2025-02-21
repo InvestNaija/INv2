@@ -1,4 +1,4 @@
-import { Model, Table, Column, DataType, ForeignKey, } from "sequelize-typescript";
+import { Model, Table, Column, DataType, ForeignKey, BeforeUpdate, BeforeCreate, BeforeFind } from "sequelize-typescript";
 import { User, LMS } from "../";
 
 @Table({
@@ -29,4 +29,19 @@ export class UserLMS extends Model {
    declare endDate: Date;
    @Column({ type: DataType.DATEONLY, })
    declare nextBillingDate: Date;
+
+      @BeforeFind
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      static async beforeReturn(options: any) {
+         options?.attributes?.push('version');
+      }
+      @BeforeUpdate
+      @BeforeCreate
+      static async changes(instance: User) {
+         if(instance.isNewRecord) { 
+            instance.version = 0;
+         }else{
+            instance.version++;
+         }
+      }
 }

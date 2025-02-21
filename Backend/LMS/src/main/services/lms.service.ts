@@ -7,16 +7,16 @@ import {LmsDto, GetLmsDto} from "../dtos";
 export class LmsService {
 
    // Create a new entry
-   async createLms(currentUser: UserTenantRoleDto ,data: Partial<LmsDto>, transaction?: Transaction): Promise<IResponse> {
+   async createLms(currentUser: Partial<UserTenantRoleDto> ,data: Partial<LmsDto>, transaction?: Transaction): Promise<IResponse> {
       const t = transaction ?? (await LMS.sequelize?.transaction()) as Transaction;
       try {
 
          const createdEntry = await LMS.create(data, { transaction: t, returning: true });
          // Add associated users using the add method if userIds are provided
-         if (currentUser && currentUser.user.id) {
+         if (currentUser && currentUser?.user?.id && createdEntry.id) {
             // Manually insert into UserLMS join table
             await UserLMS.create(
-               { userId: currentUser.user.id, lmsId: createdEntry.id },
+               { userId: currentUser?.user?.id, lmsId: createdEntry.id },
                { transaction: t }
             );
          }
@@ -24,6 +24,7 @@ export class LmsService {
 
          return { success: true, code: 200, message: `Record created successfully`, data: createdEntry };
       } catch (error) {
+         console.log(error);
          if (!transaction) await t.rollback();
          return this.handleError(error);
       }
