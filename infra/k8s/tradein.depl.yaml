@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: depl-tradein
+  namespace: inv2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tradein
+  template:
+    metadata:
+      labels:
+        app: tradein
+    spec:
+      containers:
+        - name: tradein
+          # image: inv2registry.azurecr.io/demo/tradein
+          image: integrationschd/inv2-tradein
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: BACKEND_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: common.depl
+                  key: BACKEND_BASE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tradein-srv
+  namespace: inv2
+spec:
+  selector:
+    app: tradein
+  ports:
+    - name: tradein
+      protocol: TCP
+      port: 3001
+      targetPort: 3001

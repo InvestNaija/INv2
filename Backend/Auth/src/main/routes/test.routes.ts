@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
-// import { UserController } from '../controllers/user.controller';
+import { TestController } from '../controllers/test.controller';
 
-class UserRoutes {
+class TestRoutes {
    private router: Router;
 
    constructor() {
@@ -9,8 +9,7 @@ class UserRoutes {
    }
 
    public routes(): Router {
-      // this.router.post('/', Create.prototype.create);
-      // this.router.get('/', UserController.login);
+      this.router.post('/create-zanibal-customer', TestController.createZanibalCustomer);
       // this.router.get('/get-apps/:device_id', authMiddleware.checkAuthentication, Get.prototype.read);
       // this.router.post('/update-app-status', authMiddleware.checkAuthentication, Update.prototype.updateStatus);
 
@@ -18,4 +17,4 @@ class UserRoutes {
    }
 }
 
-export const userRoutes: UserRoutes = new UserRoutes();
+export const testRoutes: TestRoutes = new TestRoutes();

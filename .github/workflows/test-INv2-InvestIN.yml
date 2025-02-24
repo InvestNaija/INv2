@@ -1,0 +1,14 @@
+name: Test InvestIN
+
+on:
+  pull_request:
+    paths:
+      - 'Backend/InvestIN/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd Backend/InvestIN && npm install && npm run test:ci

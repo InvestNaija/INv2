@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: depl-investin
+  namespace: inv2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: investin
+  template:
+    metadata:
+      labels:
+        app: investin
+    spec:
+      containers:
+        - name: investin
+          # image: inv2registry.azurecr.io/demo/investin
+          image: integrationschd/inv2-investin
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: BACKEND_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: common.depl
+                  key: BACKEND_BASE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: investin-srv
+  namespace: inv2
+spec:
+  selector:
+    app: investin
+  ports:
+    - name: investin
+      protocol: TCP
+      port: 3001
+      targetPort: 3001

@@ -6,8 +6,8 @@ const scryptAsync = promisify(scrypt);
 
 export class PasswordManager {
    static async toHash(password: string) {
+      // const what = (new Crypto({ aesKey: process.env.AES_SECRET_KEY })).encryptWithKeyAndIV(password);
       // First decrypt the password
-      // const what = (new Crypto({ aesKey: process.env.AES_SECRET_KEY, ivKey: process.env.IV_SECRET_KEY })).encryptWithKeyAndIV(password);
       password = (new Crypto({ aesKey: process.env.AES_SECRET_KEY})).decryptWithKeyAndIV(password);
 
       const salt = randomBytes(8).toString('hex'); //Generate the salt
