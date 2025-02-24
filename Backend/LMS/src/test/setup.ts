@@ -3,11 +3,13 @@
 // import * from 'auth.setup'
 // import fs from "fs";
 import { Sequelize } from "sequelize-typescript";
-import { up } from "../database/sequelize/INv2/seeders/seed-all-data";
+import { up, users } from "../database/sequelize/INv2/seeders/seed-all-data";
+import { JWTService } from "@inv2/common";
 
-// declare global {
-//    var getAuthCookie: () => string[];
-// }
+declare global {
+   // eslint-disable-next-line no-unused-vars, no-var
+   var getJWTAuth: (role?: string) => string;
+}
 
 // jest.mock('../nats-wrapper');
 let sequelize: Sequelize;
@@ -64,3 +66,19 @@ afterAll(async () => {
 //    // // return a string that's the cookie with the encoded data
 //    // return [`session=${base64}`];
 // }
+
+global.getJWTAuth = (role?: string)=> {
+   // Build a jwt payload {id, email}
+   let user = null;
+   if(role) user = users.find(user=>user.tenant_roles.includes(role));
+   else user = users[Math.floor(Math.random() * (users.length - 1 + 0) + 0)];
+   if(!user) return null;
+
+   const payload = {
+      user: JSON.parse(user?.details||'{user:{}}').user,
+      Tenant: JSON.parse(user?.tenant_roles||'{Tenant:{}}').Tenant,
+   };
+   // create a JWT
+   const token = JWTService.createJWTToken(payload, process.env.ACCESS_TOKEN_SECRET!, "1h");
+   return token.data;
+};

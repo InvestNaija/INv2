@@ -27,7 +27,7 @@ export class QuizAttemptService {
       const t = transaction ?? (await QuizAttempt.sequelize?.transaction()) as Transaction;
       try{
          const quizAttempt: QuizAttempt | null = await QuizAttempt.findOne({
-            where: { id: data.quiz, userId: currentUser.user.id }
+            where: { quizId: data.id, userId: currentUser.user.id }
          });
          if(!quizAttempt){
             return { success: false, code: 404, message: `Quiz attempt does not exist.` };

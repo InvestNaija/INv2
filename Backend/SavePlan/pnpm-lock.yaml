@@ -70,11 +70,11 @@ importers:
         version: 10.0.0
     devDependencies:
       '@eslint/js':
-        specifier: ^9.20.0
+        specifier: ^9.12.0
         version: 9.20.0
       '@sequelize/sqlite3':
-        specifier: 7.0.0-alpha.44
-        version: 7.0.0-alpha.44
+        specifier: 7.0.0-alpha.43
+        version: 7.0.0-alpha.43
       '@types/amqplib':
         specifier: ^0.10.6
         version: 0.10.6
@@ -106,7 +106,7 @@ importers:
         specifier: ^16.4.7
         version: 16.4.7
       eslint:
-        specifier: ^9.20.1
+        specifier: ^9.12.0
         version: 9.20.1
       globals:
         specifier: ^15.15.0
@@ -540,15 +540,15 @@ packages:
     peerDependencies:
       '@redis/client': ^1.0.0
 
-  '@sequelize/core@7.0.0-alpha.44':
-    resolution: {integrity: sha512-DWGew9iLuxdw5itKxo4c3kQdnrrsjN+lEvx3XHkzOL1Vyw2Cr4WxJaBGMrmwlrC6hII2uQmhlJm9I9xjwJdWEw==}
+  '@sequelize/core@7.0.0-alpha.43':
+    resolution: {integrity: sha512-j3lZvUQPDNEb01kroSazprTHcQ1Y1t+LW6miKhmQ8O4+i7HY1WerO+co6TBcjunssTjJi+VyYXYlLQ0emc2k3w==}
     engines: {node: '>=18.0.0'}
 
-  '@sequelize/sqlite3@7.0.0-alpha.44':
-    resolution: {integrity: sha512-i0ZW86daGP5XpvFs9vBwr3hRWYkOxFzndMjd1/hZnxKlL7h6pXaF7iLIZiQNBcCl/0Ihc8xeW+uG50FIb6gjvg==}
+  '@sequelize/sqlite3@7.0.0-alpha.43':
+    resolution: {integrity: sha512-gWwguxsRvZudnUl1Xv89hYQCC2JrIpzLVKi0ai5CvcrUGeW1nAEntZ/0exYp0DiEv9d5D/foAChB7V/4bZzLbQ==}
 
-  '@sequelize/utils@7.0.0-alpha.44':
-    resolution: {integrity: sha512-Ol7wl8Y3pmDtIRd0iQfqXvEWx4u2DirBPvpKGWP4UTWPK70x565MlRseWjsEgGnktx/hqDxYWEGrtiagdGM0sg==}
+  '@sequelize/utils@7.0.0-alpha.43':
+    resolution: {integrity: sha512-ex1iVNuqc7db1Il8VGkF4DWDkn7OpEsB4FGvS3OWz8g7blqvlO6T3fP4c+qmOxOrmdzDPWayh43U3xr/F4q3qQ==}
     engines: {node: '>=18.0.0'}
 
   '@sideway/address@4.1.5':
@@ -3213,10 +3213,6 @@ packages:
     resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
     hasBin: true
 
-  uuid@11.0.5:
-    resolution: {integrity: sha512-508e6IcKLrhxKdBbcA2b4KQZlLVp2+J5UwQ6F7Drckkc5N9ZJwFa4TgWtsww9UG8fGHbm6gbV19TdM5pQ4GaIA==}
-    hasBin: true
-
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
@@ -3902,9 +3898,9 @@ snapshots:
     dependencies:
       '@redis/client': 1.6.0
 
-  '@sequelize/core@7.0.0-alpha.44':
+  '@sequelize/core@7.0.0-alpha.43':
     dependencies:
-      '@sequelize/utils': 7.0.0-alpha.44
+      '@sequelize/utils': 7.0.0-alpha.43
       '@types/debug': 4.1.12
       '@types/validator': 13.12.2
       ansis: 3.14.0
@@ -3920,22 +3916,22 @@ snapshots:
       sequelize-pool: 8.0.0
       toposort-class: 1.0.1
       type-fest: 4.34.1
-      uuid: 11.0.5
+      uuid: 10.0.0
       validator: 13.12.0
     transitivePeerDependencies:
       - supports-color
 
-  '@sequelize/sqlite3@7.0.0-alpha.44':
+  '@sequelize/sqlite3@7.0.0-alpha.43':
     dependencies:
-      '@sequelize/core': 7.0.0-alpha.44
-      '@sequelize/utils': 7.0.0-alpha.44
+      '@sequelize/core': 7.0.0-alpha.43
+      '@sequelize/utils': 7.0.0-alpha.43
       lodash: 4.17.21
       sqlite3: 5.1.7
     transitivePeerDependencies:
       - bluebird
       - supports-color
 
-  '@sequelize/utils@7.0.0-alpha.44':
+  '@sequelize/utils@7.0.0-alpha.43':
     dependencies:
       '@types/lodash': 4.17.15
       lodash: 4.17.21
@@ -6937,8 +6933,6 @@ snapshots:
   utils-merge@1.0.1: {}
 
   uuid@10.0.0: {}
-
-  uuid@11.0.5: {}
 
   uuid@8.3.2: {}
 

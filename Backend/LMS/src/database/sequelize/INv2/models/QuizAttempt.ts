@@ -1,5 +1,5 @@
-import { Model, Table, Column, DataType, BelongsTo, ForeignKey, } from "sequelize-typescript";
-import { Quiz, User } from "..";
+import { Model, Table, Column, DataType, BelongsTo, ForeignKey, HasMany } from "sequelize-typescript";
+import { Quiz, QuizAttemptAnswer, User } from "..";
 
 @Table({
    timestamps: true,
@@ -13,6 +13,8 @@ export class QuizAttempt extends Model {
    declare quizzes: Quiz;
    @BelongsTo(() => User)
    declare users: User;
+   @HasMany(() => QuizAttemptAnswer)
+   declare quizAttemptAnswers: QuizAttemptAnswer[];
 
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
