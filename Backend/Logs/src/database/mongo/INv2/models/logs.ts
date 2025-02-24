@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 /** Interface that describes how to create a new Log */
 interface ILogAttrs {
-   id: string;
+   id?: string;
    service: string;
    level: string;
    message: string;

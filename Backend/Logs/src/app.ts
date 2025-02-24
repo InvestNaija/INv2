@@ -1,19 +1,57 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import express, { Request, Response } from "express";
-import { json } from "body-parser";
+import express, { Express, json, Request, Response, urlencoded } from 'express';
+// import helmet from 'helmet';
+// import cors from 'cors';
 import Routes from './main/routes/index.routes';
+import { errorHandler, currentUser } from '@inv2/common';
 
-const app = express();
-app.use(json());
-
-app.get('/api/v2/logs/test', (req, res,next)=>{
-   res.status(200).send({message: `Test successful`})
-});
+const app: Express = express();
+/*===============================
+ * Initiate Security middlewares *
+=================================*/
+app.set('trust proxy', true);
+//   app.use(hpp());
+// app.use(helmet());
+// app.use(
+//    cors(
+//       {
+//          origin: '*',
+//          credentials: true,
+//          optionsSuccessStatus: 200,
+//          methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+//       }
+//    )
+// );
+/*====================================
+* Initiate standard middlewares *
+====================================*/
+app.use(currentUser);
+//   app.use(compression());
+app.use(json({ limit: '50mb' }));
+app.use(urlencoded({ extended: true, limit: '50mb' }));
+   
+/*===================================
+*           Load the routes         =
+====================================*/
+//logging for routes
+// if (config.NODE_ENV !== 'test') {
+//    app.use(morgan.successHandler);
+//    app.use(morgan.errorHandler);
+// }
 Routes(app);
-
-app.all('*', (req: Request, res: Response) => {
-   res.status(404).json({ message: `${req.originalUrl} not found` });
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/no-explicit-any
+app._router.stack.forEach(function(r: any){
+   if (r.route && r.route.path){
+      console.log("app.routes ======>>>>>>>", r.route.path);
+   }
 });
+/*=============================================
+=         Global Error middleware            =
+=============================================*/
+app.use((req: Request, res: Response) => {
+   res.status(404).json({message: `${req.ip} tried to ${req.method} to a resource at ${req.originalUrl} that is not on this server.`});
+});
+app.use(errorHandler);
 
-export { app }
+export { app };
