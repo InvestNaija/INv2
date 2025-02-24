@@ -43,8 +43,8 @@ export class Main {
       process.on('SIGTERM', async ()=> await rabbitmqWrapper.connection.close());
 
       // Set up all listeners
-      new UserCreatedListener(rabbitmqWrapper.connection).listen();
-      new UserUpdatedListener(rabbitmqWrapper.connection).listen();
+      await (new UserCreatedListener(rabbitmqWrapper.connection)).listen();
+      await (new UserUpdatedListener(rabbitmqWrapper.connection)).listen();
    }
    private async startHttpServer(httpServer: http.Server): Promise<void> {
       httpServer.listen(PORT, () => {
