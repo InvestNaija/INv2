@@ -41,21 +41,21 @@ export const quiz_questions = [
    }
 ]
 
-export const quiz_attempts = [
-    {
-        id: uuidv4(),
-        quizId: lmsQuizId,
-        userId: '087e7b7f-bf68-4d63-907b-9a9374a89420',
-    }
-]
+// export const quiz_attempts = [
+//     {
+//         id: uuidv4(),
+//         quizId: lmsQuizId,
+//         userId: '087e7b7f-bf68-4d63-907b-9a9374a89420',
+//     }
+// ]
 
-export const quiz_attempt_answers = [
-    {
-        id: uuidv4(),
-        quizAttemptId: quiz_attempts[0].id,
-        questionId: questionId,
-        answerGiven: 'Test Answer',
-        answerScore: 1,
-        version: 0
-    }
-]
+// export const quiz_attempt_answers = [
+//     {
+//         id: uuidv4(),
+//         quizAttemptId: quiz_attempts[0].id,
+//         questionId: questionId,
+//         answerGiven: 'Test Answer',
+//         answerScore: 1,
+//         version: 0
+//     }
+// ]

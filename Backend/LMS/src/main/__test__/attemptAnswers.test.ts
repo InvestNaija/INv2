@@ -2,7 +2,6 @@ import request from "supertest";
 import { app } from "../../app";
 import { Quiz } from "../../database/sequelize/INv2/models/Quiz";
 import { QuizAttempt } from "../../database/sequelize/INv2/models/QuizAttempt";
-import { QuizAttemptAnswer } from "../../database/sequelize/INv2/models/QuizAttemptAnswer";
 import { Question } from "../../database/sequelize/INv2/models/Question";
 
 
@@ -25,18 +24,17 @@ beforeAll(async () => {
    getAllQuestions = await Question.findAll();
    getAllQuiz = await Quiz.findAll();
    const endTime = Date.now();
+   quizAttempt = await QuizAttempt.create({
+      quizId: getAllQuiz[0].id,
+      userId: '087e7b7f-bf68-4d63-907b-9a9374a89420',
+   });
    console.log(`Quiz.findAll took ${endTime - startTime} ms`);
    console.log('getAllQuiz length:', getAllQuizAttempts.length);
-   if (getAllQuizAttempts.length === 0) {
-      console.log('No quizzes found');
-      throw new Error('No quizzes found in the database');
-   }
+   // x
 }, 60000); // Set timeout for beforeAll hook
 
 it(`Returns 200 answer quiz attempt`, async () => {
    console.log('Starting test');
-   const quizId = getAllQuizAttempts[0].id;
-   console.log('quizId:', quizId);
    const startTime = Date.now();
    const response = await request(app)
       .post(`${baseUrl}`)
@@ -44,10 +42,9 @@ it(`Returns 200 answer quiz attempt`, async () => {
       .send({
          answerGiven: 'Test answer',
          questionId: getAllQuestions[0].id,
-         quizAttemptId: getAllQuizAttempts[0].id
+         quizAttemptId: quizAttempt.id
       });
    const endTime = Date.now();
    console.log(`Request took ${endTime - startTime} ms`);
-   quizAttempt = response.body.data;
    expect(response.status).toBe(201);
 }, 60000);

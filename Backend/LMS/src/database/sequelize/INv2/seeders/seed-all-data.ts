@@ -4,7 +4,7 @@
 // npx sequelize-cli db:seed --seed seed-all-data.js    -- Seeds admin only
 import { version } from 'os';
 import { QueryInterface } from 'sequelize';
-import { lms, questions, quiz_questions, quizzes, quiz_attempt_answers, quiz_attempts } from './attemptAnswers.seeder';
+import { lms, questions, quiz_questions, quizzes } from './attemptAnswers.seeder';
 
 const users = [
    { 
@@ -32,12 +32,6 @@ const up = async (queryInterface: QueryInterface) => {
 
       await queryInterface.bulkInsert('quiz_questions', quiz_questions, {transaction});
       console.log('LMS Quiz Question created');
-
-      await queryInterface.bulkInsert('quiz_attempts', quiz_attempts, {transaction});
-      console.log('LMS Quiz Attempts created');
-
-      await queryInterface.bulkInsert('quiz_attempt_answers', quiz_attempt_answers, {transaction});
-      console.log('LMS Quiz Attempts Answers created');
 
       await transaction.commit();
    } catch (error) {

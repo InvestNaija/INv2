@@ -18,6 +18,7 @@ export class AttemptAnswerService {
             }
          })
          if(!findQuizAttempt) throw new Exception({ code: 404, message: `Record not found` });
+         console.log(JSON.stringify(findQuizAttempt), 'quizAttempt here')
          /**
           * Calculate the answer Score before storing it
           */
