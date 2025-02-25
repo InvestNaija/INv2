@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.test' });
 // import * from 'auth.setup'
 // import fs from "fs";
 import { Sequelize } from "sequelize-typescript";
@@ -66,6 +67,8 @@ afterAll(async () => {
 //    // // return a string that's the cookie with the encoded data
 //    // return [`session=${base64}`];
 // }
+
+console.log(process.env.ACCESS_TOKEN_SECRET, 'secret');
 
 global.getJWTAuth = (role?: string)=> {
    // Build a jwt payload {id, email}
