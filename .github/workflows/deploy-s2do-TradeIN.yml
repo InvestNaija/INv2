@@ -3,9 +3,9 @@ name: Deploy Payment-Staging To DigitalOceans
 on:
   push:
     branches:
-      - 'staging'
+      - "staging"
     paths:
-      - 'Backend/Payment/**'
+      - "Backend/Payment/**"
 
 jobs:
   build:
@@ -19,6 +19,12 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: docker push integrationschd/inv2-payment
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    environment: staging
+    steps:
       - uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEN_ACCESS_TOKEN }}

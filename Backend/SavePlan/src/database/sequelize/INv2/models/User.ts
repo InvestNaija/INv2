@@ -21,6 +21,9 @@ export class User extends Model {
    @Column({ type: DataType.INTEGER, defaultValue: 0 })
    declare version: number;
 
+   /**
+    * Should be the Id of the User from the Auth service
+    */
    @Column({
       primaryKey: true,
       type: DataType.UUID,

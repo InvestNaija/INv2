@@ -9,9 +9,9 @@ export class AuthMiddleware {
       try {
          const { email, password } = req.body;
          const user = await User.findOne({ 
-            where: { email: { [Op.iLike]: email } }, 
+            where: { email: {[Op[User.sequelize?.getDialect()==='postgres'?'iLike':'like']]: email} }, 
             attributes: ["id", "email", "firstName", "password", "twoFactorAuth"],
-         });     
+         });
          if (!user) throw new Exception({code: 404, message: 'Wrong email or password'});
          const correctPassword = await PasswordManager.compare(user.password, password);
          if (!correctPassword) {
@@ -28,6 +28,8 @@ export class AuthMiddleware {
          req.body = {...req.body, ...user.dataValues};
          next();
       } catch (error) {
+         console.log(error);
+         
          if(error instanceof CustomError) next(new Exception(error));
          else next(error);
       }

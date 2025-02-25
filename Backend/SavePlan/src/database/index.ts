@@ -21,7 +21,7 @@ const load = async()=>{
       const dbPath = config[env].databases[database];
       cxn[database] = new Sequelize({
          ...dbPath,
-         sync: { alter: true },
+         // sync: { alter: true },
          // logging: false,
       });
       if(env !== 'production') {

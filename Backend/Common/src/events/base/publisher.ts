@@ -9,7 +9,7 @@ interface Event {
 export abstract class Publisher<T extends Event> {
    abstract subject: T['subject']; // Name of the channel to listen on
 
-   constructor(protected connection: Connection, protected exchangeName='INv2', protected exchangeType='direct') { } //client is the pre-initialized NATS client
+   constructor(protected connection: Connection, protected exchangeName='INv2', protected exchangeType='topic') { } //client is the pre-initialized NATS client
 
    publish(data: T['data']): Promise<void> {
       return new Promise(async (resolve, reject)=> {

@@ -7,12 +7,12 @@ interface Event {
 }
 
 export abstract class Listener<T extends Event> {
-   abstract subject: T['subject']; // Name of the routingKey to listen on
+   abstract subject: T['subject']; // Name of the routingKey to bind to
    abstract queueName: string; // Name of the group the listener will join/listen on
    abstract onMessage(data: T['data'], channel: Channel, msg: Message): void;
    protected ackWait = 5 * 1000 // 5 seconds
 
-   constructor(private connection: Connection, protected exchangeName='INv2', protected exchangeType='direct') { } //client is the pre-initialized NATS client
+   constructor(private connection: Connection, protected exchangeName='INv2', protected exchangeType='topic') { } //client is the pre-initialized NATS client
 
    async listen() {
       const channel = await this.connection.createChannel();
