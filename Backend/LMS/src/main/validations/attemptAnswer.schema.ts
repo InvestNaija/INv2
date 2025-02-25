@@ -4,37 +4,37 @@ export class AttemptAnswerValidation {
    static attemptAnswer = {
       body: Joi.object().keys({
          answerGiven: Joi.string().required().messages({
-            'string.empty': `Title cannot be empty`,
-            'any.required': `Title is required`,
+            'string.empty': `answerGiven cannot be empty`,
+            'any.required': `answerGiven is required`,
          }),
          questionId: Joi.string().required().messages({
-            'string.empty': `Type cannot be empty`,
-            'any.required': `Type is required`,
+            'string.empty': `questionId cannot be empty`,
+            'any.required': `questionId is required`,
          }),
          quizAttepmtId: Joi.string().required().messages({
-            'string.empty': `Type cannot be empty`,
-            'any.required': `Type is required`,
+            'string.empty': `quizAttepmtId cannot be empty`,
+            'any.required': `quizAttepmtId is required`,
          }),
       }).unknown().strict()
    };
 
    static getAttemptAnswer = {
       query: Joi.object().keys({
-         id: Joi.string().required().messages({
-            'string.empty': `Title cannot be empty`,
-            'any.required': `Title is required`,
+         id: Joi.string().optional().messages({
+            'string.empty': `query cannot be empty`,
+            'any.required': `query is required`,
          }),
-         search: Joi.string().required().messages({
-            'string.empty': `Type cannot be empty`,
-            'any.required': `Type is required`,
+         search: Joi.string().optional().messages({
+            'string.empty': `search cannot be empty`,
+            'any.required': `search is required`,
          }),
-         attemptId: Joi.string().required().messages({
-            'string.empty': `Type cannot be empty`,
-            'any.required': `Type is required`,
+         attemptId: Joi.string().optional().messages({
+            'string.empty': `attemptId cannot be empty`,
+            'any.required': `attemptId is required`,
          }),
-         question: Joi.string().required().messages({
-            'string.empty': `Type cannot be empty`,
-            'any.required': `Type is required`,
+         question: Joi.string().optional().messages({
+            'string.empty': `question cannot be empty`,
+            'any.required': `question is required`,
          }),
       }).unknown().strict()
    };

@@ -15,6 +15,7 @@ export class AttemptAnswerController {
    public static async attemptAnswer(req: Request, res: Response, next: NextFunction): Promise<void> {
       try {
          const body: AttemptAnswerDto = req.body;
+         console.log('Heeree')
          const response = await AttemptAnswerController.attemptAnswerService.attemptAnswer(req.currentUser!, body);
          res.status(response.code).json(response);
       } catch (error: unknown) {

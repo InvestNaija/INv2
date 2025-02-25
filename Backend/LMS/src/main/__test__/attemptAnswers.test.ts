@@ -17,6 +17,7 @@ let getAllQuiz: any;
 let getAllQuestions: any;
 let quizAttempt: any;
 
+
 beforeAll(async () => {
    console.log('Starting beforeAll');
    const startTime = Date.now();
@@ -33,18 +34,77 @@ beforeAll(async () => {
    // x
 }, 60000); // Set timeout for beforeAll hook
 
+
+it(`Returns 200 answer quiz attempt`, async () => {
+   console.log('Starting test');
+   const startTime = Date.now();
+   const payload = {
+      answerGiven: 'Test answer',
+      questionId: getAllQuestions[0].id,
+      quizAttepmtId: quizAttempt.id
+   };
+   const response = await request(app)
+      .post(`${baseUrl}`)
+      .set(headers)
+      .send(payload);
+   console.log(payload);
+   
+   const endTime = Date.now();
+   console.log(`Request took ${endTime - startTime} ms`);
+   expect(response.status).toEqual(201);
+}, 60000);
+
 it(`Returns 200 answer quiz attempt`, async () => {
    console.log('Starting test');
    const startTime = Date.now();
    const response = await request(app)
-      .post(`${baseUrl}`)
+      .get(`${baseUrl}`)
+      .set(headers)
+      .send();
+   const endTime = Date.now();
+   console.log(`Request took ${endTime - startTime} ms`);
+   expect(response.status).toEqual(200);
+}, 60000);
+
+it(`Returns 200 answer quiz attempt`, async () => {
+   console.log('Starting test');
+   const startTime = Date.now();
+   const response = await request(app)
+      .get(`${baseUrl}?search=Test`)
+      .set(headers)
+      .send();
+   const endTime = Date.now();
+   console.log(`Request took ${endTime - startTime} ms`);
+   quizAttempt = response.body.data[0];
+   expect(response.status).toEqual(200);
+}, 60000);
+
+
+it(`Returns 200 after updating quiz attempt`, async () => {
+   console.log('Starting test');
+   const startTime = Date.now();
+   const response = await request(app)
+      .patch(`${baseUrl}/${quizAttempt.id}`)
       .set(headers)
       .send({
-         answerGiven: 'Test answer',
-         questionId: getAllQuestions[0].id,
-         quizAttemptId: quizAttempt.id
+         answerGiven: 'Test answer updated'
       });
    const endTime = Date.now();
    console.log(`Request took ${endTime - startTime} ms`);
-   expect(response.status).toBe(201);
+   
+   expect(response.status).toEqual(200);
+}, 60000);
+it(`Returns 200 after updating quiz attempt`, async () => {
+   console.log('Starting test');
+   const startTime = Date.now();
+   const response = await request(app)
+      .delete(`${baseUrl}/${quizAttempt.id}`)
+      .set(headers)
+      .send({
+         answerGiven: 'Test answer updated'
+      });
+   const endTime = Date.now();
+   console.log(`Request took ${endTime - startTime} ms`);
+   
+   expect(response.status).toEqual(200);
 }, 60000);

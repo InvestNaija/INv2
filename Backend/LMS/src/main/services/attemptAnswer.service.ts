@@ -68,35 +68,38 @@ export class AttemptAnswerService {
    async getAttemptAnswer(query: Partial<GetAttemptAnswerDto>): Promise<IResponse> {
       try {
          const { search, id, attemptId, question } = query;
-      
+   
+         // Use LIKE for test environment, ILIKE for others
+         const likeOperator = process.env.NODE_ENV === 'test' ? Op.like : Op.iLike;
+   
          let quizAttemptWhereClause = {}, whereClause = {}, questionClause = {};
          if (id) {
             whereClause = { id };
          } else if (search) {
             whereClause = {
                [Op.or]: [
-                  { answerGiven: { [Op.iLike]: `%${search}%` } },
+                  { answerGiven: { [likeOperator]: `%${search}%` } },
                ]
             };
             questionClause = {
                [Op.or]: [
-                  { title: { [Op.iLike]: `%${search}%` } },
-                  { details: { [Op.iLike]: `%${search}%` } }
+                  { title: { [likeOperator]: `%${search}%` } },
+                  { details: { [likeOperator]: `%${search}%` } }
                ]
-            }
+            };
          }
-
-         if(attemptId){
+   
+         if (attemptId) {
             quizAttemptWhereClause = { 
                id: attemptId
-            }
+            };
          }
-         if(question){
+         if (question) {
             questionClause = {
                id: question
-            }
+            };
          }
-      
+   
          const entries = await QuizAttemptAnswer.findAll({
             where: whereClause,
             include: [
@@ -110,7 +113,7 @@ export class AttemptAnswerService {
                }
             ]
          });
-
+   
          return { success: true, code: 200, data: entries, message: entries.length ? "Records found" : "No records found" };
       } catch (error) {
          return this.handleError(error);
