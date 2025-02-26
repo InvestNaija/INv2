@@ -13,15 +13,15 @@ declare global {
 
 jest.mock('../rabbitmq.wrapper');
 jest.mock('../redis.wrapper');
-// import { INLogger } from '@inv2/common';
-// import { rabbitmqWrapper } from "../rabbitmq.wrapper";
+import { INLogger } from '@inv2/common';
+import { rabbitmqWrapper } from "../rabbitmq.wrapper";
 let sequelize: Sequelize;
 beforeAll(async ()=>{
    jest.clearAllMocks();
    jest.useFakeTimers();
    // process.env.ACCESS_TOKEN_SECRET = '2NjQ5fQ.BpnmhQBqzLfYf';
    // process.env.NODE_ENV = 'test'
-   // INLogger.init('LMS', rabbitmqWrapper.connection);
+   INLogger.init('SavePlan', rabbitmqWrapper.connection);
    
    sequelize = new Sequelize({
       dialect: "sqlite",
