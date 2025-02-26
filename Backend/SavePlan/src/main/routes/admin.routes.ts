@@ -2,7 +2,7 @@
 import express, { Router } from 'express';
 // import { container, } from 'tsyringe';
 import { AdminController } from '../controllers/admin.controller';
-import { requireAuth } from '@inv2/common';
+import { Authentication } from '@inv2/common';
 
 class SaveplanRoutes {
    private router: Router;
@@ -13,7 +13,7 @@ class SaveplanRoutes {
 
    public routes(): Router {
       this.router.get('/:type?', AdminController.list); //List all types of saveplan, e.g Save a Million, 100M65
-      this.router.post('/', requireAuth,  AdminController.authorize(['TENANT_ADMIN', 'SUPER_ADMIN']), AdminController.create); //Create a new saveplan, e.g Save a Million, 100M65
+      this.router.post('/', Authentication.requireAuth,  Authentication.authorize(['SUPER_ADMIN']), AdminController.create); //Create a new saveplan, e.g Save a Million, 100M65
       this.router.patch('/:id', AdminController.update); //List all types of saveplan, e.g Save a Million, 100M65
 
       return this.router;

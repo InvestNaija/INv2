@@ -1,4 +1,4 @@
-import { INLogger, IResponse, DBEnums, Exception, handleError, } from "@inv2/common";
+import { IResponse, DBEnums, Exception, handleError, } from "@inv2/common";
 import { SavePlan, } from "../../database/sequelize/INv2";
 import { SaveplanDto } from "../_dtos";
 import { Transaction } from "sequelize";
@@ -22,7 +22,6 @@ export class AdminService {
          const saveplan = await SavePlan.create({
             ...body
          });
-
          return { success: true, code: 201, message: `User created successfully`, data: saveplan };
       } catch (error) {
          throw new Exception(handleError(error));
@@ -38,8 +37,7 @@ export class AdminService {
             ...body
          }, {transaction: t});
 
-         // INLogger.log.info(`Server running on port`);
-         // if(!transaction) await t.commit();
+         if(!transaction) await t.commit();
          return { success: true, code: 201, message: `User created successfully`, data: saveplan };
       } catch (error) {
          if(!transaction) await t.rollback();
