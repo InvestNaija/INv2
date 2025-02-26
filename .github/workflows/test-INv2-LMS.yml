@@ -13,4 +13,4 @@ jobs:
       - uses: actions/checkout@v2
       - run: cd Backend/LMS && npm install && npm run test:ci
         env:
-          API_KEY: ${{ secrets.ACCESS_TOKEN_SECRET }}
+          ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}

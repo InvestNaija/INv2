@@ -12,3 +12,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: cd Backend/Auth && npm install && npm run test:ci
+        env:
+          ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
