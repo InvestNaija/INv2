@@ -11,7 +11,7 @@ export class QuestionValidation {
             'string.empty': `Title cannot be empty`,
             'any.required': `Title is required`,
          }),
-         detail: Joi.string().required().messages({
+         details: Joi.string().required().messages({
             'string.empty': `Details cannot be empty`,
             'any.required': `Details is required`,
          }),
@@ -24,7 +24,6 @@ export class QuestionValidation {
 
    static updateQuestion = {
       body: Joi.object().keys({
-         userId: Joi.string().optional(),
          title: Joi.string().optional(),
          detail: Joi.string().optional(),
          type: Joi.string().optional(),

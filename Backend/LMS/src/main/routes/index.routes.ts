@@ -11,7 +11,7 @@ const BaseRoutes = (app: Application) => {
       app.use(`/api/v2/quizes`, quizRoutes.routes());
       app.use(`/api/v2/questions`, questionRoutes.routes());
       app.use(`/api/v2/quiz/questions`, quizQuestionRoutes.routes());
-      app.use(`/api/v2/question/answer`, questionAnswerRoutes.routes());
+      app.use(`/api/v2/question/answers`, questionAnswerRoutes.routes());
    };
    routes();
 };
