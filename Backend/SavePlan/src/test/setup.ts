@@ -19,7 +19,6 @@ let sequelize: Sequelize;
 beforeAll(async ()=>{
    jest.clearAllMocks();
    jest.useFakeTimers();
-   // process.env.ACCESS_TOKEN_SECRET = '2NjQ5fQ.BpnmhQBqzLfYf';
    // process.env.NODE_ENV = 'test'
    INLogger.init('SavePlan', rabbitmqWrapper.connection);
    
