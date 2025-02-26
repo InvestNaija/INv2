@@ -1,6 +1,7 @@
 import {Request, Response, NextFunction }  from 'express';
-import jwt from 'jsonwebtoken';
 import { UserTenantRoleDto } from '../_dtos';
+import { JWTService } from '../services';
+import { Exception } from '../errors';
 
 
 declare global {
@@ -20,10 +21,11 @@ export const currentUser = (req: Request, res: Response, next: NextFunction) => 
       if (token.startsWith('Bearer ') || token.startsWith('bearer ')) {
          token = token.slice(7, token.length);
       }
-      const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!) as UserTenantRoleDto;
-      
+      const jwtToken = JWTService.verifyJWTToken(token, process.env.ACCESS_TOKEN_SECRET!);
+      if(!jwtToken || !jwtToken.success) throw new Exception(jwtToken);
+
+      const payload = jwtToken.data as UserTenantRoleDto;
       req.currentUser = payload
-   } catch (error) {
-   }
+   } catch (error) { }
    next();
 }
