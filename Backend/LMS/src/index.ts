@@ -1,9 +1,9 @@
 import { Application } from 'express';
 import http from 'http';
+import { app } from './app';
 // Initiate DB connection here
 import "./database";
 
-import { app } from './app';
 import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from './rabbitmq.wrapper';
 import { redisWrapper } from './redis.wrapper';
@@ -33,7 +33,7 @@ export class Main {
       await redisWrapper.connect(`redis://${process.env.REDIS_SERVER}`);
       await rabbitmqWrapper.connect(`amqp://${process.env.RABBITMQ}`);
 
-      INLogger.init('Auth', rabbitmqWrapper.connection);
+      INLogger.init('LMS', rabbitmqWrapper.connection);
       
       rabbitmqWrapper.connection.on('close', ()=>{
          console.log(`RabbitMQ connection closed!`);
