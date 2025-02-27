@@ -17,13 +17,13 @@ const up = async (queryInterface: QueryInterface) => {
       console.log('Tenants created');
       await queryInterface.bulkInsert('users', [
          { id: '646d4127-1c58-4ba0-a4a1-6943f178d16a', version: 0, bvn: '12345678901', first_name: 'Super', last_name: 'Admin', email: 'integrations@investinltd.com'
-            , password: '9a4f3e734d87755573fb02897029e15509355edbdb272392e8abccb743ab4fce9d553b429782faf7223c6e4664ebaebe4d4347cf00730ea4f77c35abf31494dd.d46002f9c3271ba0'
+            , password: '12f20c34fbc6c0ded4202a423088a36e46513123360544c8728dcaa36bcfd05320d693bdd4901b8ebb050b86163381e400a1766a16768a302db43eec1034cc92.504ff8a08af159e4'
             , is_enabled: true, is_locked: false, created_at: new Date(), updated_at: new Date() }
          , { id: '30e6b26b-4363-4c2a-ade2-ce97b1144d39', version: 0, bvn: '12345258902', first_name: 'CHDS Admin', last_name: 'Frances', email: 'fajumobi@investinltd.com'
-            , password: '9a4f3e734d87755573fb02897029e15509355edbdb272392e8abccb743ab4fce9d553b429782faf7223c6e4664ebaebe4d4347cf00730ea4f77c35abf31494dd.d46002f9c3271ba0'
+            , password: '12f20c34fbc6c0ded4202a423088a36e46513123360544c8728dcaa36bcfd05320d693bdd4901b8ebb050b86163381e400a1766a16768a302db43eec1034cc92.504ff8a08af159e4'
             , is_enabled: true, is_locked: false, created_at: new Date(), updated_at: new Date() }
          , { id: '30e6b26b-4363-4c2a-ade2-ce97b1145d39', version: 0, bvn: '12345258903', first_name: 'CHDS Admin', last_name: 'Abimbola', email: 'ahassan@investinltd.com'
-            , password: '9a4f3e734d87755573fb02897029e15509355edbdb272392e8abccb743ab4fce9d553b429782faf7223c6e4664ebaebe4d4347cf00730ea4f77c35abf31494dd.d46002f9c3271ba0'
+            , password: '12f20c34fbc6c0ded4202a423088a36e46513123360544c8728dcaa36bcfd05320d693bdd4901b8ebb050b86163381e400a1766a16768a302db43eec1034cc92.504ff8a08af159e4'
             , is_enabled: true, is_locked: false, created_at: new Date(), updated_at: new Date() }
       ], {transaction});
       console.log('Users created');

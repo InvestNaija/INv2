@@ -14,7 +14,6 @@ const users = [
       , created_at: new Date(), updated_at: new Date()
    }
 ];
-
 const up = async (queryInterface: QueryInterface) => {
    const transaction = await queryInterface.sequelize.transaction();
    try{
