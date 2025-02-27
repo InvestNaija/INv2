@@ -21,7 +21,7 @@ export class SavePlan extends Model {
    declare updatedAt: Date;
    @Column({ type: DataType.DATE, })
    declare deletedAt: Date;
-   @Column({ type: DataType.INTEGER, })
+   @Column({ type: DataType.INTEGER, defaultValue: 0, })
    declare version: number;
 
    @Column({

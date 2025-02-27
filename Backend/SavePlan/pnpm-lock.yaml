@@ -8,8 +8,8 @@ importers:
   .:
     dependencies:
       "@inv2/common":
-        specifier: ^1.2.21
-        version: 1.2.21(pg-hstore@2.3.4)(pg@8.13.3)(sqlite3@5.1.7)
+        specifier: ^1.2.23
+        version: 1.2.23(pg-hstore@2.3.4)(pg@8.13.3)(sqlite3@5.1.7)
       amqplib:
         specifier: ^0.10.5
         version: 0.10.5
@@ -548,10 +548,10 @@ packages:
       }
     engines: { node: ">=18.18" }
 
-  "@inv2/common@1.2.21":
+  "@inv2/common@1.2.23":
     resolution:
       {
-        integrity: sha512-Dj38Adh2m2IKYBnXlmJKmZ1A0Y5psddqPNcsRc7QpUZXDPRIrOCVNnYERqcKfzepp2T21sou/br1d5n+LN3lMA==,
+        integrity: sha512-J1TBjZk+onPT/eYpybHUfzVh+VryKOtAKX6wh773KErl3dPKM0UyOEuyDIJHvmziQ+jOeudboIuFXllMBS/XTQ==,
       }
 
   "@isaacs/cliui@8.0.2":
@@ -5974,7 +5974,7 @@ snapshots:
 
   "@humanwhocodes/retry@0.4.1": {}
 
-  "@inv2/common@1.2.21(pg-hstore@2.3.4)(pg@8.13.3)(sqlite3@5.1.7)":
+  "@inv2/common@1.2.23(pg-hstore@2.3.4)(pg@8.13.3)(sqlite3@5.1.7)":
     dependencies:
       "@types/amqplib": 0.10.6
       "@types/cookie-session": 2.0.49
