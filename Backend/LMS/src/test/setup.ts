@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.test' });
 // import * from 'auth.setup'
 import path from "path";
 import { Sequelize } from "sequelize-typescript";

@@ -3,9 +3,9 @@ name: Deploy InvestIN-Staging To DigitalOceans
 on:
   push:
     branches:
-      - 'staging'
+      - "staging"
     paths:
-      - 'Backend/InvestIN/**'
+      - "Backend/InvestIN/**"
 
 jobs:
   build:

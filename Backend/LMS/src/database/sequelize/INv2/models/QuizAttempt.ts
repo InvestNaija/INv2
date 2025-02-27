@@ -1,5 +1,5 @@
-import { Model, Table, Column, DataType, BelongsTo, ForeignKey, } from "sequelize-typescript";
-import { Quiz, User } from "..";
+import { Model, Table, Column, DataType, BelongsTo, ForeignKey, HasMany } from "sequelize-typescript";
+import { Quiz, QuizAttemptAnswer, User } from "..";
 
 @Table({
    timestamps: true,
@@ -13,6 +13,8 @@ export class QuizAttempt extends Model {
    declare quizzes: Quiz;
    @BelongsTo(() => User)
    declare users: User;
+   @HasMany(() => QuizAttemptAnswer)
+   declare quizAttemptAnswers: QuizAttemptAnswer[];
 
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
@@ -40,5 +42,22 @@ export class QuizAttempt extends Model {
    })
    @ForeignKey(() => User)
    declare userId: string;
+   @Column({
+      type: DataType.DATE,
+      defaultValue: DataType.NOW,
+   })
+   declare attemptStart: Date;
+   @Column({
+      type: DataType.DATE,
+      allowNull: true,
+      defaultValue: null
+   })
+   declare attemptEnd: Date;
+   @Column({
+      type: DataType.STRING,
+      allowNull: true,
+      defaultValue: null,
+   })
+   declare attemptIp: string;
 }
 

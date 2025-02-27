@@ -12,8 +12,7 @@ export class QuizAttemptAnswer extends Model {
    @BelongsTo(() => QuizAttempt)
    declare quizAttempt: QuizAttempt;
    @BelongsTo(() => Question)
-   declare users: Question;
-
+   declare question: Question;
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
    @Column({ type: DataType.DATE, })

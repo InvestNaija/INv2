@@ -3,9 +3,9 @@ name: Deploy TradeIN-Staging To DigitalOceans
 on:
   push:
     branches:
-      - 'staging'
+      - "staging"
     paths:
-      - 'Backend/TradeIN/**'
+      - "Backend/TradeIN/**"
 
 jobs:
   build:
