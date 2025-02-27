@@ -2,10 +2,11 @@
  
 // npx sequelize-cli db:seed                            -- Seeds admin only
 // npx sequelize-cli db:seed --seed seed-all-data.js    -- Seeds admin only
+import { version } from 'os';
 import { QueryInterface } from 'sequelize';
-// import { v4 as uuidv4 } from 'uuid';
+import { lms, lmsId, lmsQuizId, questionId, questions, quizQuestionId, quiz_questions, quizzes } from './quizAttemptsSeeder';
+
 const users = [
-   // CUSTOMER role, password = Dickele_1
    { 
       id: '087e7b7f-bf68-4d63-907b-9a9374a89420', version: 0
       , details: '{"user":{"id":"087e7b7f-bf68-4d63-907b-9a9374a89420","bvn":null,"firstName":"Bisolu","lastName":"Hasn","firstLogin":false,"uuidToken":"MBO5W5N7Y-GOG3NXR3-L3B0PVW8AUONS","isEnabled":true,"isLocked":false,"version":2,"updatedAt":"2025-02-13T19:01:21.534Z"}}'
@@ -18,6 +19,18 @@ const up = async (queryInterface: QueryInterface) => {
    try{
       await queryInterface.bulkInsert('users', users, {transaction});
       console.log('Users created');
+
+      await queryInterface.bulkInsert('lms', lms, {transaction});
+      console.log('LMS created');
+
+      await queryInterface.bulkInsert('quizzes', quizzes, {transaction});
+      console.log('LMS Quiz created');
+
+      await queryInterface.bulkInsert('questions', questions, {transaction});
+      console.log('LMS questions created');
+
+      await queryInterface.bulkInsert('quiz_questions', quiz_questions, {transaction});
+      console.log('LMS Quiz Question created');
 
       await transaction.commit();
    } catch (error) {

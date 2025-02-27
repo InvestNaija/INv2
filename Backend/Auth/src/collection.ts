@@ -4,6 +4,7 @@ import { Collection } from 'postman-collection';
 import * as fs from 'fs';
 import { Signup } from "./collections/auth/signup";
 import { CreateLms, UpdateLms, GetLms, DeleteLms } from "./collections/lms/lms";
+import { DeleteQuizAttempt, EndQuizAttempt, GetQuizAttempt, StartQuizAttempt } from "./collections/lms/quizAttempt"
 
 // This is the our postman collection
 const postmanCollection = new Collection({
@@ -43,6 +44,15 @@ const postmanCollection = new Collection({
             UpdateLms.item("123"),
             GetLms.item("123", "example"),
             DeleteLms.item("123")
+         ]
+      },
+      {
+         name: "AttemptQuiz",
+         item: [
+            DeleteQuizAttempt.item("123"),
+            EndQuizAttempt.item("123-456-678"),
+            GetQuizAttempt.item("123-456-678"),
+            StartQuizAttempt.item("123-456-678")
          ]
       }
    ],
