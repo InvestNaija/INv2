@@ -18,11 +18,13 @@ export class PasswordManager {
 
    static async compare(storedPassword: string, suppliedPassword: string) {
       // Decrypt the supplied password
+      // const what = (new Crypto({ aesKey: process.env.AES_SECRET_KEY })).encryptWithKeyAndIV(suppliedPassword);
       const password = (new Crypto({ aesKey: process.env.AES_SECRET_KEY})).decryptWithKeyAndIV(suppliedPassword);
 
       const [ hashedPassword, salt ] = storedPassword.split('.');
       const buf = (await scryptAsync(password, salt, 64)) as Buffer;
-
+      // console.log(buf.toString('hex'));
+      
       return buf.toString('hex') === hashedPassword;
    }
 }

@@ -1,31 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import { Exception, handleError, INLogger, JoiMWDecorator, UnauthorizedError, UserTenantRoleDto } from "@inv2/common";
+import { Exception, handleError, INLogger, JoiMWDecorator } from "@inv2/common";
 
 import { AdminService } from '../services';
 import { AdminValidation } from '../validations/admin.schema';
 
 export class AdminController {
-   static authorize(roles:string[] = []) {
-      if(!Array.isArray(roles) || roles.length <= 0) throw new UnauthorizedError();
-      if(roles.length === 1 && roles.includes('*')){
-         roles = ['TENANT_ADMIN', 'SUPER_ADMIN', 'USER', 'CUSTOMER'];
-      }
-      return async (req: Request, res: Response, next: NextFunction) => {
-         try {
-
-            const userTenantRole = req?.currentUser as UserTenantRoleDto;
-            if(!userTenantRole || userTenantRole.Tenant[0]) throw new UnauthorizedError();
-            console.log(userTenantRole.Tenant[0]);
-            
-            // if(userTenantRole.Tenant[0]) throw new UnauthorizedError();
-            // const role = userTenantRole.Tenant[0]?.Role[0] as Role;
-            // if(!roles.includes(userTenantRole.Tenant[0]?.Role[0] || '')) throw new UnauthorizedError();
-         } catch (error) {
-            console.log(error);
-            next(new Exception(handleError(error)));
-         }
-      };
-   }
    public static async list(req: Request, res: Response, next: NextFunction): Promise<void> {
       const profiler = INLogger.log.startTimer();
       try {         
@@ -44,7 +23,7 @@ export class AdminController {
          const adminSvc = new AdminService;
          const saveplan = await adminSvc.create(req.body);
          res.status(saveplan.code).json(saveplan);
-         profiler.done({service: `SavePlan`, message: `New SavePlan created successfully`});
+         profiler.done({service: `SavePlan`, message: `New SavePlan created successfully => ${JSON.stringify(saveplan.data)}`});
       } catch (error: unknown|Error) {
          next(new Exception(handleError(error)));
       }
@@ -57,7 +36,7 @@ export class AdminController {
          const saveplan = await adminSvc.update(req.params.id, req.body);
          res.status(saveplan.code).json(saveplan);
          
-         profiler.done({service: `SavePlan`, message: `Update SavePlan with id ${req.params.id} successfully`});
+         profiler.done({service: `SavePlan`, level: 'info', message: `Update SavePlan with id ${req.params.id} successfully`});
       } catch (error: unknown|Error) {
          next(new Exception(handleError(error)));
       }
