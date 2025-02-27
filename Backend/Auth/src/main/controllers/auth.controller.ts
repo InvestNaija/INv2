@@ -16,7 +16,7 @@ export class AuthController {
          const authService = new AuthService;
          const user = await authService.signup(body);
          res.status(user.code).json(user);
-         profiler.done({message: `Finished processing login request`});
+         profiler.done({service: `Auth`, message: `Signup successful. User: ${JSON.stringify(user)}`});
       } catch (error: unknown|Error) {
          if(error instanceof CustomError) next( new Exception(error));
       }
@@ -25,11 +25,13 @@ export class AuthController {
    }
    @JoiMWDecorator(AuthValidation.login)
    public static async signin(req: Request, res: Response, next: NextFunction): Promise<void> {
+      const profiler = INLogger.log.startTimer();
       try {
          const body = req.body;
          const authService = new AuthService;
          const user = await authService.signin(body);
          res.status(user.code).json(user);
+         profiler.done({service: `Auth`, message: `Login successful. User: ${user.data.user.id}`});
       } catch (error) {
          if(error instanceof CustomError) next( new Exception(error));
       }
