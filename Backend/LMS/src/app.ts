@@ -40,7 +40,12 @@ app.use(urlencoded({ extended: true, limit: '50mb' }));
 //    app.use(morgan.errorHandler);
 // }
 Routes(app);
-   
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/no-explicit-any
+app._router.stack.forEach(function(r: any){
+   if (r.route && r.route.path){
+      console.log("app.routes ======>>>>>>>", r.route.path);
+   }
+});
 /*=============================================
 =         Global Error middleware            =
 =============================================*/
