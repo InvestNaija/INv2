@@ -14,3 +14,6 @@ jobs:
       - run: cd Backend/Auth && npm install && npm run test:ci
         env:
           ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+          AES_SECRET_KEY: ${{secrets.AES_SECRET_KEY}}
+          ACCESS_TOKEN_TIME: ${{secrets.ACCESS_TOKEN_TIME}}
+          BACKEND_BASE: ${{secrets.BACKEND_BASE}}
