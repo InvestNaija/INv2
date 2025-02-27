@@ -19,8 +19,6 @@ let sequelize: Sequelize;
 beforeAll(async ()=>{
    jest.clearAllMocks();
    jest.useFakeTimers();
-   // process.env.ACCESS_TOKEN_SECRET = '2NjQ5fQ.BpnmhQBqzLfYf';
-   // process.env.NODE_ENV = 'test'
    INLogger.init('SavePlan', rabbitmqWrapper.connection);
    
    sequelize = new Sequelize({
@@ -55,12 +53,12 @@ afterAll(async () => {
 
 
 global.getJWTAuth = (role?: string)=> {
-   // Build a jwt payload {id, email}
    let user = null;
    if(role) user = users.find(user=>user.tenant_roles.includes(role));
    else user = users[Math.floor(Math.random() * (users.length - 1 + 0) + 0)];
    if(!user) return null;
 
+   // Build a jwt payload {user, Tenant}
    const payload = {
       user: JSON.parse(user?.details||'{user:{}}').user,
       Tenant: JSON.parse(user?.tenant_roles||'{Tenant:{}}').Tenant,

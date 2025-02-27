@@ -4,7 +4,7 @@ import express, { Express, json, Request, Response, urlencoded } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import Routes from './main/routes/index.routes';
-import { errorHandler, currentUser } from '@inv2/common';
+import { errorHandler, Authentication } from '@inv2/common';
 
 const app: Express = express();
 /*===============================
@@ -26,7 +26,7 @@ app.use(
 /*====================================
 * Initiate standard middlewares *
 ====================================*/
-app.use(currentUser);
+app.use(Authentication.currentUser);
 //   app.use(compression());
 app.use(json({ limit: '50mb' }));
 app.use(urlencoded({ extended: true, limit: '50mb' }));
