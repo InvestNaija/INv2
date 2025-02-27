@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { AttemptAnswerController } from '../controllers';
-import { requireAuth } from '@inv2/common';
+import { Authentication } from '@inv2/common';
 
 class AttemptAnswerRoutes {
    private router: Router;
@@ -11,10 +11,10 @@ class AttemptAnswerRoutes {
 
    public routes(): Router {
       this.router.get('/healthz', AttemptAnswerController.healthz);
-      this.router.get('/', requireAuth, AttemptAnswerController.getAttemptAnswer);
-      this.router.patch('/:id', requireAuth, AttemptAnswerController.updateAttemptAnswer);
-      this.router.post('/', requireAuth, AttemptAnswerController.attemptAnswer);
-      this.router.delete('/:id', requireAuth, AttemptAnswerController.deleteAttemptAnswer);
+      this.router.get('/', Authentication.requireAuth, AttemptAnswerController.getAttemptAnswer);
+      this.router.patch('/:id', Authentication.requireAuth, AttemptAnswerController.updateAttemptAnswer);
+      this.router.post('/', Authentication.requireAuth, AttemptAnswerController.attemptAnswer);
+      this.router.delete('/:id', Authentication.requireAuth, AttemptAnswerController.deleteAttemptAnswer);
 
       return this.router;
    }
