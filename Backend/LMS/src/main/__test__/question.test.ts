@@ -7,7 +7,7 @@ const headers = {
 
 it('Creates a new question successfully', async () => {
    const questionData = {
-      userId: "ebe5e1c4-e2ff-4441-963a-e9ab04b7f9e8",
+      userId: "087e7b7f-bf68-4d63-907b-9a9374a89420",
       title: "Question Title",
       details: "Question details",
       type: 100
@@ -33,7 +33,7 @@ it('Creates a new question successfully', async () => {
 
 it('Fetches questions successfully', async () => {
    const questionData = {
-      userId: "ebe5e1c4-e2ff-4441-963a-e9ab04b7f9e8",
+      userId: "087e7b7f-bf68-4d63-907b-9a9374a89420",
       title: "Question Title",
       details: "Question details",
       type: 100
@@ -68,7 +68,7 @@ it('Fetches questions successfully', async () => {
 
 it('Fetches a question and updates it successfully', async () => {
    const questionData = {
-      userId: "ebe5e1c4-e2ff-4441-963a-e9ab04b7f9e8",
+      userId: "087e7b7f-bf68-4d63-907b-9a9374a89420",
       title: "Question Title",
       details: "Question details",
       type: 100
@@ -114,7 +114,7 @@ it('Fetches a question and updates it successfully', async () => {
 
 it('Fetches a question and deletes it successfully', async () => {
    const questionData = {
-      userId: "ebe5e1c4-e2ff-4441-963a-e9ab04b7f9e8",
+      userId: "087e7b7f-bf68-4d63-907b-9a9374a89420",
       title: "Question Title",
       details: "Question details",
       type: 100

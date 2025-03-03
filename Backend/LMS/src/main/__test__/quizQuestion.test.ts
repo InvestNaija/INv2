@@ -7,7 +7,7 @@ const headers = {
 
 it('Fetches quiz, question, user and creates a quiz question', async () => {
    const quizData = {
-      userId: "ebe5e1c4-e2ff-4441-963a-e9ab04b7f9e8",
+      userId: "087e7b7f-bf68-4d63-907b-9a9374a89420",
       title: "Quiz One",
       detail: "This is quiz one",
       startDate: "2024-11-11T00:00:00.000Z",
@@ -31,7 +31,7 @@ it('Fetches quiz, question, user and creates a quiz question', async () => {
    const quizId = quizzes[0].id;
 
    const questionData = {
-      userId: "ebe5e1c4-e2ff-4441-963a-e9ab04b7f9e8",
+      userId: "087e7b7f-bf68-4d63-907b-9a9374a89420",
       title: "Question Title",
       details: "Question details",
       type: 100

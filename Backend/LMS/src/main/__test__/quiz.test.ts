@@ -7,7 +7,7 @@ const headers = {
 
 it('Creates a new quiz successfully', async () => {
    const quizData = {
-      userId: "ebe5e1c4-e2ff-4441-963a-e9ab04b7f9e8",
+      userId: "087e7b7f-bf68-4d63-907b-9a9374a89420",
       title: "Quiz One",
       detail: "This is quiz one",
       startDate: "2024-11-11T00:00:00.000Z",
@@ -63,7 +63,7 @@ it(`Returns 200 on successful fetch`, async ()=>{
 
 it('Fetches an existing quiz and updates it successfully', async () => {
    const quizData = {
-      userId: "ebe5e1c4-e2ff-4441-963a-e9ab04b7f9e8",
+      userId: "087e7b7f-bf68-4d63-907b-9a9374a89420",
       title: "Quiz One",
       detail: "This is quiz one",
       startDate: "2024-11-11T00:00:00.000Z",

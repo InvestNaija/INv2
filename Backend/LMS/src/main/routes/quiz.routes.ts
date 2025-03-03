@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { QuizController } from '../controllers';
-import { requireAuth } from '@inv2/common';
+import { Authentication } from '@inv2/common';
 
 class QuizRoutes {
    private router: Router;
@@ -10,10 +10,10 @@ class QuizRoutes {
    }
 
    public routes(): Router {
-      this.router.get('/', requireAuth, QuizController.getQuiz);
-      this.router.patch('/:id', requireAuth, QuizController.updateQuiz);
-      this.router.post('/', requireAuth, QuizController.createQuiz);
-      this.router.delete('/:id', requireAuth, QuizController.deleteQuiz);
+      this.router.get('/', Authentication.requireAuth, QuizController.getQuiz);
+      this.router.patch('/:id', Authentication.requireAuth, QuizController.updateQuiz);
+      this.router.post('/', Authentication.requireAuth, QuizController.createQuiz);
+      this.router.delete('/:id', Authentication.requireAuth, QuizController.deleteQuiz);
 
       return this.router;
    }

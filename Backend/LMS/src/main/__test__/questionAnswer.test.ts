@@ -7,7 +7,7 @@ const headers = {
 
 it('Creates a question and uses its ID to create an answer successfully', async () => { 
    const questionPayload = {
-      userId: "ebe5e1c4-e2ff-4441-963a-e9ab04b7f9e8",
+      userId: "087e7b7f-bf68-4d63-907b-9a9374a89420",
       title: "Question Title",
       details: "Question details",
       type: 100
@@ -50,7 +50,7 @@ it('Creates a question and uses its ID to create an answer successfully', async 
 
 it('Creates a question, adds answers, and fetches answers dynamically', async () => {
    const questionPayload = {
-      userId: "ebe5e1c4-e2ff-4441-963a-e9ab04b7f9e8",
+      userId: "087e7b7f-bf68-4d63-907b-9a9374a89420",
       title: "Question Title",
       details: "Question details",
       type: 100
