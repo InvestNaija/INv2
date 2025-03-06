@@ -30,7 +30,7 @@ export class OtpService {
          .setCustomerDetails(user)
          .setEmailType({ type: 'resend_otp', meta: { user, otp, message } })
          .execute();
-      return { success: true, message: 'OTP generated successfully'};
+      return { success: true, token: otp, message: 'OTP generated successfully'};
    }
 
    async verifyOTP (params: IOtpParams) {

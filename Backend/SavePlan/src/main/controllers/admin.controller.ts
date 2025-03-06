@@ -3,6 +3,10 @@ import { Exception, handleError, INLogger, JoiMWDecorator } from "@inv2/common";
 
 import { AdminService } from '../services';
 import { AdminValidation } from '../validations/admin.schema';
+import { NotificationFactory } from '../services/notification/factory/notification.factory';
+import { BaseNotificationFactory } from '../services/notification/factory/base-notification.factory';
+import { Notification } from '../services/notification/factory/notification';
+import { NotificationType } from '../services/notification/INotifiable';
 
 export class AdminController {
    public static async list(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -18,6 +22,18 @@ export class AdminController {
    }
    @JoiMWDecorator(AdminValidation.create)
    public static async create(req: Request, res: Response, next: NextFunction): Promise<void> {
+
+      const svc = new Notification(
+         [ NotificationType.EMAIL, NotificationType.SMS ],
+         {
+            from: { firstName: 'InvestNaija', email: 'noreply@investnaija.com', phone: '+2347065725667' },
+            to: [{firstName: 'Abimbola', email: 'infinitizon@gmail.com', phone: '+2347065725667'},{firstName: 'Juwon', email: 'abimbola.d.hassan@gmail.com', phone: '+2347065725667'}],
+            message: "This is a test message"
+         }
+      );
+      svc.attachments = ['wer',456];
+      const notyFactory: BaseNotificationFactory[] = new NotificationFactory().createFactory(svc);
+      notyFactory.forEach(noty=>noty.notify());
       const profiler = INLogger.log.startTimer();
       try {         
          const adminSvc = new AdminService;

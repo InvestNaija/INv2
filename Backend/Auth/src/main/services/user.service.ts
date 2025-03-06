@@ -1,4 +1,4 @@
-import { CreateUserDto, UserTenantRoleDto, CustomError, Exception, IResponse, UserDto, Helper, OtpService} from "@inv2/common";
+import { CreateUserDto, UserTenantRoleDto, CustomError, Exception, IResponse, UserDto, Helper, OtpService, } from "@inv2/common";
 import { User, TenantUserRole, Op, Tenant, Role, } from "../../database/sequelize/INv2";
 import { Transaction, ValidationError, SequelizeScopeError, DatabaseError } from "sequelize";
 import { UserCreatedPublisher, UserUpdatedPublisher } from "../../events/publishers";
@@ -49,8 +49,12 @@ export class UserService {
          const otpResp = await (new OtpService(redisWrapper.client)).generateOTP({user: {id: createdUser.id, email: createdUser.email, name: createdUser.firstName}});
          if(!otpResp || !otpResp.success) throw new Exception({ code: 400, message: `Error occured while processing request` });
          
+         // await new EmailBuilderService({ recipient: user.email, sender: sender??'info@investnaija.com', subject: (subject??'One Time Password')+` <${otp}>` })
+         //    .setCustomerDetails(user)
+         //    .setEmailType({ type: 'resend_otp', meta: { user, otp, message } })
+         //    .execute();
          if(!transaction) await t.commit();         
-         return { success: true, code: 201, message: `User created successfully`, data: createdUser };
+         return { success: true, code: 201, message: `User created successfully`, data: createdUser, extra: {otp: otpResp.message} };
       } catch (error) {
          const err = (error as Error);
          if(!transaction) await t.rollback();
