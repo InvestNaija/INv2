@@ -86,6 +86,7 @@ __Azure__
 - We now need to allow AKS access ACR `az aks update --resource-group CHD_Mobile-2 --name INv2-Test --attach-acr {{registryName}}`  
   e.g. `az aks update --resource-group CHD_Mobile-2 --name INv2-Test --attach-acr INv2Registry`
 - Remember that image names must be tagged as `{{RegistryName}}.azurecr.io/{{applicationName}}` e.g inv2registry.azurecr.io/demo/auth
+
 __Digital Oceans__
 - download doctl and place in your environment path
 - In terminal, enter `doctl auth init`, then paste your auth token from digital oceans. If we are updating the token `doctl auth init --access-token <new token>`
