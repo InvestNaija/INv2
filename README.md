@@ -1,9 +1,10 @@
-`k port-forward depl-auth-postgres-57b4c98d46-pzjk4 -n inv2 5432:5432`
-`k port-forward depl-logs-mongo-67c896578f-gdbx7 -n inv2 27017:27017`
-`k port-forward depl-rabbitmq-0 -n inv2 15672:15672`
-`k port-forward depl-rabbitmq-0 -n inv2 5672:5672`
-`k port-forward depl-redis-6664db5d7c-fnf8v -n inv2 6379:6379`
-`k exec -it depl-logs-mongo-67c896578f-gdbx7 -n inv2 -- mongosh`
+- We can add the alias to bash_profile by doing => `code ~/.bashrc` or `code ~/bash_profile`
+- `k port-forward depl-auth-postgres-57b4c98d46-pzjk4 -n inv2 5432:5432`
+- `k port-forward depl-logs-mongo-67c896578f-gdbx7 -n inv2 27017:27017`
+- `k port-forward depl-rabbitmq-0 -n inv2 15672:15672`
+- `k port-forward depl-rabbitmq-0 -n inv2 5672:5672`
+- `k port-forward depl-redis-6664db5d7c-fnf8v -n inv2 6379:6379`
+- `k exec -it depl-logs-mongo-67c896578f-gdbx7 -n inv2 -- mongosh`
 
 - To see your services (cluster IP), do...  `kubectl get services`
 - To get all your existing deployments, run...  `kubectl get deployments -n inv2`

@@ -3,7 +3,7 @@
 // import * from 'auth.setup'
 // import fs from "fs";
 import { Sequelize } from "sequelize-typescript";
-import { up } from "../database/sequelize/INv2/seeders/seed-all-data";
+import { up } from "../domain/sequelize/INv2/seeders/seed-all-data";
 
 // declare global {
 //    var getAuthCookie: () => string[];
@@ -27,7 +27,7 @@ beforeAll(async ()=>{
       dialect: "sqlite",
       storage: ":memory:",
       logging: false,
-      models: [__path.join(__dirname, `../database/sequelize/INv2/models`)]
+      models: [__path.join(__dirname, `../domain/sequelize/INv2/models`)]
    });
    await sequelize.sync({ force: true });
    await sequelize.authenticate()
