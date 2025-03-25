@@ -26,7 +26,7 @@
   "author": "Abimbola Hassan",
   "license": "ISC",
   "dependencies": {
-    "@inv2/common": "^1.2.21",
+    "@inv2/common": "^1.2.23",
     "amqplib": "^0.10.5",
     "class-validator": "^0.14.1",
     "cors": "^2.8.5",
