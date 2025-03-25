@@ -1,29 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IResponse, Exception, UserTenantRoleDto, CustomError } from "@inv2/common";
 import { Transaction, Op, ValidationError, SequelizeScopeError, DatabaseError } from "sequelize";
-import { LMS, UserLMS } from "../../database/sequelize/INv2";
+import { LMS } from "../../database/sequelize/INv2";
 import {LmsDto, GetLmsDto} from "../dtos";
 
 export class LmsService {
 
    // Create a new entry
-   async createLms(currentUser: UserTenantRoleDto ,data: Partial<LmsDto>, transaction?: Transaction): Promise<IResponse> {
+   async createLms(currentUser: Partial<UserTenantRoleDto> ,data: Partial<LmsDto>, transaction?: Transaction): Promise<IResponse> {
       const t = transaction ?? (await LMS.sequelize?.transaction()) as Transaction;
       try {
 
          const createdEntry = await LMS.create(data, { transaction: t, returning: true });
          // Add associated users using the add method if userIds are provided
-         if (currentUser && currentUser.user.id) {
-            // Manually insert into UserLMS join table
-            await UserLMS.create(
-               { userId: currentUser.user.id, lmsId: createdEntry.id },
-               { transaction: t }
-            );
-         }
+         if (currentUser?.user?.id && createdEntry.id) {
+            await (createdEntry as any).addUsers([currentUser.user.id], { transaction: t });
+        }
          if (!transaction) await t.commit();
 
-         return { success: true, code: 201, message: `Record created successfully`, data: createdEntry };
+         return { success: true, code: 200, message: `Record created successfully`, data: createdEntry };
       } catch (error) {
+         console.log(error);
          if (!transaction) await t.rollback();
          return this.handleError(error);
       }
