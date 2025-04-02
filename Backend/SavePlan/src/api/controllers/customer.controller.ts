@@ -3,7 +3,7 @@ import { Exception, handleError, INLogger } from "@inv2/common";
 
 // import { AuthValidation } from '../validations/auth.schema';
 
-import { CustomerService } from '../services';
+import { CustomerService } from '../../business/services';
 
 export class CustomerController {
    public static async healthz(req: Request, res: Response): Promise<void> {

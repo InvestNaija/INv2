@@ -1,6 +1,6 @@
 import { IResponse, DBEnums, Exception, handleError, } from "@inv2/common";
-import { SavePlan, } from "../../database/sequelize/INv2";
-import { SaveplanDto } from "../_dtos";
+import { SavePlan, } from "../../domain/sequelize/INv2";
+import { SaveplanDto } from "../../api/_dtos";
 import { Transaction } from "sequelize";
 
 export class AdminService {
