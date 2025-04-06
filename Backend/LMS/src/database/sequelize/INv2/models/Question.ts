@@ -1,4 +1,5 @@
-import { Model, Table, Column, DataType, } from "sequelize-typescript";
+import { Model, Table, Column, DataType, BelongsTo, ForeignKey } from "sequelize-typescript";
+import { User } from "..";
 import { DBEnums } from "@inv2/common";
 
 @Table({
@@ -8,7 +9,8 @@ import { DBEnums } from "@inv2/common";
    paranoid: true,
 })
 export class Question extends Model {
-   
+   @BelongsTo(() => User)
+   declare users: User;
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
    @Column({ type: DataType.DATE, })
@@ -30,6 +32,12 @@ export class Question extends Model {
 
    @Column({ type: DataType.TEXT, })
    declare details: string;
+
+   @Column({
+      type: DataType.UUID,
+   })
+   @ForeignKey(() => User)
+   declare userId: string;
    
    @Column({ type: DataType.SMALLINT, })
    get type(): { code: number; name: string; label: string; } | undefined {

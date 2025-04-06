@@ -1,5 +1,6 @@
 import { Model, Table, Column, DataType, ForeignKey, BelongsTo, } from "sequelize-typescript";
 import { LMS } from "..";
+import { User } from "..";
 
 @Table({
    timestamps: true,
@@ -11,7 +12,9 @@ export class Quiz extends Model {
 
    @BelongsTo(() => LMS)
    declare lms: LMS;
-   
+   @BelongsTo(() => User)
+   declare users: User;
+
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
    @Column({ type: DataType.DATE, })
@@ -33,6 +36,12 @@ export class Quiz extends Model {
    })
    @ForeignKey(() => LMS)
    declare lmsId: string;
+   
+   @Column({
+      type: DataType.UUID,
+   })
+   @ForeignKey(() => User)
+   declare userId: string;
 
    @Column({ type: DataType.STRING(300), })
    declare title: string;
