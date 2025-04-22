@@ -5,18 +5,10 @@ import helmet from 'helmet';
 import cors from 'cors';
 import { errorHandler, Authentication } from '@inv2/common';
 
-import { Container } from 'inversify';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import "./api/controllers";
 
-const container = new Container({ defaultScope: 'Singleton'});
-
-/** Define all containers and inject every service */
-// container.bind(AuthService).toSelf();
-// container.bind<UserService>(TYPES.UserService).to(UserService);
-// container.bind<RoleService>(TYPES.RoleService).to(RoleService);
-// container.bind<TenantService>(TYPES.TenantService).to(TenantService);
-// container.bind<IUserRepository>(TYPES.IUserRepository).to(UserRepository);
+import { container } from './inversify.config';
 const server = new InversifyExpressServer(container, null, { rootPath: "/api/v2" });
 
 server.setConfig(app=>{

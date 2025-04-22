@@ -1,5 +1,5 @@
 import { Model, Table, Column, DataType, BelongsToMany, } from "sequelize-typescript";
-import { SavePlan, SavePlanUser } from "../";
+import { SavePlan, SavePlanUser } from "..";
 
 @Table({
    timestamps: true,

@@ -1,19 +1,22 @@
+import { controller, httpPost } from 'inversify-express-utils';
 import { NextFunction, Request, Response } from 'express';
 import { Exception, handleError, INLogger, JoiMWDecorator } from "@inv2/common";
 
-import { AdminService } from '../services';
+import { AdminService } from '../../business/services';
 import { AdminValidation } from '../validations/admin.schema';
-import { NotificationFactory } from '../services/notification/factory/notification.factory';
-import { BaseNotificationFactory } from '../services/notification/factory/base-notification.factory';
-import { Notification } from '../services/notification/factory/notification';
-import { NotificationType } from '../services/notification/INotifiable';
+import { NotificationFactory } from '../../business/services/notification/factory/notification.factory';
+import { BaseNotificationFactory } from '../../business/services/notification/factory/base-notification.factory';
+import { Notification } from '../../business/services/notification/factory/notification';
+import { NotificationType } from '../../business/services/notification/INotifiable';
 
+@controller("/admin/saveplan")
 export class AdminController {
-   public static async list(req: Request, res: Response, next: NextFunction): Promise<void> {
+   constructor(private readonly adminSvc: AdminService){}
+
+   public async list(req: Request, res: Response, next: NextFunction): Promise<void> {
       const profiler = INLogger.log.startTimer();
       try {         
-         const saveplanSvc = new AdminService;
-         const saveplan = await saveplanSvc.list(req.params.type);
+         const saveplan = await this.adminSvc.list(req.params.type);
          res.status(saveplan.code).json(saveplan);
          profiler.done({service: `SavePlan`, message: `List of saveplas retrieved successfully`});
       } catch (error: unknown|Error) {
@@ -21,7 +24,8 @@ export class AdminController {
       }
    }
    @JoiMWDecorator(AdminValidation.create)
-   public static async create(req: Request, res: Response, next: NextFunction): Promise<void> {
+   @httpPost("/")
+   public async create(req: Request, res: Response, next: NextFunction): Promise<void> {
 
       const svc = new Notification(
          [ NotificationType.EMAIL, NotificationType.SMS ],

@@ -1,8 +1,12 @@
-import { Entity, Column, } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, } from "typeorm";
 import { Model } from "../base-model";
+import { TenantUserRole } from "./tenant-user-role.entity";
 
-@Entity({ name: 'tenants' })
+@Entity({ schema: "public", name: 'tenants' })
 export class Tenant extends Model {
+
+   @PrimaryGeneratedColumn('uuid')
+   public id!: string;
 
    @Column({ name: "p_id", type: "uuid" })
    public pId!: string;
@@ -27,5 +31,8 @@ export class Tenant extends Model {
    
    @Column({ name: "is_locked" })
    public isLocked!: boolean;
+
+   @OneToMany(() => TenantUserRole, (tur) => tur.tenant)
+   public tenantUserRoles!: TenantUserRole[];
 
 }

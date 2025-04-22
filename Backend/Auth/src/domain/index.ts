@@ -13,7 +13,7 @@ const config: { [key: string]: any;} = Config;
 const databases = Object.keys(config[env].databases);
 const cxn: { [key: string]: any;} = {};
 
-const load = async()=>{
+export async function setup() {
    for(const database of databases) {
       const dbPath = config[env].databases[database];
 
@@ -29,7 +29,7 @@ const load = async()=>{
                return replaced.substring(0, replaced.indexOf('.model')) === member.toLowerCase();
             },
             logging: (env !== 'production' ? true : false),
-            // repositoryMode: true,
+            repositoryMode: true,
          });
          if(env !== 'production') {
             console.log(dbPath);
@@ -47,7 +47,7 @@ const load = async()=>{
           */
          cxn[database] = new DataSource({
             ...dbPath,
-            logging: env !== 'production',
+            logging: true,
             synchronize: false,
          });
          cxn[database].initialize()
@@ -60,6 +60,6 @@ const load = async()=>{
       }
    }
 };
-load();
-
-export = cxn;
+export function getDbCxn(type: string = 'pgINv2') {
+   return cxn[type];
+}

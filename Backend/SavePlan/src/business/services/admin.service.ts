@@ -2,7 +2,9 @@ import { IResponse, DBEnums, Exception, handleError, } from "@inv2/common";
 import { SavePlan, } from "../../domain/sequelize/INv2";
 import { SaveplanDto } from "../../api/_dtos";
 import { Transaction } from "sequelize";
+import { injectable } from "inversify";
 
+@injectable()
 export class AdminService {
 
    async list(type: string|number): Promise<IResponse> {

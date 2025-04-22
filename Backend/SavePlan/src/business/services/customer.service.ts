@@ -1,6 +1,8 @@
+import { injectable } from "inversify";
 import { INLogger, IResponse, DBEnums, } from "@inv2/common";
 import { SavePlan, } from "../../domain/sequelize/INv2";
 
+@injectable()
 export class CustomerService {
 
    async list(type: string|number): Promise<IResponse> {

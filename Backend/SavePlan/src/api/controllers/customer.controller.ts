@@ -1,3 +1,4 @@
+import { controller, httpGet, httpPost } from 'inversify-express-utils';
 import { NextFunction, Request, Response } from 'express';
 import { Exception, handleError, INLogger } from "@inv2/common";
 
@@ -5,7 +6,9 @@ import { Exception, handleError, INLogger } from "@inv2/common";
 
 import { CustomerService } from '../../business/services';
 
+@controller("/customer/saveplan")
 export class CustomerController {
+   @httpGet('/healthz')
    public static async healthz(req: Request, res: Response): Promise<void> {
       res.status(200).json({status:200, message: "Auth server is Healthy"});
    }
@@ -24,6 +27,7 @@ export class CustomerController {
       }
    }
    
+   @httpPost("/")
    public static async create(req: Request, res: Response, next: NextFunction): Promise<void> {
       const profiler = INLogger.log.startTimer();
       try {         

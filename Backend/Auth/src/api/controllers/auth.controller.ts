@@ -1,9 +1,9 @@
+import { controller, httpGet, httpPost, } from 'inversify-express-utils';
 import { NextFunction, Request, Response } from 'express';
 import { Exception, CustomError, JoiMWDecorator, INLogger } from "@inv2/common";
 import { AuthValidation } from '../validations/auth.schema';
 
 import { AuthService } from '../../business/services';
-import { controller, httpGet, httpPost, } from 'inversify-express-utils';
 
 @controller("/auth")
 export class AuthController {

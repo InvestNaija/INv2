@@ -1,10 +1,10 @@
-import { Entity, Column, PrimaryColumn, BeforeInsert, BaseEntity, } from "typeorm";
-import { v4 as uuidv4 } from "uuid";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BaseEntity, } from "typeorm";
+import { TenantUserRole } from "./tenant-user-role.entity";
 
-@Entity({ schema: "public", name: 'users' })
+@Entity({ schema: "public", name: 'roles' })
 export class Role extends BaseEntity {
    
-   @PrimaryColumn({ type: 'uuid'})
+   @PrimaryGeneratedColumn('uuid')
    public id!: string;
    
    @Column({ length: 50, nullable: false })
@@ -13,8 +13,6 @@ export class Role extends BaseEntity {
    @Column()
    public description!: string;
    
-   @BeforeInsert() 
-   genarate() { 
-      this.id=uuidv4();
-   }
+   @OneToMany(() => TenantUserRole, (tur) => tur.role)
+   public tenantUserRoles!: TenantUserRole[];
 }
