@@ -12,7 +12,7 @@ import { CreateUserDto, CustomError, Exception } from "@inv2/common";
 export class UserRepository implements IUserRepository {
    private repo: Repository<User>;
    constructor() {
-      this.repo = getDbCxn().toINv2?.getRepository(User);
+      this.repo = getDbCxn('toINv2')?.getRepository(User);
    }
    // create<T>(createUserDto: CreateUserDto, options?: Partial<IQueryOptions>): Promise<T | null> {
    //    throw new Error("Method not implemented.");

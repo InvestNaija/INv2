@@ -1,5 +1,5 @@
 import { Model, Table, Column, DataType, HasMany, BelongsToMany, } from "sequelize-typescript";
-import { User, SavePlanUser, SavePlanChargeType } from "..";
+import { User, SavePlanUser, SavePlanCharge } from "..";
 import { DBEnums } from "@inv2/common";
 
 @Table({
@@ -12,8 +12,8 @@ export class SavePlan extends Model {
    
    @BelongsToMany(() => User, () => SavePlanUser)
    declare users: User[];
-   @HasMany(() => SavePlanChargeType)
-   declare saveplanChargeTypes: SavePlanChargeType[];
+   @HasMany(() => SavePlanCharge)
+   declare saveplanChargeTypes: SavePlanCharge[];
    
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;

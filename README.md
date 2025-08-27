@@ -3,7 +3,7 @@
 - `k port-forward depl-logs-mongo-67c896578f-gdbx7 -n inv2 27017:27017`
 - `k port-forward depl-rabbitmq-0 -n inv2 15672:15672`
 - `k port-forward depl-rabbitmq-0 -n inv2 5672:5672`
-- `k port-forward depl-redis-6664db5d7c-fnf8v -n inv2 6379:6379`
+- `k port-forward depl-redis-6664db5d7c-qlvtf -n inv2 6379:6379`
 - `k exec -it depl-logs-mongo-67c896578f-gdbx7 -n inv2 -- mongosh`
 
 - To see your services (cluster IP), do...  `kubectl get services`
@@ -82,7 +82,7 @@ If you get an unsafe error on chrome browser, simply type `thisisunsafe`
 __Azure__
 - First go to Azure and create your AKS 
 - Then install azure cli by downloading `az` at `https://learn.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster?tabs=azure-cli`
-- Run `az aks install-cli`
+- Run `az aks install-cli` (windows) or `brew install azure-cli` (mac)
 - `az login`
 - `az aks get-credentials --resource-group {{MyResourceGrp}} --name {{MyClusterName}}`
 - Remember to run the azure ingress bit `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/cloud/deploy.yaml`

@@ -61,6 +61,6 @@ export async function setup() {
    }
 };
 
-export function getDbCxn() {
-   return cxn;
+export function getDbCxn(type: string = 'pgINv2') {
+   return cxn[type];
 }

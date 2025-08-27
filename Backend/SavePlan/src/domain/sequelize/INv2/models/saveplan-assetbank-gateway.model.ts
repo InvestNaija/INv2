@@ -4,7 +4,7 @@ import { SavePlanAssetBank } from "..";
 
 @Table({
    timestamps: true,
-   tableName: "saveplan_asset_banks",
+   tableName: "saveplan_asset_bank_gateways",
    underscored: true,
    paranoid: true,
 })
@@ -23,7 +23,7 @@ export class SavePlanAssetBankGateway extends Model {
    declare version: number;
    
    @Column({
-      primaryKey: true,
+      primaryKey: true,    
       type: DataType.UUID,
       defaultValue: DataType.UUIDV4,
    })

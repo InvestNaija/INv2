@@ -1,6 +1,6 @@
 import { Model, Table, Column, DataType, BelongsTo, ForeignKey, } from "sequelize-typescript";
 import { DBEnums } from "@inv2/common";
-import { SavePlan, GLEntity } from "..";
+import { SavePlan, SavePlanGLEntity } from "..";
 
 @Table({
    timestamps: true,
@@ -12,8 +12,8 @@ export class SavePlanAssetBank extends Model {
 
    @BelongsTo(() => SavePlan)
    declare saveplan: SavePlan;
-   @BelongsTo(() => GLEntity)
-   declare glEntity: GLEntity;
+   @BelongsTo(() => SavePlanGLEntity)
+   declare glEntity: SavePlanGLEntity;
    
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
@@ -41,7 +41,7 @@ export class SavePlanAssetBank extends Model {
    @Column({
       type: DataType.UUID,
    })
-   @ForeignKey(() => GLEntity)
+   @ForeignKey(() => SavePlanGLEntity     )
    declare glEntityId: string;
 
    @Column({ type: DataType.STRING, })

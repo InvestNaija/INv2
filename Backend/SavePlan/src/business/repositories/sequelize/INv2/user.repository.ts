@@ -11,17 +11,14 @@ import { IQueryOptions } from "../../../../../../Common/src/database/IGenericRep
 
 @injectable()
 export class UserRepository implements IUserRepository {
-   private repo: Repository<User>;
-   constructor() {
-      this.repo = getDbCxn().pgINv2?.getRepository(User);
-   }
+   get userRepo(): Repository<User> {return getDbCxn()?.getRepository(User);}
    create<T>(createUserDto: CreateUserDto): Promise<T> {
       console.log(createUserDto);
       
       throw new Error("Method not implemented.");
    }
    public async transaction(): Promise<Transaction> {
-      return await  getDbCxn().pgINv2?.transaction();
+      return await  getDbCxn()?.transaction();
    }
    public async commit(t: Transaction): Promise<void> {
       await t.commit();
@@ -30,7 +27,7 @@ export class UserRepository implements IUserRepository {
       await t.rollback();
    }
    public async findOne<T>(attributes: string[], where: any, includes?: any[]): Promise<T | null> {
-      const user = await this.repo.findOne({
+      const user = await this.userRepo.findOne({
          attributes,
          where,
          include: includes || [],
@@ -41,7 +38,7 @@ export class UserRepository implements IUserRepository {
    public async findByEmail<UserTenantRoleDto>(email: string, attributes: string[], tenantId: string, options: IQueryOptions): Promise<UserTenantRoleDto> {
 
       const t = options.transaction ?? await this.transaction();
-      const user = await this.repo.findOne({
+      const user = await this.userRepo.findOne({
          attributes,
          where: { email:{[Op[User.sequelize?.getDialect()==='postgres'?'iLike':'like']]: email}, },
          transaction: t,
@@ -53,7 +50,7 @@ export class UserRepository implements IUserRepository {
    public async update<User>(id: string, attributes?: Partial<UserDto>, options?: IQueryOptions): Promise<User | null> {
       const t: Transaction = options?.transaction ?? await this.transaction();
       
-      const user = await this.repo.findByPk(id);
+      const user = await this.userRepo.findByPk(id);
       if(!user) throw new Exception({code: 404, message: `Couldn't find user`});
       // await this.repo.update({...attributes}, {where: {id}, transaction: t});
       await user.update({...attributes}, {transaction: t});

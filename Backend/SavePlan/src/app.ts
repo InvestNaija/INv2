@@ -16,7 +16,7 @@ server.setConfig(app=>{
     * Initiate all middlewares except error
    =================================*/
    app.set('trust proxy', true);
-   // //   app.use(hpp());
+   //   app.use(hpp());
    app.use(helmet());
    app.use(
       cors(

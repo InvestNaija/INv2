@@ -4,13 +4,4 @@
 
 import { Sequelize, Op } from "sequelize";
 export { Sequelize, Op };
-export * from "./models/User";
-export * from "./models/Media";
-export * from "./models/SavePlan";
-export * from "./models/SavePlanUser";
-export * from "./models/SavePlanUserLien";
-export * from "./models/SavePlanPmtTxn";
-export * from "./models/SavePlanChargeType";
-export * from "./models/GLEntity";
-export * from "./models/SavePlanAssetBank";
-export * from "./models/SavePlanAssetBankGateway";
+export * from "./models/Transaction";
