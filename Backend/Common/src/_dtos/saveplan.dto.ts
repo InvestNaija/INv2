@@ -19,13 +19,13 @@ export class SaveplanDto {
    @IsString()
    declare description: string;
    @IsNumber()
-   declare interestRate: string;
+   declare interestRate: number;
    @IsNumber()
-   declare minDuration: string;
+   declare minDuration: number;
    @IsNumber()
-   declare maxDuration: string;
+   declare maxDuration: number;
    @IsNumber()
-   declare minAmount: string;
+   declare minAmount: number;
    @IsNumber()
-   declare maxAmount: string;
+   declare maxAmount: number;
 }
