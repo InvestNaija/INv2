@@ -1,28 +1,40 @@
 export class Helper {
-   static generateOTCode (size = 6, alpha = true)  {
-      const chars = alpha ? "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-" : "0123456789";
-      const characters = chars.split("");
-      let selections = "";
-      for (let i = 0; i < size; i++) {
-         const index = Math.floor(Math.random() * characters.length);
-         selections += characters[index];
-      // characters.splice(index, 1);
-      }
-      return selections;
-   }
-
-   static generatePassword (length: number, {includeNumbers=true, includeUpperChars=true, includeLowerChars=true, includeSpecialChars=true})  {
+   static generatePassword (length: number, {includeNumbers=true, includeUpperChars=true, includeLowerChars=true, includeSpecialChars=true, isUnique=false})  {
       const numberChars = "0123456789";
       const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       const lowerChars = "abcdefghiklmnopqrstuvwxyz";
       const specialChars = "`~!@#$%^&*()_-+=<>,.?|";
-      const allChars = (includeNumbers?numberChars:'') + (includeUpperChars?upperChars:'') + (includeLowerChars?lowerChars:'') + (includeSpecialChars?specialChars:'');
+      let unique = (new Date).getTime();
+      let allChars = '';
       let randPasswordArray = Array(length);
-      randPasswordArray[0] = numberChars;
-      randPasswordArray[1] = upperChars;
-      randPasswordArray[2] = lowerChars;
-      randPasswordArray[3] = specialChars;
-      randPasswordArray = randPasswordArray.fill(allChars, 3);
+      
+      let fillPosition = 0;
+      if(includeNumbers) {
+         allChars +=numberChars;
+         randPasswordArray[fillPosition] =numberChars;
+         fillPosition++;
+      }
+      if(includeUpperChars) {
+         allChars +=upperChars;
+         randPasswordArray[fillPosition] =upperChars;
+         fillPosition++;
+      }
+      if(includeLowerChars) {
+         allChars +=lowerChars;
+         randPasswordArray[fillPosition] =lowerChars;
+         fillPosition++;
+      }
+      if(includeSpecialChars) {
+         allChars +=specialChars;
+         randPasswordArray[fillPosition] =specialChars;
+         fillPosition++;
+      }
+      if(isUnique) {
+         allChars += unique;
+         randPasswordArray[fillPosition] =unique;
+         fillPosition++;
+      }
+      randPasswordArray = randPasswordArray.fill(allChars, fillPosition);
       return shuffleArray(randPasswordArray.map(function(x) { return x[Math.floor(Math.random() * x.length)]; })).join('');
 
       function shuffleArray(array: string[]) {

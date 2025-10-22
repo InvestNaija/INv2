@@ -4,7 +4,7 @@ export class SaveplanDto {
    
    @IsUUID(4)
    declare id: string;
-   @IsUUID(4) 
+   @IsString() 
    declare title: string;
    @IsString()
    declare slug: string;
