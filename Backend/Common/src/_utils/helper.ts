@@ -1,5 +1,5 @@
 export class Helper {
-   static generatePassword (length: number, {includeNumbers=true, includeUpperChars=true, includeLowerChars=true, includeSpecialChars=true, isUnique=false})  {
+   static genRandomCode (length: number, {includeNumbers=true, includeUpperChars=true, includeLowerChars=true, includeSpecialChars=true, isUnique=false})  {
       const numberChars = "0123456789";
       const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       const lowerChars = "abcdefghiklmnopqrstuvwxyz";
