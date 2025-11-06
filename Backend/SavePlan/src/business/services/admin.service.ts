@@ -1,6 +1,8 @@
 import { IResponse, DBEnums, Exception, handleError, } from "@inv2/common";
 import { SavePlan, } from "../../domain/sequelize/INv2";
 import { SaveplanDto } from "../../_dtos";
+import { SaveplanCreatedPublisher, SaveplanUpdatedPublisher } from "../../events/publishers";
+import { rabbitmqWrapper } from "../../rabbitmq.wrapper";
 import { Transaction } from "sequelize";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../types";
@@ -31,7 +33,11 @@ export class AdminService {
    async create(body: SaveplanDto): Promise<IResponse> {
       try {
          const saveplan = await this.saveplanRepo.create<SaveplanDto>(body);
-         return { success: true, code: 201, message: `User created successfully`, data: saveplan };
+         
+         await new SaveplanCreatedPublisher(rabbitmqWrapper.connection).publish({
+            ...saveplan,
+         });
+         return { success: true, code: 201, message: `Saveplan created successfully`, data: saveplan };
       } catch (error) {
          throw new Exception(handleError(error));
       }
@@ -40,9 +46,12 @@ export class AdminService {
       const t = transaction ?? (await SavePlan.sequelize?.transaction()) as Transaction;    
       try {
          const saveplan = await this.saveplanRepo.update<SaveplanDto>(id, body, {transaction: t});
+         await new SaveplanUpdatedPublisher(rabbitmqWrapper.connection).publish({
+            ...saveplan,
+         });
 
          if(!transaction) await t.commit();
-         return { success: true, code: 201, message: `Saveplan updated      successfully`, data: saveplan };
+         return { success: true, code: 201, message: `Saveplan updated successfully`, data: saveplan };
       } catch (error) {
          if(!transaction) await t.rollback();
          throw new Exception(handleError(error));

@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@inv2/common':
-        specifier: ^1.2.23
-        version: 1.2.23(pg-hstore@2.3.4)(pg@8.16.3)(sqlite3@5.1.7)
+        specifier: ^1.2.32
+        version: 1.2.32(pg-hstore@2.3.4)(pg@8.16.3)(sqlite3@5.1.7)
       amqplib:
         specifier: ^0.10.9
         version: 0.10.9
@@ -393,8 +393,8 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@inv2/common@1.2.23':
-    resolution: {integrity: sha512-J1TBjZk+onPT/eYpybHUfzVh+VryKOtAKX6wh773KErl3dPKM0UyOEuyDIJHvmziQ+jOeudboIuFXllMBS/XTQ==}
+  '@inv2/common@1.2.32':
+    resolution: {integrity: sha512-JmAZtwyICtOueNv5buHWgZakWzMtnhK1fuHDj6zNILlgsJ16CSrtE+yE66+xlf7izx7epatw4/RgbsVxkj2pbw==}
 
   '@inversifyjs/common@1.4.0':
     resolution: {integrity: sha512-qfRJ/3iOlCL/VfJq8+4o5X4oA14cZSBbpAmHsYj8EsIit1xDndoOl0xKOyglKtQD4u4gdNVxMHx4RWARk/I4QA==}
@@ -3628,7 +3628,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@inv2/common@1.2.23(pg-hstore@2.3.4)(pg@8.16.3)(sqlite3@5.1.7)':
+  '@inv2/common@1.2.32(pg-hstore@2.3.4)(pg@8.16.3)(sqlite3@5.1.7)':
     dependencies:
       '@types/amqplib': 0.10.7
       '@types/cookie-session': 2.0.49

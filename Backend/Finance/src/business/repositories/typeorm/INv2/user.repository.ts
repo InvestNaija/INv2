@@ -2,7 +2,7 @@
 
 import { User} from "../../../../domain/typeorm/INv2";
 import { injectable } from "inversify";
-import { IUserRepository } from "../../IUserRepository";
+import { IUserRepository } from "../../ITxnRepository";
 import { getDbCxn } from "../../../../domain";
 import { Like, QueryRunner, Repository,  } from "typeorm";
 import { IQueryOptions } from "../../../../../../Common/src/database/IGenericRepository";

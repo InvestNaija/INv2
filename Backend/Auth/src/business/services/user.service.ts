@@ -92,13 +92,11 @@ export class UserService {
          delete userTenantRoleDto.user.password;
    
          await this.userRepo.update(userTenantRoleDto!.user!.id!, {
-            uuidToken: Helper.generateOTCode(32, true),
+            uuidToken: Helper.genRandomCode(32, { includeSpecialChars: true }),
             firstLogin: false,
             version: +userTenantRoleDto.user.version! + 1
          },{ transaction: t },);
-         await new UserUpdatedPublisher(rabbitmqWrapper.connection).publish({
-            user: userTenantRoleDto.user,
-         });
+         await new UserUpdatedPublisher(rabbitmqWrapper.connection).publish(userTenantRoleDto!);
          
          await this.userRepo.commit(t);
          return { success: true, code: 200, message: `User login successful`, data: userTenantRoleDto };

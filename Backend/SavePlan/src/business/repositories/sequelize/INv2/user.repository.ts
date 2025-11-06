@@ -12,11 +12,11 @@ import { IQueryOptions } from "../../../../../../Common/src/database/IGenericRep
 @injectable()
 export class UserRepository implements IUserRepository {
    get userRepo(): Repository<User> {return getDbCxn()?.getRepository(User);}
-   create<T>(createUserDto: CreateUserDto): Promise<T> {
-      console.log(createUserDto);
+   // create<T>(createUserDto: CreateUserDto): Promise<T> {
+   //    console.log(createUserDto);
       
-      throw new Error("Method not implemented.");
-   }
+   //    throw new Error("Method not implemented.");
+   // }
    public async transaction(): Promise<Transaction> {
       return await  getDbCxn()?.transaction();
    }
@@ -58,10 +58,15 @@ export class UserRepository implements IUserRepository {
       if(!options?.transaction) await this.commit(t);
       return user as User;
    }
-   // public async create<User>(createUserDto: CreateUserDto): Promise<User> {
-   //    const user = this.repo.create(createUserDto);
-   //    await this.repo.save(user);
-   //    return user as User;
-   // }
+   public async create<User>(createUserDto: CreateUserDto): Promise<User> {
+      const user = this.userRepo.create({
+         id: createUserDto.user.id,
+         pId: createUserDto.user.pId,
+         details: createUserDto,
+         tenantRoles: createUserDto.tenant,
+      });
+      // await this.repo.save(user);
+      return user as User;
+   }
    
 }
