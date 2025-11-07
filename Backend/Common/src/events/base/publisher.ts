@@ -13,7 +13,7 @@ export abstract class Publisher<T extends Event> {
 
    publish(data: T['data']): Promise<void> {
       return new Promise(async (resolve, reject)=> {
-         const channel = await this.connection.createChannel();
+         const channel = await (this.connection as any).createChannel();
          await channel.assertExchange(this.exchangeName, this.exchangeType, { durable: true });
          
          const isPublished = channel.publish(this.exchangeName, this.subject, Buffer.from(JSON.stringify(data)), {deliveryMode: 2, persistent: true})
