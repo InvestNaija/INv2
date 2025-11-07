@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package finance.payment;
+
+message Payment {
+   string id = 1;
+   string reference = 2;
+   string gateway_ref = 3;
+   double amount = 4;
+   string currency = 5;
+   string description = 6;
+   string user_id = 7;
+   string module = 8;
+   string module_id = 9;
+   string gateway = 10;
+}
+message PaymentRequest {
+   double amount = 1;
+   string currency = 2;
+   string description = 3;
+   string user_id = 4;
+   string module = 5;
+   string module_id = 6;
+   string gateway = 7;
+}
+message PaymentResponse {
+   Payment payment = 1;
+   string message = 2;
+}
+service PaymentService {
+   rpc ProcessPayment (PaymentRequest) returns (PaymentResponse);
+}
