@@ -2,17 +2,10 @@ syntax = "proto3";
 
 package finance.payment;
 
-message Payment {
-   string id = 1;
+message Data {
+   string authorization_url = 1;
    string reference = 2;
-   string gateway_ref = 3;
-   double amount = 4;
-   string currency = 5;
-   string description = 6;
-   string user_id = 7;
-   string module = 8;
-   string module_id = 9;
-   string gateway = 10;
+   string link = 3;
 }
 message PaymentRequest {
    double amount = 1;
@@ -24,9 +17,10 @@ message PaymentRequest {
    string gateway = 7;
 }
 message PaymentResponse {
-   Payment payment = 1;
+   bool success = 1;
    string message = 2;
+   Data data = 3;
 }
 service PaymentService {
-   rpc ProcessPayment (PaymentRequest) returns (PaymentResponse);
+   rpc initializePayment (PaymentRequest) returns (PaymentResponse);
 }
