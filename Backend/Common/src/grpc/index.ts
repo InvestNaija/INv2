@@ -19,3 +19,4 @@ export class ProtoLoader {
       return grpc.loadPackageDefinition(packageDefinition);
    }
 }
+export * from './interfaces/payment';

@@ -53,3 +53,5 @@ export * from './database';
 export * from './config';
 // Services
 export * from './services';
+// Export any gRPC protos using the proto-loader
+export * from './grpc';
