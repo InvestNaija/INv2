@@ -10,7 +10,7 @@
   "scripts": {
     "pb:gen": "./gen.sh ./src/grpc",
     "clean": "rimraf build/",
-    "copy-files": "npm run pub:gen && copyfiles -u 1 src/public/** build/ && cp -r src/public build/ && cp -r src/grpc/proto build/grpc/",
+    "copy-files": "copyfiles -u 1 src/public/** build/ && cp -r src/public build/ && cp -r src/grpc/proto build/grpc/",
     "build": "npm run clean && tsc && npm run copy-files"
   },
   "keywords": [
