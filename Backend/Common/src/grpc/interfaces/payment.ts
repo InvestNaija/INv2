@@ -9,17 +9,10 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 
 export const protobufPackage = "finance.payment";
 
-export interface Payment {
-  id: string;
+export interface Data {
+  authorizationUrl: string;
   reference: string;
-  gatewayRef: string;
-  amount: number;
-  currency: string;
-  description: string;
-  userId: string;
-  module: string;
-  moduleId: string;
-  gateway: string;
+  link: string;
 }
 
 export interface PaymentRequest {
@@ -33,64 +26,33 @@ export interface PaymentRequest {
 }
 
 export interface PaymentResponse {
-  payment: Payment | undefined;
+  success: boolean;
   message: string;
+  data: Data | undefined;
 }
 
-function createBasePayment(): Payment {
-  return {
-    id: "",
-    reference: "",
-    gatewayRef: "",
-    amount: 0,
-    currency: "",
-    description: "",
-    userId: "",
-    module: "",
-    moduleId: "",
-    gateway: "",
-  };
+function createBaseData(): Data {
+  return { authorizationUrl: "", reference: "", link: "" };
 }
 
-export const Payment: MessageFns<Payment> = {
-  encode(message: Payment, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
-      writer.uint32(10).string(message.id);
+export const Data: MessageFns<Data> = {
+  encode(message: Data, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.authorizationUrl !== "") {
+      writer.uint32(10).string(message.authorizationUrl);
     }
     if (message.reference !== "") {
       writer.uint32(18).string(message.reference);
     }
-    if (message.gatewayRef !== "") {
-      writer.uint32(26).string(message.gatewayRef);
-    }
-    if (message.amount !== 0) {
-      writer.uint32(33).double(message.amount);
-    }
-    if (message.currency !== "") {
-      writer.uint32(42).string(message.currency);
-    }
-    if (message.description !== "") {
-      writer.uint32(50).string(message.description);
-    }
-    if (message.userId !== "") {
-      writer.uint32(58).string(message.userId);
-    }
-    if (message.module !== "") {
-      writer.uint32(66).string(message.module);
-    }
-    if (message.moduleId !== "") {
-      writer.uint32(74).string(message.moduleId);
-    }
-    if (message.gateway !== "") {
-      writer.uint32(82).string(message.gateway);
+    if (message.link !== "") {
+      writer.uint32(26).string(message.link);
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): Payment {
+  decode(input: BinaryReader | Uint8Array, length?: number): Data {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBasePayment();
+    const message = createBaseData();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -99,7 +61,7 @@ export const Payment: MessageFns<Payment> = {
             break;
           }
 
-          message.id = reader.string();
+          message.authorizationUrl = reader.string();
           continue;
         }
         case 2: {
@@ -115,63 +77,7 @@ export const Payment: MessageFns<Payment> = {
             break;
           }
 
-          message.gatewayRef = reader.string();
-          continue;
-        }
-        case 4: {
-          if (tag !== 33) {
-            break;
-          }
-
-          message.amount = reader.double();
-          continue;
-        }
-        case 5: {
-          if (tag !== 42) {
-            break;
-          }
-
-          message.currency = reader.string();
-          continue;
-        }
-        case 6: {
-          if (tag !== 50) {
-            break;
-          }
-
-          message.description = reader.string();
-          continue;
-        }
-        case 7: {
-          if (tag !== 58) {
-            break;
-          }
-
-          message.userId = reader.string();
-          continue;
-        }
-        case 8: {
-          if (tag !== 66) {
-            break;
-          }
-
-          message.module = reader.string();
-          continue;
-        }
-        case 9: {
-          if (tag !== 74) {
-            break;
-          }
-
-          message.moduleId = reader.string();
-          continue;
-        }
-        case 10: {
-          if (tag !== 82) {
-            break;
-          }
-
-          message.gateway = reader.string();
+          message.link = reader.string();
           continue;
         }
       }
@@ -183,71 +89,36 @@ export const Payment: MessageFns<Payment> = {
     return message;
   },
 
-  fromJSON(object: any): Payment {
+  fromJSON(object: any): Data {
     return {
-      id: isSet(object.id) ? globalThis.String(object.id) : "",
+      authorizationUrl: isSet(object.authorizationUrl) ? globalThis.String(object.authorizationUrl) : "",
       reference: isSet(object.reference) ? globalThis.String(object.reference) : "",
-      gatewayRef: isSet(object.gatewayRef) ? globalThis.String(object.gatewayRef) : "",
-      amount: isSet(object.amount) ? globalThis.Number(object.amount) : 0,
-      currency: isSet(object.currency) ? globalThis.String(object.currency) : "",
-      description: isSet(object.description) ? globalThis.String(object.description) : "",
-      userId: isSet(object.userId) ? globalThis.String(object.userId) : "",
-      module: isSet(object.module) ? globalThis.String(object.module) : "",
-      moduleId: isSet(object.moduleId) ? globalThis.String(object.moduleId) : "",
-      gateway: isSet(object.gateway) ? globalThis.String(object.gateway) : "",
+      link: isSet(object.link) ? globalThis.String(object.link) : "",
     };
   },
 
-  toJSON(message: Payment): unknown {
+  toJSON(message: Data): unknown {
     const obj: any = {};
-    if (message.id !== "") {
-      obj.id = message.id;
+    if (message.authorizationUrl !== "") {
+      obj.authorizationUrl = message.authorizationUrl;
     }
     if (message.reference !== "") {
       obj.reference = message.reference;
     }
-    if (message.gatewayRef !== "") {
-      obj.gatewayRef = message.gatewayRef;
-    }
-    if (message.amount !== 0) {
-      obj.amount = message.amount;
-    }
-    if (message.currency !== "") {
-      obj.currency = message.currency;
-    }
-    if (message.description !== "") {
-      obj.description = message.description;
-    }
-    if (message.userId !== "") {
-      obj.userId = message.userId;
-    }
-    if (message.module !== "") {
-      obj.module = message.module;
-    }
-    if (message.moduleId !== "") {
-      obj.moduleId = message.moduleId;
-    }
-    if (message.gateway !== "") {
-      obj.gateway = message.gateway;
+    if (message.link !== "") {
+      obj.link = message.link;
     }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Payment>, I>>(base?: I): Payment {
-    return Payment.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<Data>, I>>(base?: I): Data {
+    return Data.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<Payment>, I>>(object: I): Payment {
-    const message = createBasePayment();
-    message.id = object.id ?? "";
+  fromPartial<I extends Exact<DeepPartial<Data>, I>>(object: I): Data {
+    const message = createBaseData();
+    message.authorizationUrl = object.authorizationUrl ?? "";
     message.reference = object.reference ?? "";
-    message.gatewayRef = object.gatewayRef ?? "";
-    message.amount = object.amount ?? 0;
-    message.currency = object.currency ?? "";
-    message.description = object.description ?? "";
-    message.userId = object.userId ?? "";
-    message.module = object.module ?? "";
-    message.moduleId = object.moduleId ?? "";
-    message.gateway = object.gateway ?? "";
+    message.link = object.link ?? "";
     return message;
   },
 };
@@ -409,16 +280,19 @@ export const PaymentRequest: MessageFns<PaymentRequest> = {
 };
 
 function createBasePaymentResponse(): PaymentResponse {
-  return { payment: undefined, message: "" };
+  return { success: false, message: "", data: undefined };
 }
 
 export const PaymentResponse: MessageFns<PaymentResponse> = {
   encode(message: PaymentResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.payment !== undefined) {
-      Payment.encode(message.payment, writer.uint32(10).fork()).join();
+    if (message.success !== false) {
+      writer.uint32(8).bool(message.success);
     }
     if (message.message !== "") {
       writer.uint32(18).string(message.message);
+    }
+    if (message.data !== undefined) {
+      Data.encode(message.data, writer.uint32(26).fork()).join();
     }
     return writer;
   },
@@ -431,11 +305,11 @@ export const PaymentResponse: MessageFns<PaymentResponse> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 10) {
+          if (tag !== 8) {
             break;
           }
 
-          message.payment = Payment.decode(reader, reader.uint32());
+          message.success = reader.bool();
           continue;
         }
         case 2: {
@@ -444,6 +318,14 @@ export const PaymentResponse: MessageFns<PaymentResponse> = {
           }
 
           message.message = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.data = Data.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -457,18 +339,22 @@ export const PaymentResponse: MessageFns<PaymentResponse> = {
 
   fromJSON(object: any): PaymentResponse {
     return {
-      payment: isSet(object.payment) ? Payment.fromJSON(object.payment) : undefined,
+      success: isSet(object.success) ? globalThis.Boolean(object.success) : false,
       message: isSet(object.message) ? globalThis.String(object.message) : "",
+      data: isSet(object.data) ? Data.fromJSON(object.data) : undefined,
     };
   },
 
   toJSON(message: PaymentResponse): unknown {
     const obj: any = {};
-    if (message.payment !== undefined) {
-      obj.payment = Payment.toJSON(message.payment);
+    if (message.success !== false) {
+      obj.success = message.success;
     }
     if (message.message !== "") {
       obj.message = message.message;
+    }
+    if (message.data !== undefined) {
+      obj.data = Data.toJSON(message.data);
     }
     return obj;
   },
@@ -478,16 +364,15 @@ export const PaymentResponse: MessageFns<PaymentResponse> = {
   },
   fromPartial<I extends Exact<DeepPartial<PaymentResponse>, I>>(object: I): PaymentResponse {
     const message = createBasePaymentResponse();
-    message.payment = (object.payment !== undefined && object.payment !== null)
-      ? Payment.fromPartial(object.payment)
-      : undefined;
+    message.success = object.success ?? false;
     message.message = object.message ?? "";
+    message.data = (object.data !== undefined && object.data !== null) ? Data.fromPartial(object.data) : undefined;
     return message;
   },
 };
 
 export interface PaymentService {
-  ProcessPayment(request: PaymentRequest): Promise<PaymentResponse>;
+  initializePayment(request: PaymentRequest): Promise<PaymentResponse>;
 }
 
 export const PaymentServiceServiceName = "finance.payment.PaymentService";
@@ -497,11 +382,11 @@ export class PaymentServiceClientImpl implements PaymentService {
   constructor(rpc: Rpc, opts?: { service?: string }) {
     this.service = opts?.service || PaymentServiceServiceName;
     this.rpc = rpc;
-    this.ProcessPayment = this.ProcessPayment.bind(this);
+    this.initializePayment = this.initializePayment.bind(this);
   }
-  ProcessPayment(request: PaymentRequest): Promise<PaymentResponse> {
+  initializePayment(request: PaymentRequest): Promise<PaymentResponse> {
     const data = PaymentRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "ProcessPayment", data);
+    const promise = this.rpc.request(this.service, "initializePayment", data);
     return promise.then((data) => PaymentResponse.decode(new BinaryReader(data)));
   }
 }

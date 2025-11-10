@@ -28,8 +28,8 @@ function deserialize_finance_payment_PaymentResponse(buffer_arg) {
 
 
 var PaymentServiceService = exports.PaymentServiceService = {
-  processPayment: {
-    path: '/finance.payment.PaymentService/ProcessPayment',
+  initializePayment: {
+    path: '/finance.payment.PaymentService/initializePayment',
     requestStream: false,
     responseStream: false,
     requestType: payment_pb.PaymentRequest,
