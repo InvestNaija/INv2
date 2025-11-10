@@ -1,6 +1,6 @@
 {
   "name": "@inv2/common",
-  "version": "1.2.41",
+  "version": "1.2.43",
   "description": "A common module for v2",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -10,7 +10,7 @@
   "scripts": {
     "pb:gen": "./gen.sh ./src/grpc",
     "clean": "rimraf build/",
-    "copy-files": "copyfiles -u 1 src/public/** build/ && cp -r src/public build/ && cp -r src/grpc/proto build/grpc/",
+    "copy-files": "npm run pub:gen && copyfiles -u 1 src/public/** build/ && cp -r src/public build/ && cp -r src/grpc/proto build/grpc/",
     "build": "npm run clean && tsc && npm run copy-files"
   },
   "keywords": [
