@@ -22,5 +22,5 @@ message PaymentResponse {
    Data data = 3;
 }
 service PaymentService {
-   rpc initializePayment (PaymentRequest) returns (PaymentResponse);
+   rpc InitializePayment (PaymentRequest) returns (PaymentResponse);
 }

@@ -372,7 +372,7 @@ export const PaymentResponse: MessageFns<PaymentResponse> = {
 };
 
 export interface PaymentService {
-  initializePayment(request: PaymentRequest): Promise<PaymentResponse>;
+  InitializePayment(request: PaymentRequest): Promise<PaymentResponse>;
 }
 
 export const PaymentServiceServiceName = "finance.payment.PaymentService";
@@ -382,11 +382,11 @@ export class PaymentServiceClientImpl implements PaymentService {
   constructor(rpc: Rpc, opts?: { service?: string }) {
     this.service = opts?.service || PaymentServiceServiceName;
     this.rpc = rpc;
-    this.initializePayment = this.initializePayment.bind(this);
+    this.InitializePayment = this.InitializePayment.bind(this);
   }
-  initializePayment(request: PaymentRequest): Promise<PaymentResponse> {
+  InitializePayment(request: PaymentRequest): Promise<PaymentResponse> {
     const data = PaymentRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "initializePayment", data);
+    const promise = this.rpc.request(this.service, "InitializePayment", data);
     return promise.then((data) => PaymentResponse.decode(new BinaryReader(data)));
   }
 }
