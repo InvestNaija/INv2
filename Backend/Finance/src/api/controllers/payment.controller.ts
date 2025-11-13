@@ -4,10 +4,15 @@ import { Exception, CustomError, JoiMWDecorator, INLogger, Authentication, UserD
 import { PaymentValidation } from '../validations/payment.schema';
 
 import { PaymentService } from '../../business/services';
+import { TYPES } from '../../business/types';
+import { inject } from 'inversify';
 
 @controller("/payment")
 export class PaymentController {
-   constructor(private readonly pmtSvc: PaymentService){}
+   constructor(
+      @inject(TYPES.PaymentService)
+      private readonly pmtSvc: PaymentService
+   ){}
    
    @httpGet('/healthz')
    public async healthz(req: Request, res: Response): Promise<void> {

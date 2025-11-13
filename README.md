@@ -120,3 +120,10 @@ __Prod__
 - Delete the cloned repo
 - Horray! Now you can run your deployments normally
 - Note: to remove the credential, do `git config --global --unset credential.helper` and `git config --system --unset credential.helper`
+
+## gRPC
+- `npm i grpc grpc_tools @types/google-protobuf grpc_tools_node_protoc_ts`
+OR
+- `npm i @grpc/grpc-js google-protobuf`
+- `npm i -D grpc-tools ts-proto`
+- Remember to `chmod +x gen.sh`

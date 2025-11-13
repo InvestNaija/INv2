@@ -1,14 +1,20 @@
 import * as path from 'path';
+import { NextFunction, Request, Response } from 'express';
+
 
 declare global { // declare global is TS specific, it is not the Node global!   
     var __basedir: any;
     var __path: any;
     var __stack: any;
     var __line: any;
+    var __route: any;
     var __function: any;
 }
 global.__basedir = __dirname;
 global.__path = path;
+global.__route = (req: Request): string => {
+    return req.originalUrl;
+}
 
 Object.defineProperty(global, '__stack', {
     get: function() {

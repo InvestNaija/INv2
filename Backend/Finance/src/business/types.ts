@@ -8,6 +8,8 @@ export const TYPES = {
    TxnRepository: Symbol.for("TxnRepository"),
    TransactionService: Symbol.for("TransactionService"),
    PaymentService: Symbol.for("PaymentService"),
+   GrpcServer: Symbol.for('GrpcServer'),
+   GPCPaymentService: Symbol.for("GPCPaymentService"),
 };
 export interface GatewayParams {
    businessSecret?: string;

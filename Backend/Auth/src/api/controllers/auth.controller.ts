@@ -45,9 +45,11 @@ export class AuthController {
    @httpPost("/user/set-2FA")
    @JoiMWDecorator(AuthValidation.set2FA)
    public async set2FA(req: Request, res: Response, next: NextFunction): Promise<void> {
+      const profiler = INLogger.log.startTimer();
       try {
          const set2FA = await this.authSvc.set2FA(req.currentUser!, req.body);
          res.status(set2FA.code).json(set2FA);
+         profiler.done({service: `Auth`, message: `set2FA successful. User: ${req.currentUser!.user.id}`});
       } catch (error) {
          if(error instanceof CustomError) next( new Exception(error));
       }

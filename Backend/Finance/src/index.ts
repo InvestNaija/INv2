@@ -9,11 +9,16 @@ import { rabbitmqWrapper } from './rabbitmq.wrapper';
 import { redisWrapper } from './redis.wrapper';
 import { UserCreatedListener, UserUpdatedListener } from "./events/listeners";
 import { socketIO } from './socketio';
-const PORT = process.env.PORT || 3000;
+import { GrpcServer } from './grpc/server';
+import { container } from './inversify.config';
+import { TYPES } from './business/types';
+const PORT: number = parseInt(process.env.PORT) || 3000;
 
 export class Main {
-   // eslint-disable-next-line no-unused-vars
-   constructor(private app: Application) { }
+   private grpcServer: GrpcServer;
+   constructor(private app: Application) { 
+      this.grpcServer = container.get<GrpcServer>(TYPES.GrpcServer);
+   }
    public start(): void {
       this.init(this.app);
    }
@@ -26,6 +31,7 @@ export class Main {
          const httpServer: http.Server = new http.Server(app);
          // await this.createSocketIO(httpServer);
          await this.createEventBus();
+         await this.startGrpc();
          this.startHttpServer(httpServer);
          // this.socketIOConnections(socketIO);
       } catch (error) {
@@ -57,6 +63,19 @@ export class Main {
       httpServer.listen(PORT, () => {
          INLogger.log.info(`Server running on port ${PORT}`);
       });
+   }
+   
+   private async startGrpc(): Promise<void> {
+      try {
+         await this.grpcServer.start(PORT);
+         
+         // Handle graceful shutdown
+         process.on('SIGINT', async () => await this.grpcServer.stop() );
+         process.on('SIGTERM', async () => await this.grpcServer.stop());
+      } catch (error) {
+         INLogger.log.error('Failed to start gRPC server:', error);
+         throw error;
+      }
    }
 }
 

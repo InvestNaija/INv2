@@ -5,6 +5,7 @@ import { Exception, handleError, INLogger, JoiMWDecorator } from "@inv2/common";
 import { AdminService } from '../../business/services';
 import { AdminValidation } from '../validations/admin.schema';
 import { SaveplanDto } from '../../_dtos';
+import { GrpcClient } from '../../grpc/client';
 // import { NotificationFactory } from '../../business/services/notification/factory/notification.factory';
 // import { BaseNotificationFactory } from '../../business/services/notification/factory/base-notification.factory';
 // import { Notification } from '../../business/services/notification/factory/notification';
@@ -58,6 +59,19 @@ export class GenericSaveplanController {
          res.status(saveplan.code).json(saveplan);
          
          profiler.done({service: `SavePlan`, level: 'info', message: `Update SavePlan with id ${id} successfully`});
+      } catch (error: unknown|Error) {
+         next(new Exception(handleError(error)));
+      }
+   }
+   @httpPost("/grpc/test")
+   public async grpc(req: Request, res: Response, next: NextFunction): Promise<void> {
+      const profiler = INLogger.log.startTimer();  
+      try {         
+         const grpcClient = await GrpcClient.start();
+         const result = await GrpcClient.initializePayment(grpcClient, req.body);
+
+         res.status(200).json(result);
+         profiler.done({ service: `SavePlan`, level: 'info', route: req.originalUrl, payload: req.body, response: result, message: `GRPC success`, });
       } catch (error: unknown|Error) {
          next(new Exception(handleError(error)));
       }
