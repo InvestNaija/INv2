@@ -1,7 +1,7 @@
-import { CreateUserDto } from "../_dtos";
 import { Subjects } from "./subjects";
+import {  UserTenantRoleDto } from "../_dtos";
 
 export interface UserCreatedEvent {
    subject: Subjects.UserCreated;
-   data: Partial<CreateUserDto>
+   data: Partial<UserTenantRoleDto>
 }

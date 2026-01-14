@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package finance.payment;
+
+message Data {
+   string authorization_url = 1;
+   string reference = 2;
+   string link = 3;
+}
+message PaymentRequest {
+   double amount = 1;
+   string currency = 2;
+   string description = 3;
+   string user_id = 4;
+   string module = 5;
+   string module_id = 6;
+   string gateway = 7;
+}
+message PaymentResponse {
+   bool success = 1;
+   string message = 2;
+   Data data = 3;
+}
+service PaymentService {
+   rpc InitializePayment (PaymentRequest) returns (PaymentResponse);
+}

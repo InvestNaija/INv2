@@ -4,7 +4,7 @@ import { Exception, IResponse } from '../errors/custom-error';
 export class JWTService {
    static createJWTToken(value: any, secret?: string, time?: string): IResponse {
       try {
-         const token = jwt.sign(value, secret||process.env.ACCESS_TOKEN_SECRET!, {
+         const token = (jwt as any).sign(value, secret||process.env.ACCESS_TOKEN_SECRET!, {
             expiresIn: time||"1h"
          })
   

@@ -1,14 +1,20 @@
 import { INLogger, Listener, Subjects, UserCreatedEvent } from "@inv2/common";
 import { Channel, Message } from "amqplib";
-import { User, } from "../../database/sequelize/INv2";
+import { TYPES } from "../../business/types";
+import { IUserRepository } from "../../business/repositories/IUserRepository";
+import { container } from '../../inversify.config';
 
+// @injectable()
 export class UserCreatedListener extends Listener<UserCreatedEvent> {
-   readonly subject = Subjects.UserCreated; 
+   private userRepo: IUserRepository = container.get<IUserRepository>(TYPES.IUserRepository);
+
+   // @inject(TYPES.IUserRepository) private userRepo!: IUserRepository;
+   readonly subject = Subjects.UserCreated;
    queueName = 'auth-service';
    async onMessage(data: UserCreatedEvent['data'], channel: Channel, msg: Message): Promise<void> {
-      try {
+      try { 
          console.log('======> SavePlan received user created with id: ', data.user!.id,);
-         await User.create({
+         await this.userRepo.create({
             id: data.user!.id,
             pId: data.user!.pId,
             details: data.user,
