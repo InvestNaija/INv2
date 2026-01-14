@@ -1,6 +1,6 @@
 import { CustomError, Exception, Listener, Subjects, UserUpdatedEvent } from "@inv2/common";
 import { Channel, Message } from "amqplib";
-import { User, } from "../../database/sequelize/INv2";
+import { User, } from "../../domain/sequelize/INv2";
 
 export class UserUpdatedListener extends Listener<UserUpdatedEvent> {
    readonly subject = Subjects.UserUpdated; 

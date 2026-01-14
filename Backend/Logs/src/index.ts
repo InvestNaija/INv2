@@ -1,9 +1,9 @@
 import { Application } from 'express';
 import http from 'http';
+import { app } from './app';
 // Initiate DB connection here
 import "./database";
 
-import { app } from './app';
 import { rabbitmqWrapper } from './rabbitmq.wrapper';
 import { LogCreatedListener } from "./events/listeners";
 const PORT = process.env.PORT || 3000;
@@ -37,7 +37,7 @@ export class Main {
       process.on('SIGTERM', async ()=> await rabbitmqWrapper.connection.close());
 
       // Set up all listeners
-      new LogCreatedListener(rabbitmqWrapper.connection).listen();
+      await (new LogCreatedListener(rabbitmqWrapper.connection)).listen();
    }
    private async startHttpServer(httpServer: http.Server): Promise<void> {
       httpServer.listen(PORT, () => {
