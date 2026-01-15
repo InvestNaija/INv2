@@ -1,0 +1,100 @@
+<main>
+  <section>
+    <div
+      class="w-full flex min-h-screen justify-center items-center m-0 p-0 sm:px-6 md:px-6 px-6 xl:px-12 lg:px-12"
+    >
+      <div class="sm:hidden hidden md:block xl:block lg:block w-full">
+        <div class="flex justify-center w-full">
+          <div class="w-full sm:w-full md:w-[85%] lg:w-[90%] xl:w-[80%]">
+            <app-auth-first-column />
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center w-full">
+        <div class="w-[90%] sm:w-[70%] md:w-[80%] lg:w-[75%] xl:w-[70%]">
+          <div class="">
+            <div class="signup-header text-center">
+              <h2 class="header2">Let's get you started</h2>
+              <p
+                class="text-tertiary text-[14px] font-normal leading-[20px] tracking-[0.28px]"
+              >
+                Enter your details as it appears on your NIN & BVN
+              </p>
+            </div>
+            <div class="form-container mt-[39.62px] w-full">
+              <form [formGroup]="signupForm" class="">
+                <div class="mb-[24px]">
+                  <input
+                    type="text"
+                    id="firstName"
+                    class="input-field"
+                    placeholder="First name"
+                  />
+                </div>
+                <div class="mb-[24px]">
+                  <input
+                    type="text"
+                    id="middleName"
+                    class="input-field"
+                    placeholder="Middle name (Optional)"
+                  />
+                </div>
+                <div class="mb-[24px]">
+                  <input
+                    type="text"
+                    id="lastName"
+                    class="input-field"
+                    placeholder="Last name"
+                  />
+                </div>
+                <div class="mb-[24px]">
+                  <input
+                    type="text"
+                    id="email"
+                    class="input-field"
+                    placeholder="Email address"
+                  />
+                </div>
+                <div class="mb-[24px]">
+                  <input
+                    type="text"
+                    id="phone"
+                    class="input-field"
+                    placeholder="Phone number"
+                  />
+                </div>
+                <div class="xl:mb-[48px md:mb-[40px] sm:mb[30px] mb-[30px]">
+                  <input
+                    type="text"
+                    id="referral"
+                    class="input-field"
+                    placeholder="Referral code (optional)"
+                  />
+                </div>
+                <div class="md:mb-[38px] xl:mb-[56px] sm:mb[30px] mb-[30px]">
+                  <button
+                    type="submit"
+                    class="text-white bg-primaryColor focus:outline-none font-semibold rounded-lg text-base w-full py-[16px] text-center leading-[24px] tracking-[0.32px]"
+                  >
+                    Sign up
+                  </button>
+                </div>
+                <div class="text-center">
+                  <span
+                    class="text-sm font-normal leading-[20px] tracking-[0.28px] text-tertiary"
+                    >Already have an account?
+                    <a
+                      [routerLink]="['/auth/login']"
+                      class="text-sm font-bold leading-[20px] tracking-[0.28px] text-inputFocus cursor-pointer"
+                      >Sign in</a
+                    ></span
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

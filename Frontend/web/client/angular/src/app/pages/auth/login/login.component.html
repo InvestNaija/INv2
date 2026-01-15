@@ -1,0 +1,78 @@
+<main>
+  <section>
+    <div
+      class="w-full flex min-h-screen justify-center items-center m-0 p-0 sm:px-6 md:px-6 px-6 xl:px-12 lg:px-12"
+    >
+      <div class="sm:hidden hidden md:block xl:block lg:block w-full">
+        <div class="flex justify-center w-full">
+          <div class="w-full sm:w-full md:w-[85%] lg:w-[90%] xl:w-[80%]">
+            <app-auth-first-column />
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center w-full">
+        <div class="w-[90%] sm:w-[70%] md:w-[80%] lg:w-[75%] xl:w-[70%]">
+          <div class="">
+            <div class="signup-header text-center">
+              <h2 class="header2">Welcome back</h2>
+              <p
+                class="text-tertiary text-[14px] font-normal leading-[20px] tracking-[0.28px]"
+              >
+                Enter your account details to log in
+              </p>
+            </div>
+            <div class="form-container mt-[39.62px] w-full">
+              <form [formGroup]="loginForm" class="">
+                <div class="mb-[24px]">
+                  <input
+                    type="text"
+                    id="email"
+                    class="input-field"
+                    placeholder="Email address"
+                  />
+                </div>
+
+                <div class="mb-[3px]">
+                  <input
+                    type="password"
+                    id="password"
+                    class="input-field"
+                    placeholder="Password"
+                  />
+                </div>
+
+                <div class="mb-[47.63px] flex justify-end">
+                  <a
+                    [routerLink]="['/auth/recover-password']"
+                    class="text-sm font-medium text-inputFocus leading-[20px] tracking-[0.28px] cursor-pointer"
+                    >Forgot password?</a
+                  >
+                </div>
+
+                <div class="md:mb-[38px] xl:mb-[56px] sm:mb[30px] mb-[30px]">
+                  <button
+                    type="submit"
+                    class="text-white bg-primaryColor focus:outline-none font-semibold rounded-lg text-base w-full py-[16px] text-center leading-[24px] tracking-[0.32px]"
+                  >
+                    Login
+                  </button>
+                </div>
+                <div class="text-center">
+                  <span
+                    class="text-sm font-normal leading-[20px] tracking-[0.28px] text-tertiary"
+                    >Don't have an account?
+                    <a
+                      [routerLink]="['/auth/signup']"
+                      class="text-sm font-bold leading-[20px] tracking-[0.28px] text-inputFocus"
+                      >Sign up</a
+                    ></span
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
