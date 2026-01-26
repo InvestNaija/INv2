@@ -90,5 +90,10 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript-eslint": "^8.24.0"
+  },
+  "overrides": {
+    "typeorm": {
+      "better-sqlite3": "^12.6.2"
+    }
   }
 }
