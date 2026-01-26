@@ -1,5 +1,5 @@
-import { Model, Table, Column, DataType, BelongsTo, ForeignKey, } from "sequelize-typescript";
-import { Quiz, Question, User } from "..";
+import { Model, Table, Column, DataType, BelongsTo, ForeignKey } from "sequelize-typescript";
+import { Quiz, Question } from "..";
 
 @Table({
    timestamps: true,
@@ -13,8 +13,6 @@ export class QuizQuestion extends Model {
    declare quizzes: Quiz;
    @BelongsTo(() => Question)
    declare questions: Question;
-   @BelongsTo(() => User)
-   declare users: User;
 
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
@@ -42,10 +40,10 @@ export class QuizQuestion extends Model {
    })
    @ForeignKey(() => Question)
    declare questionId: string;
+   // userId is a soft reference to User (managed by Auth service)
    @Column({
       type: DataType.UUID,
    })
-   @ForeignKey(() => User)
    declare userId: string;
    
    @Column({ type: DataType.DOUBLE(10,2), })

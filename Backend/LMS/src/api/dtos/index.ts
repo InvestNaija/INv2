@@ -4,3 +4,4 @@ export * from "./lms.dto";
 export * from "./getLms.dto";
 export * from "./questionAnswer.dto";
 export * from "./quizQuestion.dto";
+export * from "./quiz.dto";
