@@ -44,6 +44,10 @@ export class Quiz extends Model {
    declare endDate: Date;
    @Column({ type: DataType.BOOLEAN, })
    declare isImmediateAnswer: boolean;
+   @Column({
+      type: DataType.UUID,
+   })
+   declare userId: string;
 }
 
 // export default {User};

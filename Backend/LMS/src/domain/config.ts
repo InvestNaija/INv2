@@ -18,6 +18,9 @@ const Config = {
          }
       }
    },
+   "test": {
+      "databases": {},
+   },
    "staging": {
       "databases": {
          /** Sequelize */
