@@ -18,7 +18,8 @@ import { rabbitmqWrapper } from "../rabbitmq.wrapper";
 let sequelize: Sequelize;
 beforeAll(async ()=>{
    jest.clearAllMocks();
-   jest.useFakeTimers();
+   // Avoid fake timers globally: they can cause HTTP + DB tests to hang/time out.
+   jest.useRealTimers();
    // process.env.ACCESS_TOKEN_SECRET = '2NjQ5fQ.BpnmhQBqzLfYf';
    // process.env.NODE_ENV = 'test'
    INLogger.init('SavePlan', rabbitmqWrapper.connection);
@@ -28,7 +29,12 @@ beforeAll(async ()=>{
       // storage: __dirname+"/test.sqlite",
       storage: ":memory:",
       logging: false,
-      models: [path.join(__dirname, `../database/sequelize/INv2/models`)]
+      // Ensure models are registered so tables exist for seed + services.
+      models: [path.join(__dirname, `../domain/sequelize/INv2/models`)],
+      modelMatch: (filename, member) => {
+         const replaced = filename.replace(/-/g, '');
+         return replaced.substring(0, replaced.indexOf('.model')) === member.toLowerCase();
+      },
    });
    await sequelize.sync({ force: true });
    await sequelize.authenticate()
@@ -47,18 +53,38 @@ beforeEach(async()=>{
 });
 
 afterAll(async () => {
-   // if (sequelize) {
-   //    await sequelize.close();
-   //    // fs.unlinkSync(__dirname+"/test.sqlite");
-   // }
+   if (sequelize) {
+      await sequelize.close();
+   }
+   jest.useRealTimers();
 });
 
 
 global.getJWTAuth = (role?: string)=> {
    // Build a jwt payload {id, email}
    let user = null;
-   if(role) user = users.find(user=>user.tenant_roles.includes(role));
-   else user = users[Math.floor(Math.random() * (users.length - 1 + 0) + 0)];
+   if(role) {
+      user = users.find(user => {
+         try {
+            const tenantRoles = JSON.parse(user.tenant_roles || '[]');
+            // Handle different structures: array format or object format
+            if (Array.isArray(tenantRoles)) {
+               return tenantRoles.some((tr: any) => 
+                  tr.roles?.some((r: any) => r.name === role || r.name?.toUpperCase() === role.toUpperCase())
+               );
+            } else if (tenantRoles.Tenant) {
+               return tenantRoles.Tenant.some((t: any) =>
+                  t.Roles?.some((r: any) => r.name === role || r.name?.toUpperCase() === role.toUpperCase())
+               );
+            }
+            return false;
+         } catch {
+            return user.tenant_roles?.includes(role) || false;
+         }
+      });
+   } else {
+      user = users[Math.floor(Math.random() * (users.length - 1 + 0) + 0)];
+   }
    if(!user) return null;
 
    const payload = {

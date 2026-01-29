@@ -1,5 +1,6 @@
-import { Model, Table, Column, DataType, } from "sequelize-typescript";
+import { Model, Table, Column, DataType, ForeignKey, BelongsTo, HasMany } from "sequelize-typescript";
 import { DBEnums } from "@inv2/common";
+import { Quiz, User } from "..";
 
 @Table({
    timestamps: true,
@@ -8,6 +9,12 @@ import { DBEnums } from "@inv2/common";
    paranoid: true,
 })
 export class Question extends Model {
+   
+   @BelongsTo(() => Quiz)
+   declare quiz: Quiz;
+   
+   @BelongsTo(() => User)
+   declare creator: User;
    
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
@@ -25,7 +32,19 @@ export class Question extends Model {
    })
    declare id: string;
 
-   @Column({ type: DataType.STRING(300), })
+   @Column({
+      type: DataType.UUID,
+   })
+   @ForeignKey(() => Quiz)
+   declare quizId: string;
+
+   @Column({
+      type: DataType.UUID,
+   })
+   @ForeignKey(() => User)
+   declare userId: string;
+
+   @Column({ type: DataType.STRING(200), })
    declare title: string;
 
    @Column({ type: DataType.TEXT, })
@@ -37,7 +56,18 @@ export class Question extends Model {
       return DBEnums.QuestionType.find(g=>g.code===rawValue);
    }
    set type(value: number|string) {
-      const result = DBEnums?.QuestionType?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
+      // Map abbreviated forms to DBEnums labels
+      const typeMap: { [key: string]: string } = {
+         'Boolean': 'Yes/No',
+         'MCSA': 'MultiChoice-SingleAnswer',
+         'MCMA': 'Multi Choice-MultiAnswer',
+         'MTC': 'Match The Column',
+         'SA': 'Short Answer',
+         'LA': 'Long Answer',
+      };
+      
+      const mappedValue = typeof value === 'string' && typeMap[value] ? typeMap[value] : value;
+      const result = DBEnums?.QuestionType?.find(g=>(g.code==mappedValue || g.label==mappedValue || g.name==mappedValue))?.code;
       this.setDataValue('type', result);
    }
 }

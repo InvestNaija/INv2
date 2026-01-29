@@ -59,6 +59,24 @@ const up = async (queryInterface: QueryInterface) => {
        ], {transaction});
       console.log('Lms created');
 
+      // Seed quizzes for question tests
+      await queryInterface.bulkInsert('quizzes', [
+         {
+            id: '550b26b1-4363-4c2a-ade2-ce97b1145d39',
+            created_at: new Date(),
+            updated_at: new Date(),
+            lms_id: '30b26b-4363-4c2a-ade2-ce97b1145d39',
+            title: "Test Quiz",
+            detail: "A test quiz for questions",
+            start_date: new Date(),
+            end_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+            is_immediate_answer: true,
+            version: 0,
+            deleted_at: null,
+         },
+      ], {transaction});
+      console.log('Quizzes created');
+
       await transaction.commit();
    } catch (error) {
       await transaction.rollback();
