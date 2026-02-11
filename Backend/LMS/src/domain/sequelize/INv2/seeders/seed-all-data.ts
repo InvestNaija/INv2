@@ -32,32 +32,78 @@ const users = [
       , created_at: new Date(), updated_at: new Date() }
  ];
 
+const lmsEntries = [
+   {
+      id: '30b26b00-4363-4c2a-ade2-ce97b1145d39',
+      created_at: new Date(),
+      updated_at: new Date(),
+      title: "New dawn",
+      type: 101, // art
+      version: 1,
+      deleted_at: null,
+   },
+   {
+      id: '200ab26b-4363-4c2a-ade2-ce97b1145d39',
+      created_at: new Date(),
+      updated_at: new Date(),
+      title: "School bus",
+      type: 135, // crs (Course)
+      version: 1,
+      deleted_at: null,
+   },
+   {
+      id: '8f72d5a3-4c71-401e-acba-05e5bac5c94c',
+      created_at: new Date(),
+      updated_at: new Date(),
+      title: "Parent Course",
+      type: 135, // crs (Course)
+      version: 1,
+      deleted_at: null,
+   },
+];
+
+const quizzes = [
+   {
+      id: 'a1b2c3d4-1234-5678-9abc-def012345678',
+      lms_id: '200ab26b-4363-4c2a-ade2-ce97b1145d39',
+      title: 'JavaScript Basics Quiz',
+      detail: 'Test your knowledge of JavaScript fundamentals',
+      start_date: new Date('2026-01-01'),
+      end_date: new Date('2026-12-31'),
+      is_immediate_answer: true,
+      user_id: '087e7b7f-bf68-4d63-907b-9a9374a89420',
+      created_at: new Date(),
+      updated_at: new Date(),
+      version: 1,
+      deleted_at: null,
+   },
+   {
+      id: 'b2c3d4e5-2345-6789-abcd-ef0123456789',
+      lms_id: '200ab26b-4363-4c2a-ade2-ce97b1145d39',
+      title: 'Advanced JavaScript Quiz',
+      detail: 'Test your advanced JavaScript skills',
+      start_date: new Date('2026-02-01'),
+      end_date: new Date('2026-06-30'),
+      is_immediate_answer: false,
+      user_id: '087e7b7f-bf68-4d63-907b-9a9374a89420',
+      created_at: new Date(),
+      updated_at: new Date(),
+      version: 1,
+      deleted_at: null,
+   },
+];
+
 const up = async (queryInterface: QueryInterface) => {
    const transaction = await queryInterface.sequelize.transaction();
    try{
-      await queryInterface.bulkInsert('users',users, {transaction});
+      await queryInterface.bulkInsert('users', users, {transaction});
       console.log('Users created');
-      await queryInterface.bulkInsert('lms',      [
-         {
-            id: '30b26b-4363-4c2a-ade2-ce97b1145d39',
-            created_at: new Date(),
-            updated_at: new Date(),
-            title: "New dawn",
-            type: "greaty",
-            version: 1,
-            deleted_at: null,
-         },
-         {
-            id: '200ab26b-4363-4c2a-ade2-ce97b1145d39',
-            created_at: new Date(),
-            updated_at: new Date(),
-            title: "School bus",
-            type: "greaty",
-            version: 1,
-            deleted_at: null,
-         },
-       ], {transaction});
-      console.log('Lms created');
+      
+      await queryInterface.bulkInsert('lms', lmsEntries, {transaction});
+      console.log('LMS entries created');
+
+      await queryInterface.bulkInsert('quizzes', quizzes, {transaction});
+      console.log('Quizzes created');
 
       await transaction.commit();
    } catch (error) {
@@ -66,6 +112,8 @@ const up = async (queryInterface: QueryInterface) => {
    }
 };
 const down = async (queryInterface: QueryInterface)=> {
-   await queryInterface.bulkDelete('feeds', {}, { });
+   await queryInterface.bulkDelete('quizzes', {}, { });
+   await queryInterface.bulkDelete('lms', {}, { });
+   await queryInterface.bulkDelete('users', {}, { });
 };
-export { up,  down, users};
+export { up, down, users, lmsEntries, quizzes };

@@ -2,6 +2,7 @@
 
 // import * from 'auth.setup'
 import path from "path";
+import crypto from "crypto";
 import { Sequelize } from "sequelize-typescript";
 import { up, users } from "../domain/sequelize/INv2/seeders/seed-all-data";
 import { JWTService } from "@inv2/common";
@@ -15,20 +16,31 @@ jest.mock('../rabbitmq.wrapper');
 jest.mock('../redis.wrapper');
 import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from "../rabbitmq.wrapper";
+
+// Generate ACCESS_TOKEN_SECRET if not already set
+if (!process.env.ACCESS_TOKEN_SECRET) {
+   process.env.ACCESS_TOKEN_SECRET = crypto.randomBytes(32).toString('hex');
+}
+
+// Set NODE_ENV to test
+process.env.NODE_ENV = 'test';
+
 let sequelize: Sequelize;
 beforeAll(async ()=>{
    jest.clearAllMocks();
-   jest.useFakeTimers();
-   // process.env.ACCESS_TOKEN_SECRET = '2NjQ5fQ.BpnmhQBqzLfYf';
-   // process.env.NODE_ENV = 'test'
-   INLogger.init('SavePlan', rabbitmqWrapper.connection);
+   // jest.useFakeTimers(); // Disabled - causes issues with async database operations
+   INLogger.init('LMS', rabbitmqWrapper.connection as any);
    
    sequelize = new Sequelize({
       dialect: "sqlite",
       // storage: __dirname+"/test.sqlite",
       storage: ":memory:",
       logging: false,
-      models: [path.join(__dirname, `../database/sequelize/INv2/models`)]
+      models: [path.join(__dirname, `../domain/sequelize/INv2/models`)],
+      modelMatch: (filename, member) => {
+         const replaced = filename.replace(/-/g, '');
+         return replaced.substring(0, replaced.indexOf('.model')) === member.toLowerCase();
+      },
    });
    await sequelize.sync({ force: true });
    await sequelize.authenticate()
