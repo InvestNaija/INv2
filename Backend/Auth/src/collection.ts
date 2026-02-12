@@ -2,7 +2,7 @@
 
 import { Collection } from 'postman-collection';
 import * as fs from 'fs';
-import { Signup } from "./collections/auth/signup";
+import { Signup, Signin, Set2FA, AuthHealthCheck } from "./collections/auth/auth";
 import { CreateLms, UpdateLms, GetLms, DeleteLms } from "./collections/lms/lms";
 
 // This is the our postman collection
@@ -33,7 +33,10 @@ const postmanCollection = new Collection({
          name: "Auth",
          id: "auth",
          item: [
-            Signup.item()
+            AuthHealthCheck.item(),
+            Signup.item(),
+            Signin.item(),
+            Set2FA.item()
          ]
       },
       {
@@ -78,7 +81,7 @@ const postmanCollection = new Collection({
 //       },
 //    },
 // });
- 
+
 
 // Convert the collection to JSON so that it can be exported to a file
 const collectionJSON = postmanCollection.toJSON();

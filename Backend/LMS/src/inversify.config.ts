@@ -4,11 +4,13 @@ import { Container } from 'inversify';
 // import { AuthService, RoleService, TenantService, UserService } from './business/services';
 // import { TYPES } from './business/types';
 import { TYPES } from './business/types';
-import { LmsService, QuizService, QuizQuestionService, QuestionAnswerService, QuizAttemptService, AttemptAnswerService } from './business/services';
+import { LmsService, QuizService, QuestionService, QuizQuestionService, QuestionAnswerService, QuizAttemptService, AttemptAnswerService } from './business/services';
 // import { ISavePlanRepository, IUserRepository } from './business/repositories';
 // import { SavePlanRepository, UserRepository } from './business/repositories/sequelize/INv2';
 import { IQuizRepository } from './business/repositories';
 import { QuizRepository } from './business/repositories/sequelize/INv2';
+import { IQuestionRepository } from './business/repositories';
+import { QuestionRepository } from './business/repositories/sequelize/INv2';
 
 const container = new Container({ defaultScope: 'Singleton' });
 
@@ -19,7 +21,9 @@ container.bind(QuizAttemptService).toSelf();
 container.bind(QuizQuestionService).toSelf();
 container.bind(AttemptAnswerService).toSelf();
 container.bind(QuestionAnswerService).toSelf();
+container.bind(QuestionService).toSelf();
 container.bind<IQuizRepository>(TYPES.IQuizRepository).to(QuizRepository);
+container.bind<IQuestionRepository>(TYPES.IQuestionRepository).to(QuestionRepository);
 // container.bind<UserService>(TYPES.UserService).to(UserService);
 // container.bind<RoleService>(TYPES.RoleService).to(RoleService);
 // container.bind<TenantService>(TYPES.TenantService).to(TenantService);
