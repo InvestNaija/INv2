@@ -4,6 +4,7 @@ import { Collection } from 'postman-collection';
 import * as fs from 'fs';
 import { CreateLms, UpdateLms, GetLms, DeleteLms, LmsHealthCheck } from "./collections/lms/lms";
 import { CreateQuiz, UpdateQuiz, GetQuizById, GetAllQuizzes, DeleteQuiz, QuizHealthCheck } from "./collections/quiz/quiz";
+import { CreateQuestion, UpdateQuestion, GetQuestionById, GetAllQuestions, DeleteQuestion, QuestionHealthCheck, GetQuestionTypes } from "./collections/question/question";
 
 // This is the postman collection
 const postmanCollection = new Collection({
@@ -37,6 +38,12 @@ const postmanCollection = new Collection({
          value: "",
          type: "string",
          description: "Quiz ID for testing (set after creating a quiz)"
+      },
+      {
+         key: "questionId",
+         value: "",
+         type: "string",
+         description: "Question ID for testing (set after creating a question)"
       }
    ],
    // Requests in this collection
@@ -45,7 +52,8 @@ const postmanCollection = new Collection({
          name: "Health Check",
          item: [
             LmsHealthCheck.item(),
-            QuizHealthCheck.item()
+            QuizHealthCheck.item(),
+            QuestionHealthCheck.item()
          ]
       },
       {
@@ -68,6 +76,17 @@ const postmanCollection = new Collection({
             UpdateQuiz.item("{{quizId}}"),
             DeleteQuiz.item("{{quizId}}")
          ]
+      },
+      {
+         name: "Question",
+         item: [
+            CreateQuestion.item(),
+            GetQuestionTypes.item(),
+            GetQuestionById.item("{{questionId}}"),
+            GetAllQuestions.item(),
+            UpdateQuestion.item("{{questionId}}"),
+            DeleteQuestion.item("{{questionId}}")
+         ]
       }
    ],
 });
@@ -76,8 +95,8 @@ const postmanCollection = new Collection({
 const collectionJSON = postmanCollection.toJSON();
 // Create a collection.json file. It can be imported to postman
 fs.writeFile('./INv2-LMS.postman_collection.json', JSON.stringify(collectionJSON, null, 2), (err) => {
-   if (err) { 
-      console.error('Error writing collection file:', err); 
+   if (err) {
+      console.error('Error writing collection file:', err);
       return;
    }
    console.log('Postman collection file saved: INv2-LMS.postman_collection.json');
