@@ -1,5 +1,5 @@
-import { Model, Table, Column, DataType, ForeignKey, BelongsTo, } from "sequelize-typescript";
-import { LMS } from "..";
+import { Model, Table, Column, DataType, ForeignKey, BelongsTo, HasMany } from "sequelize-typescript";
+import { LMS, Question } from "..";
 
 @Table({
    timestamps: true,
@@ -11,6 +11,9 @@ export class Quiz extends Model {
 
    @BelongsTo(() => LMS)
    declare lms: LMS;
+   
+   @HasMany(() => Question)
+   declare questions: Question[];
    
    @Column({ type: DataType.DATE, })
    declare createdAt: Date;
