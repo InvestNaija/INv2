@@ -1,6 +1,6 @@
 import { Listener, Subjects, UserCreatedEvent } from "@inv2/common";
 import { Channel, Message } from "amqplib";
-import { User, } from "../../database/sequelize/INv2";
+import { User, } from "../../domain/sequelize/INv2";
 
 export class UserCreatedListener extends Listener<UserCreatedEvent> {
    readonly subject = Subjects.UserCreated; 

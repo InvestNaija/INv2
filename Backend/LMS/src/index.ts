@@ -2,7 +2,7 @@ import { Application } from 'express';
 import http from 'http';
 import { app } from './app';
 // Initiate DB connection here
-import "./database";
+import { setup } from './domain';
 
 import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from './rabbitmq.wrapper';
@@ -11,7 +11,6 @@ import { UserCreatedListener, UserUpdatedListener } from "./events/listeners";
 const PORT = process.env.PORT || 3000;
 
 export class Main {
-   // eslint-disable-next-line no-unused-vars
    constructor(private app: Application) { }
    public start(): void {
       this.init(this.app);
@@ -21,6 +20,7 @@ export class Main {
    =============================================*/
    private async init(app: Application): Promise<void> {
       try {
+         await setup(); // Initialize the database connection
          const httpServer: http.Server = new http.Server(app);
          await this.createEventBus();
          this.startHttpServer(httpServer);
@@ -43,8 +43,8 @@ export class Main {
       process.on('SIGTERM', async ()=> await rabbitmqWrapper.connection.close());
 
       // Set up all listeners
-      new UserCreatedListener(rabbitmqWrapper.connection).listen();
-      new UserUpdatedListener(rabbitmqWrapper.connection).listen();
+      await (new UserCreatedListener(rabbitmqWrapper.connection)).listen();
+      await (new UserUpdatedListener(rabbitmqWrapper.connection)).listen();
    }
    private async startHttpServer(httpServer: http.Server): Promise<void> {
       httpServer.listen(PORT, () => {

@@ -1,7 +1,7 @@
 import { Application } from 'express';
 import http from 'http';
 // Initiate DB connection here
-import "./database";
+import { setup } from './domain';
 
 import { app } from './app';
 import { INLogger } from '@inv2/common';
@@ -22,6 +22,7 @@ export class Main {
    =============================================*/
    private async init(app: Application): Promise<void> {
       try {
+         await setup(); // Initialize the database connection
          const httpServer: http.Server = new http.Server(app);
          // await this.createSocketIO(httpServer);
          await this.createEventBus();

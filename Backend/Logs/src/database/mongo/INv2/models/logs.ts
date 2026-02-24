@@ -5,6 +5,9 @@ interface ILogAttrs {
    id?: string;
    service: string;
    level: string;
+   route?: string;
+   payload?: any;
+   response?: any;
    message: string;
    timestamp: Date;
 }
@@ -16,6 +19,9 @@ interface LogModel extends mongoose.Model<LogDoc> {
 interface LogDoc extends mongoose.Document {
    service: string;
    level: string;
+   route: string;
+   payload: any;
+   response: any;
    message: string;
    timestamp: Date;
 }
@@ -28,6 +34,15 @@ const logSchema = new mongoose.Schema({
    level: {
       type: String,
       required: true,
+   },
+   route: {
+      type: String,
+   },
+   payload: {
+      type: mongoose.Schema.Types.Mixed,
+   },
+   response: {
+      type: mongoose.Schema.Types.Mixed
    },
    message: {
       type: String,

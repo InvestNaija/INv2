@@ -1,9 +1,10 @@
-`k port-forward depl-auth-postgres-57b4c98d46-pzjk4 -n inv2 5432:5432`
-`k port-forward depl-logs-mongo-67c896578f-gdbx7 -n inv2 27017:27017`
-`k port-forward depl-rabbitmq-0 -n inv2 15672:15672`
-`k port-forward depl-rabbitmq-0 -n inv2 5672:5672`
-`k port-forward depl-redis-6664db5d7c-fnf8v -n inv2 6379:6379`
-`k exec -it depl-logs-mongo-67c896578f-gdbx7 -n inv2 -- mongosh`
+- We can add the alias to bash_profile by doing => `code ~/.bashrc` or `code ~/bash_profile`
+- `k port-forward depl-auth-postgres-57b4c98d46-pzjk4 -n inv2 5432:5432`
+- `k port-forward depl-logs-mongo-67c896578f-gdbx7 -n inv2 27017:27017`
+- `k port-forward depl-rabbitmq-0 -n inv2 15672:15672`
+- `k port-forward depl-rabbitmq-0 -n inv2 5672:5672`
+- `k port-forward depl-redis-6664db5d7c-qlvtf -n inv2 6379:6379`
+- `k exec -it depl-logs-mongo-67c896578f-gdbx7 -n inv2 -- mongosh`
 
 - To see your services (cluster IP), do...  `kubectl get services`
 - To get all your existing deployments, run...  `kubectl get deployments -n inv2`
@@ -81,7 +82,7 @@ If you get an unsafe error on chrome browser, simply type `thisisunsafe`
 __Azure__
 - First go to Azure and create your AKS 
 - Then install azure cli by downloading `az` at `https://learn.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster?tabs=azure-cli`
-- Run `az aks install-cli`
+- Run `az aks install-cli` (windows) or `brew install azure-cli` (mac)
 - `az login`
 - `az aks get-credentials --resource-group {{MyResourceGrp}} --name {{MyClusterName}}`
 - Remember to run the azure ingress bit `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/cloud/deploy.yaml`
@@ -89,6 +90,7 @@ __Azure__
 - We now need to allow AKS access ACR `az aks update --resource-group CHD_Mobile-2 --name INv2-Test --attach-acr {{registryName}}`  
   e.g. `az aks update --resource-group CHD_Mobile-2 --name INv2-Test --attach-acr INv2Registry`
 - Remember that image names must be tagged as `{{RegistryName}}.azurecr.io/{{applicationName}}` e.g inv2registry.azurecr.io/demo/auth
+
 __Digital Oceans__
 - download doctl and place in your environment path
 - In terminal, enter `doctl auth init`, then paste your auth token from digital oceans. If we are updating the token `doctl auth init --access-token <new token>`
@@ -119,3 +121,10 @@ __Prod__
 - Delete the cloned repo
 - Horray! Now you can run your deployments normally
 - Note: to remove the credential, do `git config --global --unset credential.helper` and `git config --system --unset credential.helper`
+
+## gRPC
+- `npm i grpc grpc_tools @types/google-protobuf grpc_tools_node_protoc_ts`
+OR
+- `npm i @grpc/grpc-js google-protobuf`
+- `npm i -D grpc-tools ts-proto`
+- Remember to `chmod +x gen.sh`

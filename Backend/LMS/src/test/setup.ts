@@ -3,7 +3,7 @@
 // import * from 'auth.setup'
 import path from "path";
 import { Sequelize } from "sequelize-typescript";
-import { up, users } from "../database/sequelize/INv2/seeders/seed-all-data";
+import { up, users } from "../domain/sequelize/INv2/seeders/seed-all-data";
 import { JWTService } from "@inv2/common";
 
 declare global {

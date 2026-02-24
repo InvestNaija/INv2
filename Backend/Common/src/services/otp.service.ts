@@ -22,7 +22,7 @@ export class OtpService {
    constructor(private client: RedisClientType) {}
    async generateOTP ({user, sender, subject, message}: IOtpParams) {
       // const tokenExists = await this.client.get(email);
-      let otp = Helper.generateOTCode(6, false);
+      let otp = Helper.genRandomCode(6, {includeNumbers: true, includeUpperChars: false, includeLowerChars: false, includeSpecialChars: false, isUnique: false});
       await this.client.setEx(user.email, 600, JSON.stringify({otp, createdAt: new Date}));
       console.log(`OTP ${otp} generated for user`, user);
       
@@ -30,7 +30,7 @@ export class OtpService {
          .setCustomerDetails(user)
          .setEmailType({ type: 'resend_otp', meta: { user, otp, message } })
          .execute();
-      return { success: true, message: 'OTP generated successfully'};
+      return { success: true, token: otp, message: 'OTP generated successfully'};
    }
 
    async verifyOTP (params: IOtpParams) {
