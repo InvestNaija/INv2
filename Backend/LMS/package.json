@@ -41,7 +41,7 @@
   "license": "ISC",
   "dependencies": {
     "@bufbuild/protobuf": "^2.10.2",
-    "@inv2/common": "^1.2.23",
+    "@inv2/common": "1.2.47",
     "amqplib": "^0.10.5",
     "class-validator": "^0.14.1",
     "cors": "^2.8.5",

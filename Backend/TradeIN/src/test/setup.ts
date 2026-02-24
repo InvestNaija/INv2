@@ -2,7 +2,7 @@ import path from "path";
 import crypto from "crypto";
 import { Sequelize } from "sequelize-typescript";
 import { up, users } from "../domain/sequelize/INv2/seeders/seed-all-data";
-import { JWTService, INLogger } from "@inv2/common";
+import { JWTService } from "@inv2/common";
 
 declare global {
    // eslint-disable-next-line no-unused-vars, no-var
@@ -11,6 +11,7 @@ declare global {
 
 jest.mock('../rabbitmq.wrapper');
 // jest.mock('../redis.wrapper');
+import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from "../rabbitmq.wrapper";
 
 // Generate ACCESS_TOKEN_SECRET if not already set

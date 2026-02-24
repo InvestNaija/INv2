@@ -10,21 +10,13 @@ declare global { // declare global is TS specific, it is not the Node global!
     var __route: any;
     var __function: any;
 }
-const hasOwn = Object.prototype.hasOwnProperty;
-
-if (!hasOwn.call(global, '__basedir')) {
-    global.__basedir = __dirname;
-}
-if (!hasOwn.call(global, '__path')) {
-    global.__path = path;
-}
-if (!hasOwn.call(global, '__route')) {
-    global.__route = (req: Request): string => {
-        return req.originalUrl;
-    }
+global.__basedir = __dirname;
+global.__path = path;
+global.__route = (req: Request): string => {
+    return req.originalUrl;
 }
 
-if (!hasOwn.call(global, '__stack')) {
+if (!global.hasOwnProperty('__stack')) {
     Object.defineProperty(global, '__stack', {
         get: function () {
             const orig = Error.prepareStackTrace;
@@ -39,7 +31,7 @@ if (!hasOwn.call(global, '__stack')) {
     });
 }
 
-if (!hasOwn.call(global, '__line')) {
+if (!global.hasOwnProperty('__line')) {
     Object.defineProperty(global, '__line', {
         get: function () {
             return __stack[1].getLineNumber();
@@ -48,7 +40,7 @@ if (!hasOwn.call(global, '__line')) {
     });
 }
 
-if (!hasOwn.call(global, '__function')) {
+if (!global.hasOwnProperty('__function')) {
     Object.defineProperty(global, '__function', {
         get: function () {
             return __stack[1].getFunctionName();
