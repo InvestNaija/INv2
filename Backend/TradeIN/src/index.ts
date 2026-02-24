@@ -2,7 +2,7 @@ import { Application } from 'express';
 import http from 'http';
 import { app } from './app';
 // Initiate DB connection here
-import "./database";
+import { setup } from "./domain";
 
 import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from './rabbitmq.wrapper';
@@ -21,6 +21,7 @@ export class Main {
    =============================================*/
    private async init(app: Application): Promise<void> {
       try {
+         await setup(); // Initialize the database connection
          const httpServer: http.Server = new http.Server(app);
          await this.createEventBus();
          this.startHttpServer(httpServer);
@@ -29,21 +30,24 @@ export class Main {
       }
    }
    private async createEventBus(): Promise<void> {
-      
+
       await redisWrapper.connect(`redis://${process.env.REDIS_SERVER}`);
       await rabbitmqWrapper.connect(`amqp://${process.env.RABBITMQ}`);
 
-      INLogger.init('SavePlan', rabbitmqWrapper.connection);
-      
-      rabbitmqWrapper.connection.on('close', ()=>{
+      // @ts-ignore
+      INLogger.init('TradeIN', rabbitmqWrapper.connection);
+
+      rabbitmqWrapper.connection.on('close', () => {
          console.log(`RabbitMQ connection closed!`);
          process.exit();
       });
-      process.on('SIGINT', async ()=> await rabbitmqWrapper.connection.close());
-      process.on('SIGTERM', async ()=> await rabbitmqWrapper.connection.close());
+      process.on('SIGINT', async () => await rabbitmqWrapper.connection.close());
+      process.on('SIGTERM', async () => await rabbitmqWrapper.connection.close());
 
       // Set up all listeners
+      // @ts-ignore
       new UserCreatedListener(rabbitmqWrapper.connection).listen();
+      // @ts-ignore
       new UserUpdatedListener(rabbitmqWrapper.connection).listen();
    }
    private async startHttpServer(httpServer: http.Server): Promise<void> {

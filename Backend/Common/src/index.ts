@@ -16,29 +16,38 @@ global.__route = (req: Request): string => {
     return req.originalUrl;
 }
 
-Object.defineProperty(global, '__stack', {
-    get: function() {
-        const orig = Error.prepareStackTrace;
-        Error.prepareStackTrace =  (_, stack) => stack
-        const err = new Error();
-        Error.captureStackTrace(err);
-        const stack = err.stack;
-        Error.prepareStackTrace = orig;
-        return stack;
-    }
-});
+if (!global.hasOwnProperty('__stack')) {
+    Object.defineProperty(global, '__stack', {
+        get: function () {
+            const orig = Error.prepareStackTrace;
+            Error.prepareStackTrace = (_, stack) => stack
+            const err = new Error();
+            Error.captureStackTrace(err);
+            const stack = err.stack;
+            Error.prepareStackTrace = orig;
+            return stack;
+        },
+        configurable: true
+    });
+}
 
-Object.defineProperty(global, '__line', {
-    get: function() {
-        return __stack[1].getLineNumber();
-    }
-});
+if (!global.hasOwnProperty('__line')) {
+    Object.defineProperty(global, '__line', {
+        get: function () {
+            return __stack[1].getLineNumber();
+        },
+        configurable: true
+    });
+}
 
-Object.defineProperty(global, '__function', {
-    get: function() {
-        return __stack[1].getFunctionName();
-    }
-});
+if (!global.hasOwnProperty('__function')) {
+    Object.defineProperty(global, '__function', {
+        get: function () {
+            return __stack[1].getFunctionName();
+        },
+        configurable: true
+    });
+}
 
 // DTOs
 export * from './_dtos';
