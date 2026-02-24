@@ -1,8 +1,5 @@
 import request from "supertest";
 import { app } from "../../app";
-import { container } from "../../inversify.config";
-import { TYPES } from "../../business/types";
-import { ZanibalService } from "../../business/services";
 
 // Mock ZanibalService methods to avoid real API calls
 const mockZanibal = {
