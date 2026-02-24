@@ -28,14 +28,18 @@ export class QuestionAnswer extends Model {
    })
    declare id: string;
 
-   @Column({
-      type: DataType.UUID,
-   })
    @ForeignKey(() => Question)
    declare questionId: string;
 
-   @Column({ type: DataType.TEXT, })
+   @Column({
+      type: DataType.UUID,
+   })
+   @Column({ type: DataType.TEXT })
    declare detail: string;
+   @Column({ type: DataType.TEXT })
+   declare answer: string;
 
+   @Column({ type: DataType.BOOLEAN })
+   declare isValid: boolean;
 }
 
