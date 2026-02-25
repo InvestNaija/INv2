@@ -13,6 +13,14 @@ export enum TradeInProfileStatus {
     paranoid: true,
 })
 export class TradeInProfile extends Model {
+    @Column({ type: DataType.DATE, })
+    declare createdAt: Date;
+
+    @Column({ type: DataType.DATE, })
+    declare updatedAt: Date;
+
+    @Column({ type: DataType.DATE, })
+    declare deletedAt: Date;
 
     @Column({
         primaryKey: true,
@@ -44,13 +52,4 @@ export class TradeInProfile extends Model {
         defaultValue: TradeInProfileStatus.ACTIVE
     })
     declare status: TradeInProfileStatus;
-
-    @Column({ type: DataType.DATE, })
-    declare createdAt: Date;
-
-    @Column({ type: DataType.DATE, })
-    declare updatedAt: Date;
-
-    @Column({ type: DataType.DATE, })
-    declare deletedAt: Date;
 }
