@@ -4,6 +4,7 @@ import { Container } from 'inversify';
 // import { AuthService, RoleService, TenantService, UserService } from './business/services';
 // import { TYPES } from './business/types';
 import { TYPES } from './business/types';
+// import { TYPES } from './business/types';
 import { LmsService, QuizService, QuestionService, QuizQuestionService, QuestionAnswerService, QuizAttemptService, AttemptAnswerService } from './business/services';
 // import { ISavePlanRepository, IUserRepository } from './business/repositories';
 // import { SavePlanRepository, UserRepository } from './business/repositories/sequelize/INv2';

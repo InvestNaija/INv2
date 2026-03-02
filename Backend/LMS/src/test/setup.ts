@@ -40,8 +40,8 @@ beforeAll(async () => {
       logging: false,
       models: [path.join(__dirname, `../domain/sequelize/INv2/models`)],
       modelMatch: (filename, member) => {
-         const replaced = filename.replace(/-/g, '');
-         return replaced.substring(0, replaced.indexOf('.model')) === member.toLowerCase();
+         return filename.substring(0, filename.indexOf('.model')) === member.toLowerCase() ||
+            filename.substring(0, filename.indexOf('.model')).replace(/-/g, '') === member.toLowerCase();
       },
    });
    await sequelize.sync({ force: true });
