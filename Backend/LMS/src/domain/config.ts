@@ -54,7 +54,6 @@ const Config = {
             "models": [__dirname + `/sequelize/INv2/models`],
             "dialect": "postgres",
             "ssl": true,
-            "rejectUnauthorized": false,
             "dialectOptions": {
                "ssl": {
                   "require": true,

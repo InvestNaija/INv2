@@ -8,7 +8,7 @@ import { Question } from "../index";
    paranoid: true,
 })
 export class QuestionAnswer extends Model {
-   
+
    @BelongsTo(() => Question)
    declare questions: Question;
 
@@ -35,7 +35,13 @@ export class QuestionAnswer extends Model {
    declare questionId: string;
 
    @Column({ type: DataType.TEXT, })
-   declare detail: string;
+   declare details: string;
+
+   @Column({ type: DataType.STRING(1000), })
+   declare answer: string;
+
+   @Column({ type: DataType.BOOLEAN, defaultValue: false, })
+   declare isValid: boolean;
 
 }
 
