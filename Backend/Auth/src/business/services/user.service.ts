@@ -35,7 +35,7 @@ export class UserService {
          let refCodeExists = 0;
          tur.user.refCode = '';
          do {
-            tur.user.refCode = refCode.replace(/[^a-zA-Z]/g, '').toUpperCase() + Helper.generatePassword(2, { includeSpecialChars: false });
+            tur.user.refCode = refCode.replace(/[^a-zA-Z]/g, '').toUpperCase() + Helper.genRandomCode(2, { includeSpecialChars: false });
             refCodeExists = await User.count({ where: { refCode: `${tur.user.refCode}` }, });
          } while (refCodeExists > 0);
          

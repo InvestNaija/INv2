@@ -1,12 +1,13 @@
 
 // file types.ts
 export const TYPES = {
-   IUserRepository: Symbol.for("IUserRepository"),
-   ISavePlanRepository: Symbol.for("ISavePlanRepository"),
-   UserService: Symbol.for("UserService"),
-   SavePlanService: Symbol.for("SavePlanService"),
-   AdminService: Symbol.for("AdminService"),
-   AdminGlService: Symbol.for("AdminGlService"),
-   RoleService: Symbol.for("RoleService"),
-   TenantService: Symbol.for("TenantService"),
+   //Repositories
+   IQuizRepository: Symbol.for("IQuizRepository"),
+   ILmsRepository: Symbol.for("ILmsRepository"),
+   IQuestionRepository: Symbol.for("IQuestionRepository"),
+
+   //Services
+   QuizService: Symbol.for("QuizService"),
+   LmsService: Symbol.for("LmsService"),
+   QuestionService: Symbol.for("QuestionService"),
 };

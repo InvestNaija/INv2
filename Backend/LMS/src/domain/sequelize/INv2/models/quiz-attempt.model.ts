@@ -8,7 +8,7 @@ import { Quiz, User } from "..";
    paranoid: true,
 })
 export class QuizAttempt extends Model {
-   
+
    @BelongsTo(() => Quiz)
    declare quizzes: Quiz;
    @BelongsTo(() => User)
@@ -40,5 +40,14 @@ export class QuizAttempt extends Model {
    })
    @ForeignKey(() => User)
    declare userId: string;
+
+   @Column({ type: DataType.DATE, })
+   declare attemptStart: Date;
+
+   @Column({ type: DataType.DATE, allowNull: true, })
+   declare attemptEnd: Date;
+
+   @Column({ type: DataType.STRING(45), })
+   declare attemptIp: string;
 }
 

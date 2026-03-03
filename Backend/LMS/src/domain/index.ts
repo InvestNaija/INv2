@@ -9,39 +9,39 @@ const env = process.env.NODE_ENV || 'development';
 import Config from "./config";
 
 console.log(`Environment: ${env}`);
-const config: { [key: string]: any;} = Config;
+const config: { [key: string]: any; } = Config;
 const databases = Object.keys(config[env].databases);
-const cxn: { [key: string]: any;} = {};
+const cxn: { [key: string]: any; } = {};
 
 export async function setup() {
-   for(const database of databases) {
+   for (const database of databases) {
       const dbPath = config[env].databases[database];
 
-      if(dbPath['models']) {
+      if (dbPath['models']) {
          /**
           * Sequelize
           */
          cxn[database] = new Sequelize({
             ...dbPath,
-            sync: { alter: true },
+            // sync: { alter: true },
             modelMatch: (filename, member) => {
-               const replaced=filename.replace(/-/g,'');
+               const replaced = filename.replace(/-/g, '');
                return replaced.substring(0, replaced.indexOf('.model')) === member.toLowerCase();
             },
             logging: (env !== 'production' ? true : false),
             // repositoryMode: true,
          });
-         if(env !== 'production') {
+         if (env !== 'production') {
             console.log(dbPath);
-            await cxn[database].sync({ alter: true });
+            // await cxn[database].sync({ alter: true });
          };
          cxn[database].authenticate()
             .then(() => console.log(`${database} connected....`))
             .catch((err: any) => {
                console.log(`Error connecting to ${database}...${err.message}`);
                // Logger.error({status: err.code??500, message: `Error connecting to ${database}...${err.message}`})
-            });      
-      } else if(dbPath['entities']) {
+            });
+      } else if (dbPath['entities']) {
          /**
           * TypeORM
           */

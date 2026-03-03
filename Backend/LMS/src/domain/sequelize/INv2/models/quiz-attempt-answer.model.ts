@@ -8,7 +8,7 @@ import { Question, QuizAttempt } from "..";
    paranoid: true,
 })
 export class QuizAttemptAnswer extends Model {
-   
+
    @BelongsTo(() => QuizAttempt)
    declare quizAttempt: QuizAttempt;
    @BelongsTo(() => Question)
@@ -34,7 +34,7 @@ export class QuizAttemptAnswer extends Model {
       type: DataType.UUID,
    })
    @ForeignKey(() => QuizAttempt)
-   declare quizAttepmtId: string;
+   declare quizAttemptId: string;
    @Column({
       type: DataType.UUID,
    })
@@ -43,7 +43,7 @@ export class QuizAttemptAnswer extends Model {
 
    @Column({ type: DataType.TEXT, })
    declare answerGiven: string;
-   @Column({ type: DataType.DOUBLE(10,2), })
+   @Column({ type: DataType.DOUBLE(10, 2), })
    declare answerScore: number;
 }
 

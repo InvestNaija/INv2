@@ -18,7 +18,7 @@ export class LmsService {
          }
          if (!transaction) await t.commit();
 
-         return { success: true, code: 200, message: `Record created successfully`, data: createdEntry };
+         return { success: true, code: 201, message: `Record created successfully`, data: createdEntry };
       } catch (error) {
          console.log(error);
          if (!transaction) await t.rollback();
@@ -28,33 +28,56 @@ export class LmsService {
 
    // Update an entry
    async updateLms(id: string, data: Partial<LmsDto>, transaction?: Transaction): Promise<IResponse> {
-      const t = transaction ?? (await LMS.sequelize?.transaction()) as Transaction;
       try {
          const entry = await LMS.findByPk(id);
-         if (!entry) throw new Exception({ code: 404, message: `Record not found` });
+         if (!entry) {
+            return { success: false, code: 404, message: `Record not found` };
+         }
 
-         await entry.update(data, { transaction: t });
-         if (!transaction) await t.commit();
-         return { success: true, code: 200, message: `Record updated successfully`, data: entry };
+         const t = transaction ?? (await LMS.sequelize?.transaction()) as Transaction;
+         try {
+            await entry.update(data, { transaction: t });
+            if (!transaction) await t.commit();
+            return { success: true, code: 200, message: `Record updated successfully`, data: entry };
+         } catch (error) {
+            if (!transaction) await t.rollback();
+            if (error instanceof CustomError) {
+               throw error;
+            }
+            return this.handleError(error);
+         }
       } catch (error) {
-         if (!transaction) await t.rollback();
+         if (error instanceof CustomError) {
+            throw error;
+         }
          return this.handleError(error);
       }
    }
 
    // Delete an entry (soft delete)
    async deleteLms(id: string, transaction?: Transaction): Promise<IResponse> {
-      const t = transaction ?? (await LMS.sequelize?.transaction()) as Transaction;
       try {
          const entry = await LMS.findByPk(id);
-         if (!entry) throw new Exception({ code: 404, message: `Record not found` });
+         if (!entry) {
+            return { success: false, code: 404, message: `Record not found` };
+         }
 
-         await entry.destroy({ transaction: t });
-         if (!transaction) await t.commit();
-
-         return { success: true, code: 200, message: `Record deleted successfully` };
+         const t = transaction ?? (await LMS.sequelize?.transaction()) as Transaction;
+         try {
+            await entry.destroy({ transaction: t });
+            if (!transaction) await t.commit();
+            return { success: true, code: 200, message: `Record deleted successfully` };
+         } catch (error) {
+            if (!transaction) await t.rollback();
+            if (error instanceof CustomError) {
+               throw error;
+            }
+            return this.handleError(error);
+         }
       } catch (error) {
-         if (!transaction) await t.rollback();
+         if (error instanceof CustomError) {
+            throw error;
+         }
          return this.handleError(error);
       }
    }
