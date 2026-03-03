@@ -28,14 +28,11 @@ process.env.NODE_ENV = 'test';
 let sequelize: Sequelize;
 beforeAll(async () => {
    jest.clearAllMocks();
-   // jest.useFakeTimers(); // Disabled - causes issues with async database operations
-   // process.env.ACCESS_TOKEN_SECRET = '2NjQ5fQ.BpnmhQBqzLfYf';
-   // process.env.NODE_ENV = 'test'
-   INLogger.init('LMS', rabbitmqWrapper.connection as any);
+   jest.useFakeTimers();
+   INLogger.init('SavePlan', rabbitmqWrapper.connection);
 
    sequelize = new Sequelize({
       dialect: "sqlite",
-      // storage: __dirname+"/test.sqlite",
       storage: ":memory:",
       logging: false,
       models: [path.join(__dirname, `../domain/sequelize/INv2/models`)],
@@ -54,10 +51,8 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-   // const collections = await mongoose.connection.db.collections();
-   // for (let collection of collections) {
-   //    await collection.deleteMany({});
-   // }
+   // Tests are designed to run sequentially and share state
+   // No reset needed
 });
 
 afterAll(async () => {

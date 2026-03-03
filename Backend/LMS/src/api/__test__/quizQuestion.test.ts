@@ -13,7 +13,7 @@ const customerHeaders = {
     "authorization": global.getJWTAuth('CUSTOMER'),
 };
 
-const quizId = "11b26b00-4363-4c2a-ade2-ce97b1145d39";
+const quizId = "a1b2c3d4-1234-5678-9abc-def012345678";
 const questionId = "22b26b00-4363-4c2a-ade2-ce97b1145d39";
 const quizQuestionId = "33b26b00-4363-4c2a-ade2-ce97b1145d39";
 

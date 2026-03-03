@@ -7,8 +7,9 @@
     "start": "tsc && node dist/index.js",
     "start:dev": "ts-node-dev --respawn --transpile-only --no-notify src/index.ts",
     "postman": "ts-node-dev src/collection.ts",
-    "test": "jest --watchAll --no-cache",
-    "test:ci": "jest",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watchAll --no-cache",
+    "test:coverage": "jest --runInBand --coverage",
     "lint": "eslint",
     "sequelize:inv2-pg:seed": "npx tsc -p . && sequelize --options-path ./.sequelize-inv2-pg --env postgres db:seed --seed seed-all-data.js --debug"
   },

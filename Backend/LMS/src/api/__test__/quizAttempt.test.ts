@@ -13,7 +13,7 @@ const customerHeaders = {
     "authorization": global.getJWTAuth('CUSTOMER'),
 };
 
-const quizId = "11b26b00-4363-4c2a-ade2-ce97b1145d39";
+const quizId = "a1b2c3d4-1234-5678-9abc-def012345678";
 const quizAttemptId = "55b26b00-4363-4c2a-ade2-ce97b1145d39";
 
 describe('QuizAttempt CRUD Integration Tests', () => {
@@ -115,9 +115,6 @@ describe('QuizAttempt CRUD Integration Tests', () => {
                     attemptEnd: endTime,
                     attemptIp: "10.0.0.1"
                 });
-            if (res.status !== 200) {
-                console.log('Response body:', res.body);
-            }
             expect(res.status).toBe(200);
             expect(res.body.data.attemptIp).toBe("10.0.0.1");
             expect(new Date(res.body.data.attemptEnd).getTime()).not.toBeNaN();
