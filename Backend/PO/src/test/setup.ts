@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-// import * from 'auth.setup'
 import path from "path";
 import { Sequelize } from "sequelize-typescript";
+import { Offering } from "../domain/sequelize/INv2/models/offering.model";
+import { Order } from "../domain/sequelize/INv2/models/order.model";
 import { up, users } from "../domain/sequelize/INv2/seeders/seed-all-data";
 import { JWTService } from "@inv2/common";
 
@@ -11,7 +12,20 @@ declare global {
    var getJWTAuth: (role?: string) => string;
 }
 
-jest.mock('../rabbitmq.wrapper');
+jest.mock('../rabbitmq.wrapper', () => {
+   return {
+      rabbitmqWrapper: {
+         connection: {
+            createChannel: jest.fn().mockResolvedValue({
+               assertExchange: jest.fn().mockResolvedValue(true),
+               publish: jest.fn().mockReturnValue(true)
+            }),
+            close: jest.fn(),
+            on: jest.fn()
+         }
+      }
+   };
+});
 jest.mock('../redis.wrapper');
 import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from "../rabbitmq.wrapper";
@@ -19,18 +33,17 @@ let sequelize: Sequelize;
 beforeAll(async ()=>{
    jest.clearAllMocks();
    jest.useFakeTimers();
-   INLogger.init('SavePlan', rabbitmqWrapper.connection);
+   INLogger.init('PO', rabbitmqWrapper.connection);
    
    sequelize = new Sequelize({
       dialect: "sqlite",
-      // storage: __dirname+"/test.sqlite",
       storage: ":memory:",
       logging: false,
-      models: [path.join(__dirname, `../database/sequelize/INv2/models`)]
+      models: [Offering, Order]
    });
    await sequelize.sync({ force: true });
    await sequelize.authenticate()
-      .then(() => console.log(`Database connected....`))
+      .then(() => console.log(`PO Database connected....`))
       .catch((err: any) => {
          console.log(`Error connecting to Database...${err.message}`);
       });
@@ -38,19 +51,13 @@ beforeAll(async ()=>{
 });
 
 beforeEach(async()=>{
-   // const collections = await mongoose.connection.db.collections();
-   // for (let collection of collections) {
-   //    await collection.deleteMany({});
-   // }
 });
 
 afterAll(async () => {
-   // if (sequelize) {
-   //    await sequelize.close();
-   //    // fs.unlinkSync(__dirname+"/test.sqlite");
-   // }
+   if (sequelize) {
+      await sequelize.close();
+   }
 });
-
 
 global.getJWTAuth = (role?: string)=> {
    let user = null;
@@ -58,12 +65,10 @@ global.getJWTAuth = (role?: string)=> {
    else user = users[Math.floor(Math.random() * (users.length - 1 + 0) + 0)];
    if(!user) return null;
 
-   // Build a jwt payload {user, Tenant}
    const payload = {
       user: JSON.parse(user?.details||'{user:{}}').user,
       Tenant: JSON.parse(user?.tenant_roles||'{Tenant:{}}').Tenant,
    };
-   // create a JWT
    const token = JWTService.createJWTToken(payload, process.env.ACCESS_TOKEN_SECRET!, "1h");
    return token.data;
 };
