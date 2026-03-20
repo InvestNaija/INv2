@@ -10,4 +10,9 @@ services:
     build:
       context: backend/logs
       dockerfile: Dockerfile
+  po:
+    image: integrationschd/inv2-po
+    build:
+      context: backend/po
+      dockerfile: Dockerfile
     

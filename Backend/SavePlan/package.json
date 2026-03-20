@@ -30,6 +30,7 @@
       "@grpc/grpc-js": "^1.14.0",
       "@grpc/proto-loader": "^0.8.0",
       "@inv2/common": "^1.2.47",
+      "@joi/date": "^2.1.1",
       "amqplib": "^0.10.5",
       "class-validator": "^0.14.1",
       "cors": "^2.8.5",

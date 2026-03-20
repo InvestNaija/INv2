@@ -16,6 +16,13 @@ spec:
       containers:
         - name: logs-mongo
           image: mongo
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "256Mi"
+            limits:
+              cpu: "100m"
+              memory: "512Mi"
 ---
 apiVersion: v1
 kind: Service

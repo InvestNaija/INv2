@@ -6,6 +6,8 @@ export * from './user-created.event';
 export * from './user-updated.event';
 export * from './saveplan-created.event';
 export * from './saveplan-updated.event';
+export * from './offering-created.event';
+export * from './offering-updated.event';
 
 
 export * from './types/order-status';

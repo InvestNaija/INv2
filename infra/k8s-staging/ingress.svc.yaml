@@ -26,6 +26,13 @@ spec:
                 port:
                   number: 3100
           - pathType: Prefix
+            path: /api/v2/po/?(.*)
+            backend:
+              service:
+                name: po-srv
+                port:
+                  number: 3100
+          - pathType: Prefix
             path: /api/v2/customer/saveplan/?(.*)
             backend:
               service:

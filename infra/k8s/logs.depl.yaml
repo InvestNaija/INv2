@@ -16,6 +16,13 @@ spec:
       containers:
         - name: logs
           image: integrationschd/inv2-logs
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              cpu: "100m"
+              memory: "256Mi"
           # image: inv2registry.azurecr.io/demo/logs
           env:
             - name: PORT

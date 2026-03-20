@@ -37,6 +37,13 @@ spec:
                 name: auth-srv
                 port:
                   number: 3001
+          - pathType: Prefix
+            path: /api/v2/po/?(.*)
+            backend:
+              service:
+                name: po-srv
+                port:
+                  number: 3000
           # - pathType: Prefix
           #   path: /api/v2/logs/?(.*)
           #   backend:

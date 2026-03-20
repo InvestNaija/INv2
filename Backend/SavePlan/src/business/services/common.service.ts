@@ -27,4 +27,6 @@ export class CommonService {
       //    throw new Exception(handleError(error));
       // }
    }
+   async subscribeIntoPlan(type: string|number): Promise<IResponse> {
+   }
 }
