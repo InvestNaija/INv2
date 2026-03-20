@@ -16,6 +16,13 @@ spec:
       containers:
         - name: inv2-postgres
           image: postgres:latest
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "200m"
+              memory: "768Mi"
           ports:
             - containerPort: 5432
           env:

@@ -109,4 +109,11 @@ export class DBEnums {
          {code: 110, name: 'pwt', label: 'Pay With Transfer'},
       ];
    }
+   static get Gateway() {
+      return [
+         {code: 100, name: 'paystack', label: 'Paystack'}, 
+         {code: 105, name: 'gtsquad', label: 'GTSquad'}, 
+         {code: 110, name: 'uba', label: 'UBA'},
+      ];
+   }
 }

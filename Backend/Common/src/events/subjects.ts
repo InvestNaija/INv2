@@ -5,4 +5,6 @@ export enum Subjects {
    SaveplanUpdated = 'saveplan:updated',
    LogCreated = 'log:created',
    IvestINAssetCreated = 'investasset:created',
+   OfferingCreated = 'offering:created',
+   OfferingUpdated = 'offering:updated',
 }

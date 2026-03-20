@@ -16,6 +16,13 @@ spec:
       containers:
       - name: web-client
         image: integrationschd/inv2-web-client
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "128Mi"
+          limits:
+            cpu: "100m"
+            memory: "256Mi"
 ---
 apiVersion: v1
 kind: Service
