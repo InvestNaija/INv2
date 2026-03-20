@@ -17,6 +17,7 @@ global.__route = (req: Request): string => {
 }
 
 Object.defineProperty(global, '__stack', {
+    configurable: true,
     get: function() {
         const orig = Error.prepareStackTrace;
         Error.prepareStackTrace =  (_, stack) => stack
@@ -29,12 +30,14 @@ Object.defineProperty(global, '__stack', {
 });
 
 Object.defineProperty(global, '__line', {
+    configurable: true,
     get: function() {
         return __stack[1].getLineNumber();
     }
 });
 
 Object.defineProperty(global, '__function', {
+    configurable: true,
     get: function() {
         return __stack[1].getFunctionName();
     }
