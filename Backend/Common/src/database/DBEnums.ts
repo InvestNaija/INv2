@@ -114,6 +114,8 @@ export class DBEnums {
          {code: 100, name: 'paystack', label: 'Paystack'}, 
          {code: 105, name: 'gtsquad', label: 'GTSquad'}, 
          {code: 110, name: 'uba', label: 'UBA'},
+         {code: 115, name: 'flutterwave', label: 'Flutterwave'},
+         {code: 120, name: 'wallet', label: 'Wallet'},
       ];
    }
 }
