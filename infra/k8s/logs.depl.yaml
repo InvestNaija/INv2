@@ -18,11 +18,11 @@ spec:
           image: integrationschd/inv2-logs
           resources:
             requests:
-              cpu: "50m"
-              memory: "128Mi"
+              cpu: "10m"
+              memory: "32Mi"
             limits:
               cpu: "100m"
-              memory: "256Mi"
+              memory: "512Mi"
           # image: inv2registry.azurecr.io/demo/logs
           env:
             - name: PORT

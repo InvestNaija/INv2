@@ -18,11 +18,11 @@ spec:
           image: integrationschd/inv2-web-admin
           resources:
             requests:
-              cpu: "50m"
-              memory: "128Mi"
+              cpu: "10m"
+              memory: "32Mi"
             limits:
               cpu: "100m"
-              memory: "256Mi"
+              memory: "512Mi"
 ---
 apiVersion: v1
 kind: Service
