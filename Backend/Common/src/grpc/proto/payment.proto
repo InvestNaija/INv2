@@ -15,6 +15,7 @@ message PaymentRequest {
    string module = 5;
    string module_id = 6;
    string gateway = 7;
+   optional string reference = 8;
 }
 message PaymentResponse {
    bool success = 1;
