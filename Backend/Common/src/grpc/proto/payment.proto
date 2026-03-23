@@ -3,7 +3,7 @@ syntax = "proto3";
 package finance.payment;
 
 message Data {
-   string authorization_url = 1;
+   string authorizationUrl = 1;
    string reference = 2;
    string link = 3;
 }
