@@ -10,6 +10,7 @@ message Data {
 message CallbackParams {
    optional string redirectUrl = 1;
    optional string gatewayId = 2;
+   optional string saveCard = 3;
 }
 message PaymentRequest {
    double amount = 1;
