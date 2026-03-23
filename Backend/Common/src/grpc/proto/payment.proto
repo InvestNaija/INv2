@@ -7,6 +7,10 @@ message Data {
    string reference = 2;
    string link = 3;
 }
+message CallbackParams {
+   optional string redirectUrl = 1;
+   optional string gatewayId = 2;
+}
 message PaymentRequest {
    double amount = 1;
    string currency = 2;
@@ -16,6 +20,7 @@ message PaymentRequest {
    string module_id = 6;
    string gateway = 7;
    optional string reference = 8;
+   optional CallbackParams callbackParams = 9;
 }
 message PaymentResponse {
    bool success = 1;
