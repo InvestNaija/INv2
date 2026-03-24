@@ -10,7 +10,7 @@ import { SaveplanDto } from '../../_dtos';
 // import { Notification } from '../../business/services/notification/factory/notification';
 // import { NotificationType } from '../../business/services/notification/INotifiable';
 
-@controller("/admin/saveplan")
+@controller("/admin")
 export class AdminSaveplanController {
    constructor(private readonly adminSvc: AdminService){}
 

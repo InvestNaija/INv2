@@ -3,7 +3,7 @@ import axios from "axios";
 import { IPaymentService } from "../ipayment.service";
 import { IPaymentConfig } from "../ipayment.config";
 import { IResponse } from "@inv2/common";
-import { InitParams } from "../../../../business/types";
+import { InitParams, MetaData } from "../../../../business/types";
 
 export class PaystackService implements IPaymentService {
    private merchantSecret: string;
@@ -19,17 +19,21 @@ export class PaystackService implements IPaymentService {
       };
    }
 
-   async initializePayment(body: InitParams, metadata = {application: 'IN'}): Promise<IResponse> {
+   async initializePayment(body: InitParams, metadata: MetaData = { application: 'IN' }): Promise<IResponse> {
       console.log(`🚀 [Paystack] Initializing for ${body.user.email}...`);
       try {
+         // Ensure application has a default value if not provided in the object
+         metadata.application = metadata.application || 'IN';
+
          // generate transaction reference
          body.amount = (body.amount * 100).toFixed(2) as unknown as number; // convert to kobo
    
          const data = {
-            amount: body.amount, currency: body.currency||'NGN',
+            amount: body.amount, 
+            currency: body.currency || 'NGN',
             email: body.user.email,
             reference: body.reference,
-            metadata
+            metadata: metadata
          };
          const payload = JSON.stringify(data);
 
@@ -42,6 +46,7 @@ export class PaystackService implements IPaymentService {
          if (response.data.data && response.data.data.authorization_url) {
             response.data.status = 'success';
             response.data.data.link = response.data?.data?.authorization_url;
+            response.data.data.authorizationUrl = response.data?.data?.authorization_url;
             // return {success: true, status: response.status, data: response.data.data, message: response.data.message};
             return { success: true, code: response.status, show: true, message: response.data.message, data: response.data.data};
          } else {

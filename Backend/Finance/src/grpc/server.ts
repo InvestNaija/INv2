@@ -37,6 +37,7 @@ export class GrpcServer {
             grpc.ServerCredentials.createInsecure(),
             (err: any, boundPort: number) => {
                if (err) {
+                  INLogger.log.error(`gRPC server failed to bind on port ${port}:`, err);
                   reject(err);
                   return;
                }

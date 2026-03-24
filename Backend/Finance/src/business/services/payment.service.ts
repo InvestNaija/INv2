@@ -22,16 +22,16 @@ export class PaymentService {
        */
       // let { amount, currency, description, reference, source, type, gateway_params, payment_type, saved_card_id, direct_debit_id, gateway, redirect_url, callback_params, updateTxn, post_date } = req.body;
       body.reference = body.reference ?? Helper.genRandomCode(20, { includeNumbers: true, includeUpperChars: true, includeLowerChars: false, includeSpecialChars: false, });
-      const {reference, amount, currency, ...callbackParams} = body;
+      const {reference, amount, currency, ...others} = body;
       console.log("reference, amount, currency =>",reference, amount, currency);
       
-      body.callbackParams = JSON.stringify(callbackParams || {});
+      body.callbackParams = JSON.stringify(others.callbackParams || {});
       body.userId = user.id;
       await this.txnSvc.createTxn(body);
       
       const data = { ...body, user};
       const channel = this.factory.createGateway(gateway, { apiKey: process.env.PAYSTACK_SECRET_KEY || "",});
-      const init = await channel.initializePayment(data);
+      const init = await channel.initializePayment(data, (others.callbackParams || {} as any));
       if(!init.success) 
          throw new Exception(init);
       return init;

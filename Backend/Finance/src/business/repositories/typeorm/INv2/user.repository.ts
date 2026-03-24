@@ -5,8 +5,7 @@ import { injectable } from "inversify";
 import { IUserRepository } from "../../ITxnRepository";
 import { getDbCxn } from "../../../../domain";
 import { Like, QueryRunner, Repository,  } from "typeorm";
-import { IQueryOptions } from "../../../../../../Common/src/database/IGenericRepository";
-import { UserDto, } from "@inv2/common";
+import { IQueryOptions, UserDto, } from "@inv2/common";
 
 @injectable()
 export class UserRepository implements IUserRepository {

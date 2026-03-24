@@ -66,6 +66,15 @@ const Config = {
          }
       },
    },
+   "test": {
+      "databases": {
+         "pgINv2": {
+            "dialect": "sqlite",
+            "storage": ":memory:",
+            "models": [__dirname + '/sequelize/INv2/models/*.model.ts'],
+         }
+      }
+   },
    "staging": {
       "databases": {
          /** Sequelize */

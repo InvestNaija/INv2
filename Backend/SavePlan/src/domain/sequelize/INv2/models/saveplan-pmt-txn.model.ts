@@ -54,10 +54,10 @@ export class SavePlanPmtTxn extends Model {
    @Column({ type: DataType.SMALLINT, })
    get type(): { code: number; name: string; label: string; } | undefined {
       const rawValue = this.getDataValue('type');
-      return DBEnums.OrderStatus.find(g=>g.code===rawValue);
+      return DBEnums.PmtType.find(g=>g.code===rawValue);
    }
    set type(value: number|string) {
-      const result = DBEnums?.OrderStatus?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
+      const result = DBEnums?.PmtType?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
       this.setDataValue('type', result);
    }
    @Column({ type: DataType.DATEONLY, })

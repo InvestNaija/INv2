@@ -1,6 +1,6 @@
 {
   "name": "@inv2/common",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "description": "A common module for v2",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
