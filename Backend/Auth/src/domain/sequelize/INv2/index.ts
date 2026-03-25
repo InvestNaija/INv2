@@ -5,3 +5,4 @@ export * from "./models/tenant.model";
 export * from "./models/user.model";
 export * from "./models/role.model";
 export * from "./models/tenant-user-role.model";
+export * from "./models/holiday.model";

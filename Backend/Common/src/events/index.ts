@@ -8,6 +8,7 @@ export * from './saveplan-created.event';
 export * from './saveplan-updated.event';
 export * from './offering-created.event';
 export * from './offering-updated.event';
+export * from './asset-created.event';
 
 
 export * from './types/order-status';

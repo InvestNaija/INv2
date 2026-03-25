@@ -9,7 +9,11 @@ import { rabbitmqWrapper } from './rabbitmq.wrapper';
 import { redisWrapper } from './redis.wrapper';
 // import { UserCreatedListener } from "./events/listeners";
 import { socketIO } from './socketio';
+import { container } from './inversify.config';
+import { GrpcServer } from './grpc/server';
+
 const PORT = process.env.PORT || 3000;
+const GRPC_PORT = process.env.GRPC_PORT || 50051;
 
 export class Main {
    // eslint-disable-next-line no-unused-vars
@@ -27,10 +31,15 @@ export class Main {
          // await this.createSocketIO(httpServer);
          await this.createEventBus();
          this.startHttpServer(httpServer);
+         await this.startGrpcServer();
          // this.socketIOConnections(socketIO);
       } catch (error) {
          console.log(error);
       }
+   }
+   private async startGrpcServer(): Promise<void> {
+      const grpcServer = container.get<GrpcServer>(GrpcServer);
+      await grpcServer.start(Number(GRPC_PORT));
    }
    private async createSocketIO(server: http.Server) {
       await socketIO.connect(server);
