@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package common.holiday;
+
+message DateRequest {
+    string date = 1; // format: YYYY-MM-DD
+}
+
+message BoolResponse {
+    bool value = 1;
+}
+
+message DateResponse {
+    string date = 1; // format: YYYY-MM-DD
+}
+
+message Holiday {
+    string id = 1;
+    string name = 2;
+    string startDate = 3;
+    string endDate = 4;
+    bool isObserved = 5;
+}
+
+message HolidayListResponse {
+    repeated Holiday holidays = 1;
+}
+
+message Empty {}
+
+service HolidayService {
+    rpc IsHoliday (DateRequest) returns (BoolResponse);
+    rpc GetNextBusinessDay (DateRequest) returns (DateResponse);
+    rpc GetPreviousBusinessDay (DateRequest) returns (DateResponse);
+    rpc GetHolidayList (Empty) returns (HolidayListResponse);
+}
