@@ -8,6 +8,8 @@ import {
 import { AssetService } from './business/services/asset.service';
 import { AssetSubscriptionService } from './business/services/subscription.service';
 import { ZanibalService } from './business/services/zanibal.service';
+import { HolidayRepository, IHolidayRepository } from './domain/sequelize/repositories/holiday.repository';
+import { HolidayService } from './business/services/holiday.service';
 import { GrpcClient } from './grpc/client';
 
 const container = new Container({ defaultScope: 'Singleton' });
@@ -18,6 +20,8 @@ container.bind<IAssetTransactionRepository>(TYPES.AssetTransactionRepository).to
 container.bind(AssetService).toSelf();
 container.bind(AssetSubscriptionService).toSelf();
 container.bind(ZanibalService).toSelf();
+container.bind<IHolidayRepository>(TYPES.HolidayRepository).to(HolidayRepository);
+container.bind(TYPES.HolidayService).to(HolidayService);
 
 /** gRPC Client Binding */
 container.bind(GrpcClient).toSelf();

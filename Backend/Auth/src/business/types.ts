@@ -8,5 +8,6 @@ export const TYPES = {
    TenantService: Symbol.for("TenantService"),
    HolidayService: Symbol.for("HolidayService"),
    HolidayController: Symbol.for("HolidayController"),
+   GrpcServer: Symbol.for('GrpcServer'),
    GRPHolidayService: Symbol.for("GRPHolidayService"),
 };

@@ -19,7 +19,7 @@ container.bind<TenantService>(TYPES.TenantService).to(TenantService);
 container.bind<HolidayService>(TYPES.HolidayService).to(HolidayService);
 container.bind<HolidayController>(TYPES.HolidayController).to(HolidayController);
 container.bind<GRPHolidayService>(TYPES.GRPHolidayService).to(GRPHolidayService);
-container.bind<GrpcServer>(GrpcServer).toSelf();
+container.bind<GrpcServer>(TYPES.GrpcServer).to(GrpcServer);
 container.bind<IUserRepository>(TYPES.IUserRepository).to(UserRepository);
 
 export { container };

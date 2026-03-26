@@ -3,6 +3,7 @@
 import { Sequelize } from 'sequelize-typescript';
 import { Asset } from './sequelize/models/asset.model';
 import { AssetTransaction } from './sequelize/models/transaction.model';
+import { Holiday } from './sequelize/models/holiday.model';
 // import { DataSource } from 'typeorm';
 
 const env = process.env.NODE_ENV || 'development';
@@ -34,7 +35,7 @@ export async function setup(): Promise<void> {
                return replaced.substring(0, replaced.indexOf('.model')) === member.toLowerCase();
             },
             logging: env !== 'production' ? true : false,
-            models: [Asset, AssetTransaction], // Added Asset and AssetTransaction models
+            models: [Asset, AssetTransaction, Holiday], // Added Asset, AssetTransaction and Holiday models
          });
 
          if (env !== 'production') {

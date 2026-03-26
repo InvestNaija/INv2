@@ -7,4 +7,7 @@ export enum Subjects {
    InvestINAssetCreated = 'investasset:created',
    OfferingCreated = 'offering:created',
    OfferingUpdated = 'offering:updated',
+   HolidayCreated = 'holiday:created',
+   HolidayUpdated = 'holiday:updated',
+   HolidayDeleted = 'holiday:deleted',
 }

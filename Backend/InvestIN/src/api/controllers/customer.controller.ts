@@ -3,7 +3,7 @@ import { controller, httpGet, httpPost, request, response } from 'inversify-expr
 import { inject } from 'inversify';
 import { AssetSubscriptionService } from '../../business/services/subscription.service';
 import { AssetService } from '../../business/services/asset.service';
-import { Exception, handleError, INLogger, JoiMWDecorator } from '@inv2/common';
+import { Exception, handleError, INLogger, JoiMWDecorator, moment } from '@inv2/common';
 import { CustomerValidation } from '../validations/customer.validation';
 import { AssetSubscriptionDto, AssetRedemptionDto } from '../../_dtos/asset-subscription.dto';
 
@@ -23,7 +23,7 @@ export class CustomerController {
    /**
     * List available funds (assets) for customers.
     */
-   @httpGet('/')
+   @httpGet('/assets')
    async listAssets(@request() req: Request, @response() res: Response, next: NextFunction) {
       const profiler = INLogger.log.startTimer();
       try {
@@ -39,7 +39,7 @@ export class CustomerController {
     * Create a new fund subscription request.
     * Validated via JoiMWDecorator.
     */
-   @httpPost('/subscribe')
+   @httpPost('/asset/subscribe')
    @JoiMWDecorator(CustomerValidation.subscribe)
    async subscribe(@request() req: Request, @response() res: Response, next: NextFunction) {
       const profiler = INLogger.log.startTimer();
@@ -56,7 +56,7 @@ export class CustomerController {
    /**
     * Create a new fund redemption request.
     */
-   @httpPost('/redeem')
+   @httpPost('/asset/redeem')
    @JoiMWDecorator(CustomerValidation.redeem)
    async redeem(@request() req: Request, @response() res: Response, next: NextFunction) {
       const profiler = INLogger.log.startTimer();

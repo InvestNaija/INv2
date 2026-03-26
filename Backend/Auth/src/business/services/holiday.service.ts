@@ -1,74 +1,85 @@
 import { injectable, inject } from "inversify";
 import moment from "moment";
 import { Holiday, Op } from "../../domain/sequelize/INv2";
-import { redisWrapper } from "../../redis.wrapper";
-import { RedisService, HolidayService as CommonHolidayService } from "@inv2/common";
+import { getDbCxn } from "../../domain";
+import { HolidayService as HolidayUtils } from "@inv2/common";
+import { HolidayCreatedPublisher, HolidayUpdatedPublisher, HolidayDeletedPublisher } from "../../events/publishers";
+import { rabbitmqWrapper } from "../../rabbitmq.wrapper";
 
+/**
+ * Holiday Service (Auth)
+ * Acts as the Source of Truth for holidays across the system.
+ * Manages holidays in the Auth database, maintains a shared Redis cache,
+ * and publishes events to RabbitMQ when holidays are mutated.
+ */
 @injectable()
 export class HolidayService {
-   private redisSvc: RedisService;
-   private commonHolidaySvc: CommonHolidayService;
+   constructor() {}
 
-   constructor() {
-      this.redisSvc = new RedisService(redisWrapper.client);
-      this.commonHolidaySvc = new CommonHolidayService(this.redisSvc);
+   private get holidayRepo() {
+      return getDbCxn('pgINv2')?.getRepository(Holiday);
    }
 
    public async createHoliday(data: any) {
-      const holiday = await Holiday.create(data);
-      await this.clearCache();
+      const holiday = await this.holidayRepo!.create(data);
+      
+      await new HolidayCreatedPublisher(rabbitmqWrapper.connection).publish(holiday.toJSON());
+
       return holiday;
    }
 
    public async updateHoliday(id: string, data: any) {
-      const holiday = await Holiday.findByPk(id);
+      const holiday = await this.holidayRepo!.findByPk(id);
       if (!holiday) throw new Error("Holiday not found");
       await holiday.update(data);
-      await this.clearCache();
+
+      await new HolidayUpdatedPublisher(rabbitmqWrapper.connection).publish(holiday.toJSON());
+
       return holiday;
    }
 
    public async deleteHoliday(id: string) {
-      const holiday = await Holiday.findByPk(id);
+      const holiday = await this.holidayRepo!.findByPk(id);
       if (!holiday) throw new Error("Holiday not found");
+      const holidayData = holiday.toJSON();
       await holiday.destroy();
-      await this.clearCache();
+
+      await new HolidayDeletedPublisher(rabbitmqWrapper.connection).publish(holidayData);
+
       return true;
    }
 
    public async getHoliday(id: string) {
-      return await Holiday.findByPk(id);
+      return await this.holidayRepo!.findByPk(id);
    }
 
    public async getAllHolidays(condition: any = {}) {
-      return await Holiday.findAndCountAll({
+      return await this.holidayRepo!.findAndCountAll({
          where: condition,
          order: [["startDate", "ASC"]]
       });
    }
 
    public async getHolidayList() {
-      const holidays = await Holiday.findAll({
+      const holidays = await this.holidayRepo!.findAll({
          where: { isObserved: true },
          order: [["startDate", "ASC"]]
       });
-      await this.redisSvc.set(process.env.HOLIDAY_CACHE_KEY!, JSON.stringify(holidays), 3600);
       return holidays;
    }
 
    public async isHoliday(date: string): Promise<boolean> {
-      return await this.commonHolidaySvc.isHoliday(date);
+      const holidays = await this.getHolidayList();
+      return HolidayUtils.isHoliday(date, holidays as any);
    }
 
    public async getNextBusinessDay(date: string): Promise<string> {
-      return await this.commonHolidaySvc.getNextBusinessDay(date);
+      const holidays = await this.getHolidayList();
+      return HolidayUtils.getNextBusinessDay(date, holidays as any);
    }
 
    public async getPreviousBusinessDay(date: string): Promise<string> {
-      return await this.commonHolidaySvc.getPreviousBusinessDay(date);
-   }
-
-   private async clearCache() {
-   await this.redisSvc.del(process.env.HOLIDAY_CACHE_KEY!);
+      const holidays = await this.getHolidayList();
+      return HolidayUtils.getPreviousBusinessDay(date, holidays as any);
    }
 }

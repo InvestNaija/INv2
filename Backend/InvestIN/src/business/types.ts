@@ -4,4 +4,6 @@ export const TYPES = {
    AssetService: Symbol.for('AssetService'),
    AssetSubscriptionService: Symbol.for('AssetSubscriptionService'),
    ZanibalService: Symbol.for('ZanibalService'),
+   HolidayRepository: Symbol.for('HolidayRepository'),
+   HolidayService: Symbol.for('HolidayService'),
 };

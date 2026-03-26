@@ -2,7 +2,7 @@ import { AssetSubscriptionService } from '../services/subscription.service';
 import { IAssetRepository } from '../../domain/sequelize/repositories/asset.repository';
 import { IAssetTransactionRepository } from '../../domain/sequelize/repositories/transaction.repository';
 import { ZanibalService } from '../services/zanibal.service';
-import { HolidayService } from '@inv2/common';
+import { HolidayService } from '../services/holiday.service';
 
 jest.mock('../../redis.wrapper', () => ({
    redisWrapper: { client: {} }
@@ -13,9 +13,6 @@ jest.mock('@inv2/common', () => {
    return {
       ...actualCommon,
       RedisService: jest.fn().mockImplementation(() => ({})),
-      HolidayService: jest.fn().mockImplementation(() => ({
-         getNextBusinessDay: jest.fn().mockResolvedValue('2026-03-26')
-      }))
    };
 });
 
@@ -34,6 +31,7 @@ describe('AssetSubscriptionService', () => {
    let mockAssetRepository: jest.Mocked<IAssetRepository>;
    let mockTransactionRepository: jest.Mocked<IAssetTransactionRepository>;
    let mockZanibalService: jest.Mocked<ZanibalService>;
+   let mockHolidayService: jest.Mocked<HolidayService>;
 
    beforeEach(() => {
       mockAssetRepository = {
@@ -58,10 +56,17 @@ describe('AssetSubscriptionService', () => {
          postFundTransaction: jest.fn(),
       } as any;
 
+      mockHolidayService = {
+         isHoliday: jest.fn(),
+         getNextBusinessDay: jest.fn().mockResolvedValue('2026-03-26'),
+         getPreviousBusinessDay: jest.fn(),
+      } as any;
+
       subscriptionService = new AssetSubscriptionService(
          mockAssetRepository,
          mockTransactionRepository,
-         mockZanibalService
+         mockZanibalService,
+         mockHolidayService
       );
    });
 
@@ -104,8 +109,8 @@ describe('AssetSubscriptionService', () => {
       expect(response.data.transactionId).toBe('transaction-123');
       expect(response.data.authorizationUrl).toBe('http://auth.url');
 
-      // Assert that HolidayService was instantiated and called correctly
-      expect(HolidayService).toHaveBeenCalled();
+      // Assert that HolidayService was called correctly
+      expect(mockHolidayService.getNextBusinessDay).toHaveBeenCalled();
       
       // Assert transaction create was called with correct data including postdate
       expect(mockTransactionRepository.create).toHaveBeenCalledWith(expect.objectContaining({

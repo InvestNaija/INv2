@@ -4,9 +4,9 @@ import { IAssetTransactionRepository } from '../../domain/sequelize/repositories
 import { TYPES } from '../types';
 import moment from 'moment';
 import { ZanibalService } from './zanibal.service';
-import { IResponse, Exception, handleError, INLogger, Helper, UserTenantRoleDto, DBEnums, HolidayService, RedisService } from '@inv2/common';
+import { IResponse, Exception, handleError, INLogger, Helper, UserTenantRoleDto, DBEnums } from '@inv2/common';
+import { HolidayService } from './holiday.service';
 import { GrpcClient } from '../../grpc/client';
-import { redisWrapper } from '../../redis.wrapper';
 import {
    AssetSubscriptionDto,
    AssetRedemptionDto,
@@ -23,6 +23,7 @@ export class AssetSubscriptionService {
       @inject(TYPES.AssetRepository) private readonly assetRepository: IAssetRepository,
       @inject(TYPES.AssetTransactionRepository) private readonly transactionRepository: IAssetTransactionRepository,
       @inject(ZanibalService) private readonly zanibalService: ZanibalService,
+      @inject(TYPES.HolidayService) private readonly holidayService: HolidayService,
    ) {}
 
    /**
@@ -38,9 +39,7 @@ export class AssetSubscriptionService {
          // Use DBEnums to find codes to ensure consistency with the SMALLINT columns
          const pendingStatus = DBEnums.OrderStatus.find(g => g.name === 'pending')?.code || 100;
 
-         const redisSvc = new RedisService(redisWrapper.client);
-         const holidaySvc = new HolidayService(redisSvc);
-         const nextBizDay = await holidaySvc.getNextBusinessDay(moment().format('YYYY-MM-DD'));
+         const nextBizDay = await this.holidayService.getNextBusinessDay(moment().format('YYYY-MM-DD'));
 
          const transaction = await this.transactionRepository.create({
             vendor: 'zanibal',

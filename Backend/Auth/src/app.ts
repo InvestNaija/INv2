@@ -9,7 +9,7 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 import "./api/controllers";
 import { container } from './inversify.config';
 
-const server = new InversifyExpressServer(container, null, { rootPath: "/api/v2" });
+const server = new InversifyExpressServer(container, null, { rootPath: "/api/v2/auth" });
 
 server.setConfig(app=>{
    /*===============================

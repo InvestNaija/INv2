@@ -1,5 +1,4 @@
-import moment from "moment";
-import { RedisService } from "./redis.service";
+import moment from 'moment';
 
 export interface IHoliday {
    id: string;
@@ -9,42 +8,44 @@ export interface IHoliday {
    isObserved: boolean;
 }
 
+/**
+ * Holiday Service Utilities
+ * Storage-agnostic business logic for holiday and business day calculations.
+ */
 export class HolidayService {
-
-   constructor(private redis: RedisService) {}
-
-   public async getHolidayList(): Promise<IHoliday[]> {
-      const cached = await this.redis.get(process.env.HOLIDAY_CACHE_KEY);
-      if (cached) {
-         return JSON.parse(cached);
-      }
-      return [];
-   }
-
-   public async isHoliday(date: string): Promise<boolean> {
-      const checkDate = moment(date).format("YYYY-MM-DD");
-      const holidays = await this.getHolidayList();
-      
+   /**
+    * Checks if a given date is a holiday.
+    * @param date Date string in any moment-parsable format.
+    * @param holidays List of IHoliday objects to check against.
+    */
+   public static isHoliday(date: string, holidays: IHoliday[]): boolean {
+      const checkDate = moment(date).format('YYYY-MM-DD');
       return holidays.some(h => {
-         const start = moment(h.startDate).format("YYYY-MM-DD");
-         const end = moment(h.endDate).format("YYYY-MM-DD");
+         const start = moment(h.startDate).format('YYYY-MM-DD');
+         const end = moment(h.endDate).format('YYYY-MM-DD');
          return moment(checkDate).isBetween(start, end, undefined, '[]');
       });
    }
 
-   public async getNextBusinessDay(date: string): Promise<string> {
-      let current = moment(date).add(1, "days");
-      while (current.day() === 0 || current.day() === 6 || await this.isHoliday(current.format("YYYY-MM-DD"))) {
-         current = current.add(1, "days");
+   /**
+    * Returns the next business day (skipping weekends and holidays).
+    */
+   public static getNextBusinessDay(date: string, holidays: IHoliday[]): string {
+      let current = moment(date).add(1, 'days');
+      while (current.day() === 0 || current.day() === 6 || this.isHoliday(current.format('YYYY-MM-DD'), holidays)) {
+         current = current.add(1, 'days');
       }
-      return current.format("YYYY-MM-DD");
+      return current.format('YYYY-MM-DD');
    }
 
-   public async getPreviousBusinessDay(date: string): Promise<string> {
-      let current = moment(date).subtract(1, "days");
-      while (current.day() === 0 || current.day() === 6 || await this.isHoliday(current.format("YYYY-MM-DD"))) {
-         current = current.subtract(1, "days");
+   /**
+    * Returns the previous business day (skipping weekends and holidays).
+    */
+   public static getPreviousBusinessDay(date: string, holidays: IHoliday[]): string {
+      let current = moment(date).subtract(1, 'days');
+      while (current.day() === 0 || current.day() === 6 || this.isHoliday(current.format('YYYY-MM-DD'), holidays)) {
+         current = current.subtract(1, 'days');
       }
-      return current.format("YYYY-MM-DD");
+      return current.format('YYYY-MM-DD');
    }
 }

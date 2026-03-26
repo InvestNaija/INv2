@@ -6,6 +6,10 @@ import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from './rabbitmq.wrapper';
 import { redisWrapper } from './redis.wrapper';
 import { GrpcClient } from './grpc/client';
+import { container } from './inversify.config';
+import { TYPES } from './business/types';
+import { IHolidayRepository } from './domain/sequelize/repositories/holiday.repository';
+import { HolidayCreatedListener, HolidayUpdatedListener, HolidayDeletedListener } from './events/listeners';
 
 const PORT: number = parseInt(process.env.PORT!) || 3000;
 
@@ -63,14 +67,20 @@ export class Main {
          // Initialize the project-wide logger with the rabbitmq connection
          INLogger.init('InvestIN', rabbitmqWrapper.connection);
 
+         // Initialize Listeners
+         const holidayRepo = container.get<IHolidayRepository>(TYPES.HolidayRepository);
+         new HolidayCreatedListener(rabbitmqWrapper.connection, holidayRepo).listen();
+         new HolidayUpdatedListener(rabbitmqWrapper.connection, holidayRepo).listen();
+         new HolidayDeletedListener(rabbitmqWrapper.connection, holidayRepo).listen();
+
          rabbitmqWrapper.connection.on('close', () => {
             console.warn('RabbitMQ connection closed!');
             process.exit(1);
          });
 
          // Graceful shutdown listeners
-         process.on('SIGINT', async () => await rabbitmqWrapper.connection.close());
-         process.on('SIGTERM', async () => await rabbitmqWrapper.connection.close());
+         process.on('SIGINT', async () => await (rabbitmqWrapper.connection as any).close());
+         process.on('SIGTERM', async () => await (rabbitmqWrapper.connection as any).close());
       } catch (error) {
          console.error('Event bus initialization failed:', error);
          throw error;
