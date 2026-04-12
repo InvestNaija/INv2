@@ -57,6 +57,11 @@ export function JoiMWDecorator(schema: { [key: string]: Schema }): IJoiDecorator
         const errorMessage = error.details
           .map((details) => details.message)
           .join(', ');
+        
+        if (typeof next !== 'function') {
+          throw new Exception({ code: 400, message: `JoiMWDecorator error: 'next' is not a function. Ensure you are injecting it correctly (e.g., using @next()).` })
+        }
+
         return next(new Exception({ code: 400, message: errorMessage }))
       }
       return originalMethod.apply(this, args);
