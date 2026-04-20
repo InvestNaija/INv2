@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+process.env.NODE_ENV = 'test';
 // import * from 'auth.setup'
 // import fs from "fs";
 import { Sequelize } from "sequelize-typescript";
+import * as path from "path";
+import { setup, getDbCxn } from "../domain";
 import { up } from "../domain/sequelize/INv2/seeders/seed-all-data";
 
 // declare global {
@@ -15,27 +17,17 @@ jest.mock('../redis.wrapper');
 import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from "../rabbitmq.wrapper";
 // import { redisWrapper } from "../redis.wrapper";
-let sequelize: Sequelize;
-beforeAll(async ()=>{
+beforeAll(async () => {
    jest.clearAllMocks();
-   jest.useFakeTimers();
+   // jest.useFakeTimers();
    INLogger.init('Auth', rabbitmqWrapper.connection);
-   // process.env.ACCESS_TOKEN_SECRET = '2NjQ5fQ.BpnmhQBqzLfYf';
-   // process.env.NODE_ENV = 'test'
-   
-   sequelize = new Sequelize({
-      dialect: "sqlite",
-      storage: ":memory:",
-      logging: false,
-      models: [__path.join(__dirname, `../domain/sequelize/INv2/models`)]
-   });
-   await sequelize.sync({ force: true });
-   await sequelize.authenticate()
-      .then(() => console.log(`Database connected....`))
-      .catch((err: any) => {
-         console.log(`Error connecting to Database...${err.message}`);
-      });
-   await up(sequelize.getQueryInterface());
+   process.env.NODE_ENV = 'test';
+   await setup();
+   const sequelize = getDbCxn();
+   if (sequelize) {
+      await sequelize.sync({ force: true });
+      await up(sequelize.getQueryInterface());
+   }
 });
 
 beforeEach(async()=>{

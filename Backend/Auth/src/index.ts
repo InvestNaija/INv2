@@ -1,10 +1,11 @@
+import 'reflect-metadata';
 import { Application } from 'express';
 import http from 'http';
 // Initiate DB connection here
 import { setup } from './domain';
 
 import { app } from './app';
-import { INLogger } from '@inv2/common';
+import { INLogger, RateLimiter } from '@inv2/common';
 import { rabbitmqWrapper } from './rabbitmq.wrapper';
 import { redisWrapper } from './redis.wrapper';
 // import { UserCreatedListener } from "./events/listeners";
@@ -44,6 +45,7 @@ export class Main {
    private async createEventBus(): Promise<void> {
       
       await redisWrapper.connect(`redis://${process.env.REDIS_SERVER}`);
+      RateLimiter.init(redisWrapper.client as any);
       await rabbitmqWrapper.connect(`amqp://${process.env.RABBITMQ}`);
 
       INLogger.init('Auth', rabbitmqWrapper.connection);

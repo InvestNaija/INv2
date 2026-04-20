@@ -68,7 +68,6 @@ export class Asset extends Model {
    /** Current yield of the fund */
    @Column({
       type: DataType.DECIMAL(18, 4),
-      allowNull: false,
    })
    declare yield: number;
 

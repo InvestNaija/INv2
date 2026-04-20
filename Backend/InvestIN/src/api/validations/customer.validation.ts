@@ -1,4 +1,5 @@
-import Joi from 'joi';
+import { Joi as BaseJoi, JoiDate } from '@inv2/common';
+const Joi = BaseJoi.extend(JoiDate);
 
 /**
  * CustomerValidation
@@ -11,7 +12,7 @@ export class CustomerValidation {
             'string.empty': 'Asset Code cannot be empty',
             'any.required': 'Asset Code is required',
          }),
-         transAmount: Joi.number().positive().required().messages({
+         amount: Joi.number().positive().required().messages({
             'number.base': 'Transaction Amount must be a number',
             'number.positive': 'Transaction Amount must be positive',
             'any.required': 'Transaction Amount is required',
@@ -23,8 +24,10 @@ export class CustomerValidation {
          currency: Joi.string().length(3).optional().messages({
             'string.length': 'Currency must be a 3-character code',
          }),
-         gateway: Joi.string().optional(),
          callbackParams: Joi.object().optional(),
+         gateway: Joi.string().optional(),
+         gatewayId: Joi.string().optional(),
+         paymentType: Joi.string().optional(),
       }).unknown().strict(),
    };
 

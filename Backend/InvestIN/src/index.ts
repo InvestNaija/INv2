@@ -38,17 +38,11 @@ export class Main {
     */
    private async init(app: Application): Promise<void> {
       try {
-         // 1. Initialize Database
-         await setup();
-
-         // 2. Setup Event Bus (RabbitMQ & Redis)
-         await this.createEventBus();
-
-         // 3. Setup gRPC Client (Placeholder for startup if needed, like in SavePlan)
-         await this.startGrpc();
-
-         // 4. Start HTTP Server
+         await setup(); // Initialize the database connection
          const httpServer: http.Server = new http.Server(app);
+         // await this.createSocketIO(httpServer);
+         await this.createEventBus();
+         await this.startGrpc();
          this.startHttpServer(httpServer);
       } catch (error) {
          console.error('Initialization failure:', error);

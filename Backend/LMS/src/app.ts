@@ -4,6 +4,8 @@ import { json, Request, Response, urlencoded } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { errorHandler, Authentication } from '@inv2/common';
+import * as fs from 'fs';
+import * as path from 'path';
 
 import { InversifyExpressServer } from 'inversify-express-utils';
 import "./api/controllers";
@@ -33,6 +35,16 @@ server.setConfig(app=>{
    //   app.use(compression());
    app.use(json({ limit: '50mb' }));
    app.use(urlencoded({ extended: true, limit: '50mb' }));
+
+   // Serve Swagger JSON
+   const swaggerFile = path.join(__dirname, './swagger-output.json');
+   app.get('/api/v2/lms/swagger.json', (req, res) => {
+      if (fs.existsSync(swaggerFile)) {
+         res.json(JSON.parse(fs.readFileSync(swaggerFile, 'utf8')));
+      } else {
+         res.status(404).json({ message: "Swagger file not found" });
+      }
+   });
       
 });
 server.setErrorConfig((app) => {

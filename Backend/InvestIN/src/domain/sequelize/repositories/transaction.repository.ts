@@ -6,6 +6,7 @@ export interface IAssetTransactionRepository {
    create(data: Partial<AssetTransaction>): Promise<AssetTransaction>;
    findById(id: string): Promise<AssetTransaction | null>;
    update(id: string, data: Partial<AssetTransaction>): Promise<[number, AssetTransaction[]]>;
+   findAndCountAll(options: any): Promise<{ rows: AssetTransaction[]; count: number }>;
 }
 
 @injectable()
@@ -27,5 +28,9 @@ export class AssetTransactionRepository implements IAssetTransactionRepository {
          where: { id },
          returning: true,
       });
+   }
+
+   async findAndCountAll(options: any): Promise<{ rows: AssetTransaction[]; count: number }> {
+      return await this.model.findAndCountAll(options);
    }
 }

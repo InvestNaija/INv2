@@ -1,5 +1,5 @@
 import { Table, Column, DataType, Model, ForeignKey, BelongsTo } from "sequelize-typescript";
-import { User } from "..";
+import { User } from "./user.model";
 
 @Table({
    paranoid: true,

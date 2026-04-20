@@ -8,6 +8,10 @@ export const TYPES = {
    TenantService: Symbol.for("TenantService"),
    HolidayService: Symbol.for("HolidayService"),
    HolidayController: Symbol.for("HolidayController"),
+   AuthController: Symbol.for("AuthController"),
    GrpcServer: Symbol.for('GrpcServer'),
    GRPHolidayService: Symbol.for("GRPHolidayService"),
+   AuthMiddleware: Symbol.for("AuthMiddleware"),
+   PasswordHistoryService: Symbol.for("PasswordHistoryService"),
+   IPasswordHistoryRepository: Symbol.for("IPasswordHistoryRepository"),
 };

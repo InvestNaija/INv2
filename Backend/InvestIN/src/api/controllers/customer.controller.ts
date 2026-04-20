@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { controller, httpGet, httpPost, request, response } from 'inversify-express-utils';
+import { controller, httpGet, httpPost, request, response, next } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { AssetSubscriptionService } from '../../business/services/subscription.service';
 import { AssetService } from '../../business/services/asset.service';
@@ -24,7 +24,7 @@ export class CustomerController {
     * List available funds (assets) for customers.
     */
    @httpGet('/assets')
-   async listAssets(@request() req: Request, @response() res: Response, next: NextFunction) {
+   async listAssets(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
       const profiler = INLogger.log.startTimer();
       try {
          const result = await this.assetService.getAllAssets();
@@ -41,7 +41,7 @@ export class CustomerController {
     */
    @httpPost('/asset/subscribe')
    @JoiMWDecorator(CustomerValidation.subscribe)
-   async subscribe(@request() req: Request, @response() res: Response, next: NextFunction) {
+   async subscribe(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
       const profiler = INLogger.log.startTimer();
       try {
          const data: AssetSubscriptionDto = req.body;
@@ -58,7 +58,7 @@ export class CustomerController {
     */
    @httpPost('/asset/redeem')
    @JoiMWDecorator(CustomerValidation.redeem)
-   async redeem(@request() req: Request, @response() res: Response, next: NextFunction) {
+   async redeem(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
       const profiler = INLogger.log.startTimer();
       try {
          const data: AssetRedemptionDto = req.body;

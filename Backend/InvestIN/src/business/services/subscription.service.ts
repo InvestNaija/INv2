@@ -3,10 +3,12 @@ import { IAssetRepository } from '../../domain/sequelize/repositories/asset.repo
 import { IAssetTransactionRepository } from '../../domain/sequelize/repositories/transaction.repository';
 import { TYPES } from '../types';
 import moment from 'moment';
+import { Op, Sequelize } from 'sequelize';
 import { ZanibalService } from './zanibal.service';
 import { IResponse, Exception, handleError, INLogger, Helper, UserTenantRoleDto, DBEnums } from '@inv2/common';
 import { HolidayService } from './holiday.service';
 import { GrpcClient } from '../../grpc/client';
+import { Asset } from '../../domain/sequelize/models/asset.model';
 import {
    AssetSubscriptionDto,
    AssetRedemptionDto,
@@ -31,7 +33,7 @@ export class AssetSubscriptionService {
     */
    async createSubscription(currentUser: UserTenantRoleDto, data: AssetSubscriptionDto): Promise<IResponse> {
       try {
-         const { assetCode, transAmount, portfolioId, currency, gateway, callbackParams } = data;
+         const { assetCode, amount, portfolioId, currency, gateway, callbackParams } = data;
 
          const asset = await this.assetRepository.findByAssetCode(assetCode);
          if (!asset) throw new Exception({ code: 404, message: 'Asset not found' });
@@ -40,29 +42,31 @@ export class AssetSubscriptionService {
          const pendingStatus = DBEnums.OrderStatus.find(g => g.name === 'pending')?.code || 100;
 
          const nextBizDay = await this.holidayService.getNextBusinessDay(moment().format('YYYY-MM-DD'));
+         const transactionReference = `SUB${assetCode}${Helper.genRandomCode(20, { includeSpecialChars: false, includeLowerChars: false })}` ;
 
-         const transaction = await this.transactionRepository.create({
+         const transaction = await this.transactionRepository.create({ 
             vendor: 'zanibal',
             module: 'fund',
             customerId: currentUser.user.id,
             assetId: asset.id,
             portfolioId,
             transactionType: 'subscription',
-            amount: transAmount,
+            amount: amount,
             currency: currency || asset.currency,
             status: pendingStatus as any,
             paymentStatus: pendingStatus as any,
             postdate: nextBizDay,
+            reference: transactionReference,
+            channel: gateway || 'online',
          });
 
          let authorizationUrl: string | undefined;
          let financeTxnId: string | undefined;
-         const transactionReference = Helper.genRandomCode(20, { includeSpecialChars: false, includeLowerChars: false });
 
          try {
             const client = await GrpcClient.start();
             const paymentResponse = await GrpcClient.initializePayment(client, {
-               amount: transAmount,
+               amount: amount,
                currency: currency || asset.currency,
                description: `Payment for ${asset.name} subscription`,
                user_id: currentUser.user.id,
@@ -105,12 +109,13 @@ export class AssetSubscriptionService {
     */
    async createRedemption(currentUser: UserTenantRoleDto, data: AssetRedemptionDto): Promise<IResponse> {
       try {
-         const { assetCode, transAmount, portfolioId, currency } = data;
+         const { assetCode, amount, portfolioId, currency } = data;
 
          const asset = await this.assetRepository.findByAssetCode(assetCode);
          if (!asset) throw new Exception({ code: 404, message: 'Asset not found' });
 
          const pendingStatus = DBEnums.OrderStatus.find(g => g.name === 'pending')?.code || 100;
+         const transactionReference = `RDM${assetCode}${Helper.genRandomCode(10, { includeSpecialChars: false, includeLowerChars: false })}`;
 
          const transaction = await this.transactionRepository.create({
             vendor: 'zanibal',
@@ -119,10 +124,12 @@ export class AssetSubscriptionService {
             assetId: asset.id,
             portfolioId,
             transactionType: 'redemption',
-            amount: transAmount,
+            amount: amount,
             currency: currency || asset.currency,
             status: pendingStatus as any,
             paymentStatus: pendingStatus as any,
+            reference: transactionReference,
+            channel: 'online',
          });
 
          return {
@@ -156,7 +163,7 @@ export class AssetSubscriptionService {
             portfolioId: transaction.portfolioId,
             fundName: asset.externalIdentifier,
             transType: transaction.transactionType === 'subscription' ? 'SUBSCRIPTION' : 'REDEMPTION',
-            transAmount: transaction.amount,
+            amount: transaction.amount,
             currency: transaction.currency,
             transactionDate: moment().format('YYYY-MM-DD'),
             description: `Admin T+1 Post: ${asset.name} (${transaction.transactionType})`,
@@ -185,6 +192,82 @@ export class AssetSubscriptionService {
             code: 200,
             message: 'Transaction posted to vendor successfully',
             data: postResponse.data,
+         };
+      } catch (error) {
+         throw new Exception(handleError(error));
+      }
+   }
+
+   /**
+    * Lists transactions for administrative review and reporting.
+    * Ported from v1 InvestINController.getFunds.
+    */
+   async getTransactions(query: any): Promise<IResponse> {
+      try {
+         let { page, size, startDate, endDate, fundId, search, status, q, channel } = query;
+         page = parseInt(page) || 1;
+         size = parseInt(size) || 10;
+         const transactionType = q === 'r' ? 'redemption' : 'subscription';
+         
+         const start = moment(startDate).format('YYYY-MM-DD');
+         const to = moment(endDate).format('YYYY-MM-DD');
+
+         const whereClause: any = {
+            [Op.and]: [
+               { transactionType },
+               Sequelize.literal(`"postdate" BETWEEN '${start}' AND '${to}'`),
+               fundId ? { assetId: fundId } : {},
+               channel ? { channel } : {},
+            ],
+         };
+
+         if (status && status !== 'all') {
+            const statusCode = DBEnums.OrderStatus.find(g => (g.name === status || g.label === status))?.code;
+            if (statusCode !== undefined) {
+               whereClause[Op.and].push({ status: statusCode });
+            }
+         }
+
+         if (search) {
+            whereClause[Op.and].push({
+               [Op.or]: [
+                  { reference: { [Op.iLike]: `%${search}%` } },
+                  Sequelize.literal(`"request"->>'fundName' ILIKE '%${search.replace(/'/g, "''")}%'`),
+                  Sequelize.literal(`"request"->>'description' ILIKE '%${search.replace(/'/g, "''")}%'`),
+               ],
+            });
+         }
+
+         const { rows, count } = await this.transactionRepository.findAndCountAll({
+            where: whereClause,
+            order: [['createdAt', 'DESC']],
+            offset: (page - 1) * size,
+            limit: size,
+            include: [{ model: Asset, as: 'asset', attributes: ['name', 'assetCode', 'currency'] }],
+         });
+
+         // Calculate Totals
+         const totals = {
+            count,
+            totalAmount: 0,
+            currency: rows[0]?.currency || 'NGN',
+         };
+
+         rows.forEach(txn => {
+            totals.totalAmount += Number(txn.amount) || 0;
+         });
+
+         return {
+            success: true,
+            code: 200,
+            message: 'Transactions retrieved successfully',
+            data: {
+               rows,
+               total: count,
+               totals,
+               page,
+               size,
+            },
          };
       } catch (error) {
          throw new Exception(handleError(error));

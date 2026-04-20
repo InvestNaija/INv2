@@ -32,9 +32,6 @@ export class AssetService {
             yield: asset.yield,
             currency: asset.currency,
          });
-
-         INLogger.log.info(`Asset created and published: ${asset.assetCode}`);
-
          return {
             success: true,
             code: 201,

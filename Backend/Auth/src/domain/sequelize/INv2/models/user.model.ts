@@ -1,7 +1,7 @@
-import { Model, Table, Column, DataType, HasMany, HasOne, BeforeUpdate, BeforeCreate, BeforeFind } from "sequelize-typescript";
+import { Table, Column, DataType, Model, HasMany, HasOne, BeforeUpdate, BeforeCreate, BeforeFind } from "sequelize-typescript";
 // import { InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
-
-import { BvnData, TenantUserRole } from "..";
+import { BvnData } from "./bvn-data.model";
+import { TenantUserRole } from "./tenant-user-role.model";
 import { DBEnums } from "@inv2/common";
 
 import { PasswordManager } from "../../../../_utils/PasswordManager";
@@ -56,6 +56,7 @@ export class User extends Model {
    @Column({
       type: DataType.STRING(13),
       unique: true,
+      allowNull: true,
    })
    declare nin: string;
    @Column({
@@ -73,6 +74,29 @@ export class User extends Model {
       const result = DBEnums?.UserGender?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
       this.setDataValue('gender', result);
    }
+
+   @Column({ type: DataType.SMALLINT, })
+   get userType(): { code: number; name: string; label: string; } | undefined {
+      const rawValue = this.getDataValue('userType');
+      return DBEnums.UserType.find(g=>g.code===rawValue);
+   }
+   set userType(value: number|string) {
+      const result = DBEnums?.UserType?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
+      this.setDataValue('userType', result);
+   }
+
+   @Column({ type: DataType.SMALLINT, })
+   get relationship(): { code: number; name: string; label: string; } | undefined {
+      const rawValue = this.getDataValue('relationship');
+      return DBEnums.Relationships.find(g=>g.code===rawValue);
+   }
+   set relationship(value: number|string) {
+      const result = DBEnums?.Relationships?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
+      this.setDataValue('relationship', result);
+   }
+
+   @Column({ type: DataType.STRING(100), })
+   declare nationality: string;
    
    @Column({ type: DataType.DATEONLY, })
    declare dob: Date;
@@ -112,6 +136,9 @@ export class User extends Model {
    
    @Column({ type: DataType.BOOLEAN, defaultValue: false })
    declare twoFactorAuth: boolean;
+   
+   @Column({ type: DataType.INTEGER, defaultValue: 0 })
+   declare failedLoginAttempts: number;
    
    @BeforeFind
    // eslint-disable-next-line @typescript-eslint/no-explicit-any

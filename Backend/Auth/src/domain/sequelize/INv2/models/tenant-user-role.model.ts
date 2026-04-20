@@ -1,5 +1,7 @@
 import { Table, Column, DataType, Model, ForeignKey, BelongsTo } from "sequelize-typescript";
-import { Tenant, User, Role } from "..";
+import { Tenant } from "./tenant.model";
+import { User } from "./user.model";
+import { Role } from "./role.model";
 
 
 @Table({

@@ -7,11 +7,13 @@ import {
    httpDelete,
    request,
    response,
+   next,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { AssetService } from '../../business/services/asset.service';
 import { AssetSubscriptionService } from '../../business/services/subscription.service';
-import { Exception, handleError, INLogger } from '@inv2/common';
+import { Exception, handleError, INLogger, JoiMWDecorator } from '@inv2/common';
+import { AdminValidation } from '../validations/admin.validation';
 
 /**
  * Admin Controller
@@ -28,8 +30,9 @@ export class AdminController {
    /**
     * Create a new investment asset.
     */
-   @httpPost('/')
-   async createAsset(@request() req: Request, @response() res: Response, next: NextFunction) {
+   @httpPost('/assets')
+   @JoiMWDecorator(AdminValidation.createAsset)
+   async createAsset(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
       const profiler = INLogger.log.startTimer();
       try {
          const result = await this.assetService.createAsset(req.body);
@@ -43,8 +46,8 @@ export class AdminController {
    /**
     * Get all registered assets.
     */
-   @httpGet('/')
-   async getAllAssets(@request() req: Request, @response() res: Response, next: NextFunction) {
+   @httpGet('/assets')
+   async getAllAssets(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
       const profiler = INLogger.log.startTimer();
       try {
          const result = await this.assetService.getAllAssets();
@@ -58,8 +61,8 @@ export class AdminController {
    /**
     * Get a single asset by ID.
     */
-   @httpGet('/:id')
-   async getAssetById(@request() req: Request, @response() res: Response, next: NextFunction) {
+   @httpGet('/assets/:id')
+   async getAssetById(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
       try {
          const result = await this.assetService.getAssetById(req.params.id);
          res.status(result.code).json(result);
@@ -71,8 +74,8 @@ export class AdminController {
    /**
     * Update an existing asset.
     */
-   @httpPut('/:id')
-   async updateAsset(@request() req: Request, @response() res: Response, next: NextFunction) {
+   @httpPut('/assets/:id')
+   async updateAsset(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
       try {
          const result = await this.assetService.updateAsset(req.params.id, req.body);
          res.status(result.code).json(result);
@@ -85,7 +88,7 @@ export class AdminController {
     * Delete an asset.
     */
    @httpDelete('/:id')
-   async deleteAsset(@request() req: Request, @response() res: Response, next: NextFunction) {
+   async deleteAsset(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
       try {
          const result = await this.assetService.deleteAsset(req.params.id);
          res.status(result.code).json(result);
@@ -98,7 +101,7 @@ export class AdminController {
     * Lists all pending transactions for T+1 posting.
     */
    @httpGet('/transactions/pending')
-   async getPendingTransactions(@request() req: Request, @response() res: Response, next: NextFunction) {
+   async getPendingTransactions(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
       try {
          const result = await this.subscriptionService.listPendingTransactions();
          res.status(result.code).json(result);
@@ -111,12 +114,28 @@ export class AdminController {
     * Finalizes/Posts a transaction to the vendor (T+1 action).
     */
    @httpPost('/transactions/post/:id')
-   async postTransaction(@request() req: Request, @response() res: Response, next: NextFunction) {
+   async postTransaction(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
       const profiler = INLogger.log.startTimer();
       try {
          const result = await this.subscriptionService.postTransaction(req.params.id);
          res.status(result.code).json(result);
          profiler.done({ service: 'InvestIN', message: `Posted transaction ${req.params.id} to vendor` });
+      } catch (error: any) {
+         next(new Exception(handleError(error)));
+      }
+   }
+
+   /**
+    * List transactions with filtering and pagination.
+    */
+   @httpGet('/funds')
+   @JoiMWDecorator(AdminValidation.getFunds)
+   async getFunds(@request() req: Request, @response() res: Response, @next() next: NextFunction) {
+      const profiler = INLogger.log.startTimer();
+      try {
+         const result = await this.subscriptionService.getTransactions(req.query);
+         res.status(result.code).json(result);
+         profiler.done({ service: 'InvestIN', message: 'Retrieved filtered transaction list' });
       } catch (error: any) {
          next(new Exception(handleError(error)));
       }

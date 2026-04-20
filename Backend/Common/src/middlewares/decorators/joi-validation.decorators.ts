@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, NextFunction } from 'express';
 import { Exception } from '../../errors/custom-error';
-import Joi,{ Schema } from 'joi';
+import { Joi } from '../../index';
+import { Schema } from 'joi';
 
 type IJoiDecorator = (target: any, key: string, descriptor: PropertyDescriptor) => void;
 
@@ -27,7 +28,7 @@ export const Validate = (schema: { [key: string]: Schema }, data: { [key: string
 
   if (error) {
     const errorMessage = error.details
-      .map((details) => details.message)
+      .map((details: any) => details.message)
       .join(', ');
     // throw new AppError(errorMessage, { status: 400, name: error.name });
     return error
@@ -55,7 +56,7 @@ export function JoiMWDecorator(schema: { [key: string]: Schema }): IJoiDecorator
 
       if (error) {
         const errorMessage = error.details
-          .map((details) => details.message)
+          .map((details: any) => details.message)
           .join(', ');
         
         if (typeof next !== 'function') {

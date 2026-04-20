@@ -65,6 +65,9 @@ export * from './services';
 // Export any gRPC protos using the proto-loader
 export * from './grpc';
 // Joi Date
-import Joi from 'joi';
+import * as JoiModule from 'joi';
 import JoiDate from '@joi/date';
-export { Joi, JoiDate };
+import joiToSwagger from 'joi-to-swagger';
+
+const Joi = JoiModule.extend(JoiDate);
+export { Joi, JoiDate, joiToSwagger };

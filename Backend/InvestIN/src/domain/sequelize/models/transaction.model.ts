@@ -140,4 +140,19 @@ export class AssetTransaction extends Model {
       allowNull: true,
    })
    declare postdate?: Date | string;
+
+   /** Unique reference for the transaction */
+   @Column({
+      type: DataType.STRING,
+      allowNull: true,
+      unique: true,
+   })
+   declare reference?: string;
+
+   /** Channel of the transaction (e.g., 'online', 'mobile', 'bank_transfer') */
+   @Column({
+      type: DataType.STRING,
+      allowNull: true,
+   })
+   declare channel?: string;
 }

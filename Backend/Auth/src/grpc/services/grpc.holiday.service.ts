@@ -47,7 +47,7 @@ export class GRPHolidayService {
    public GetHolidayList = async (call: any, callback: any): Promise<void> => {
       try {
          const holidays = await this.holidaySvc.getHolidayList();
-         callback(null, { holidays: holidays.map(h => ({
+         callback(null, { holidays: holidays.map((h: any) => ({
             id: h.id,
             name: h.name,
             startDate: h.startDate.toString(),

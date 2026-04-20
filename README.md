@@ -1,3 +1,6 @@
+kill -9 $(lsof -t -i:3003)
+git blame -L 3230,3250 src/server/controllers/customer.controller.js
+
 - We can add the alias to bash_profile by doing => `code ~/.bashrc` or `code ~/bash_profile`
 - `k port-forward depl-auth-postgres-57b4c98d46-pzjk4 -n inv2 5432:5432`
 - `k port-forward depl-logs-mongo-67c896578f-gdbx7 -n inv2 27017:27017`
