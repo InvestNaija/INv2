@@ -30,10 +30,10 @@ export class SavePlanUser extends Model {
    declare id: string;
    @Column
    @ForeignKey(() => User)
-   declare userId: number;
+   declare userId: string;
    @Column
    @ForeignKey(() => SavePlan)
-   declare saveplanId: number;
+   declare saveplanId: string;
    @Column({
       type: DataType.STRING,
       allowNull: false,
@@ -43,7 +43,7 @@ export class SavePlanUser extends Model {
       type: DataType.STRING(1000),
    })
    declare description: string;
-   @Column({ type: DataType.BIGINT, })
+   @Column({ type: DataType.DOUBLE, })
    declare pmt: number;
    @Column({ type: DataType.STRING, })
    declare frequency: string;
@@ -87,10 +87,10 @@ export class SavePlanUser extends Model {
    @Column({ type: DataType.SMALLINT, })
    get gateway(): { code: number; name: string; label: string; } | undefined {
       const rawValue = this.getDataValue('gateway');
-      return DBEnums.OrderStatus.find(g=>g.code===rawValue);
+      return DBEnums.Gateway.find(g=>g.code===rawValue);
    }
    set gateway(value: number|string) {
-      const result = DBEnums?.OrderStatus?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
+      const result = DBEnums?.Gateway?.find(g=>(g.code==value || g.label==value || g.name==value))?.code;
       this.setDataValue('gateway', result);
    }
    @Column({ type: DataType.DOUBLE, })

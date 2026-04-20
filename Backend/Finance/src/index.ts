@@ -1,8 +1,6 @@
 import { Application } from 'express';
 import http from 'http';
-// Initiate DB connection here
 import { setup } from './domain';
-
 import { app } from './app';
 import { INLogger } from '@inv2/common';
 import { rabbitmqWrapper } from './rabbitmq.wrapper';
@@ -12,7 +10,25 @@ import { socketIO } from './socketio';
 import { GrpcServer } from './grpc/server';
 import { container } from './inversify.config';
 import { TYPES } from './business/types';
-const PORT: number = parseInt(process.env.PORT) || 3000;
+
+// Global error handlers
+process.on('uncaughtException', (error) => {
+   if (INLogger.log) {
+      INLogger.log.error('Uncaught Exception:', error);
+   } else {
+      console.error('Uncaught Exception (Logger not init):', error);
+   }
+   process.exit(1);
+});
+
+process.on('unhandledRejection', (reason) => {
+   if (INLogger.log) {
+      INLogger.log.error('Unhandled Rejection:', reason);
+   } else {
+      console.error('Unhandled Rejection (Logger not init):', reason);
+   }
+   process.exit(1);
+});
 
 export class Main {
    private grpcServer: GrpcServer;
@@ -35,7 +51,8 @@ export class Main {
          this.startHttpServer(httpServer);
          // this.socketIOConnections(socketIO);
       } catch (error) {
-         console.log(error);
+         INLogger.log.error('Initialization failed:', error);
+         process.exit(1);
       }
    }
    private async createSocketIO(server: http.Server) {
@@ -48,24 +65,26 @@ export class Main {
 
       INLogger.init('Finance', rabbitmqWrapper.connection);
       
-      rabbitmqWrapper.connection.on('close', ()=>{
+      (rabbitmqWrapper.connection as any).on('close', ()=>{
          console.log(`RabbitMQ connection closed!`);
-         process.exit();
+         process.exit(1);
       });
-      process.on('SIGINT', async ()=> await rabbitmqWrapper.connection.close());
-      process.on('SIGTERM', async ()=> await rabbitmqWrapper.connection.close());
+      process.on('SIGINT', async ()=> await (rabbitmqWrapper.connection as any).close());
+      process.on('SIGTERM', async ()=> await (rabbitmqWrapper.connection as any).close());
 
       // Set up all listeners
       new UserCreatedListener(rabbitmqWrapper.connection).listen();
       new UserUpdatedListener(rabbitmqWrapper.connection).listen();
    }
    private async startHttpServer(httpServer: http.Server): Promise<void> {
+      const PORT: number = parseInt(process.env.PORT) || 3000;
       httpServer.listen(PORT, () => {
          INLogger.log.info(`Server running on port ${PORT}`);
       });
    }
    
    private async startGrpc(): Promise<void> {
+      const PORT: number = parseInt(process.env.PORT) || 3000;
       try {
          await this.grpcServer.start(PORT);
          
@@ -79,5 +98,8 @@ export class Main {
    }
 }
 
-const myApp: Main = new Main(app);
-myApp.start();
+// Only start the app if not in test environment
+if (process.env.NODE_ENV !== 'test') {
+   const myApp: Main = new Main(app);
+   myApp.start();
+}

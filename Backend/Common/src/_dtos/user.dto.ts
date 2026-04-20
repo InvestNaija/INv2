@@ -1,4 +1,4 @@
-import { IsUUID, IsString, IsEmail, IsAlphanumeric, IsDateString, IsBoolean, IsNumber } from "class-validator";
+import { IsUUID, IsString, IsEmail, IsAlphanumeric, IsDateString, IsBoolean, IsNumber, IsOptional } from "class-validator";
 
 export class UserDto {
    @IsNumber()
@@ -23,6 +23,7 @@ export class UserDto {
    declare gender: string;
    @IsDateString()
    declare dob: Date;
+   @IsOptional()
    @IsString()
    declare phone: string;
    @IsString()
@@ -37,6 +38,15 @@ export class UserDto {
    declare mothersMaidenName: string;
    @IsString()
    declare placeOfBirth: string;
+   @IsOptional()
+   @IsNumber()
+   declare userType: number;
+   @IsOptional()
+   @IsNumber()
+   declare relationship: number;
+   @IsOptional()
+   @IsString()
+   declare nationality: string;
    @IsBoolean()
    declare isEnabled: boolean;
    @IsBoolean()

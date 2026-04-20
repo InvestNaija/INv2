@@ -22,12 +22,14 @@ export class CustomerSavePlanValidation {
             'number.empty': `Amount cannot be empty`,
             'any.required': `Amount is required`,
          }),
+         custom: Joi.boolean().required().messages({
+            'any.required': `Custom is required`,
+         }),
          frequency: Joi.string().required().messages({
             'string.empty': `Frequency cannot be empty`,
             'any.required': `Frequency is required`,
          }),
-         duration: Joi.number().required().messages({
-            'number.empty': `Duration cannot be empty`,
+         duration: Joi.alternatives().try(Joi.number(), Joi.string()).required().messages({
             'any.required': `Duration is required`,
          }),
          startDate: Joi.date().format(['YYYY-MM-DD']).required().messages({
@@ -41,6 +43,12 @@ export class CustomerSavePlanValidation {
             'date.format': 'End Date must be in YYYY-MM-DD format',
             'date.empty': `End Date cannot be empty`,
             'any.required': `End Date is required`,
+         }),
+         customEndDate: Joi.alternatives().try(Joi.date().format(['YYYY-MM-DD']), Joi.string().valid('')).messages({
+            'alternatives.match': 'Custom End Date must be in YYYY-MM-DD format or empty',
+            'date.format': 'Custom End Date must be in YYYY-MM-DD format',
+            'date.empty': `Custom End Date cannot be empty`,
+            'any.required': `Custom End Date is required`,
          }),
          gateway: Joi.string().required().messages({
             'string.empty': `Gateway cannot be empty`,

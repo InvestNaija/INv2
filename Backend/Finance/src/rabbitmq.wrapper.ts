@@ -1,8 +1,8 @@
-import amqplib, { Connection } from "amqplib";
+import * as amqplib from "amqplib";
 import { Exception } from "@inv2/common";
 
 class RabbitmqWrapper {
-   private cxn!: Connection;
+   private cxn: any;
    async connect(url: string): Promise<void> {
       console.log(`Trying to connect to rabbitMQ`, url);
       this.cxn = await amqplib.connect(url, { timeout: 10000,  });

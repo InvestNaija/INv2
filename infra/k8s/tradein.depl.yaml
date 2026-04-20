@@ -19,11 +19,11 @@ spec:
           image: integrationschd/inv2-tradein
           resources:
             requests:
-              cpu: "50m"
-              memory: "128Mi"
+              cpu: "10m"
+              memory: "32Mi"
             limits:
               cpu: "100m"
-              memory: "256Mi"
+              memory: "512Mi"
           env:
             - name: NATS_CLIENT_ID
               valueFrom:

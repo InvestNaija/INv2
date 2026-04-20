@@ -26,5 +26,5 @@ it(`Returns 201 on successful signin`, async ()=>{
       })
       .expect(200);
    // expect( redisWrapper.client.setEx).toHaveBeenCalled();
-   expect(rabbitmqWrapper.connection.createChannel).toHaveBeenCalled();
+   expect((rabbitmqWrapper.connection as any).createChannel).toHaveBeenCalled();
 }, 20000);

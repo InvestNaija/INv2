@@ -112,6 +112,16 @@ const Config = {
          },
       },
    },
+   "test": {
+      "databases": {
+         "pgINv2": {
+            "dialect": "sqlite",
+            "storage": "./test-db.sqlite",
+            "models": [__dirname + '/sequelize/INv2/models'],
+            "logging": false
+         }
+      }
+   },
 };
 
 export = Config;

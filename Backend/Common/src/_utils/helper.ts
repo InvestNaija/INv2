@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export class Helper {
    static genRandomCode (length: number, {includeNumbers=true, includeUpperChars=true, includeLowerChars=true, includeSpecialChars=true, isUnique=false})  {
       const numberChars = "0123456789";
@@ -467,5 +469,23 @@ export class Helper {
             "code": "103"
          }
       ];
+   }
+
+   static getNextScheduleDate(startDate: Date, frequency: string) {
+      let durationFormat = null;
+      frequency = frequency.toLowerCase();
+      if (frequency === 'daily') {
+         durationFormat = { days: 1 };
+      } else if (frequency === 'weekly') {
+         durationFormat = { weeks: 1 };
+      } else if (frequency === 'monthly') {
+         durationFormat = { months: 1 };
+      } else if (frequency === 'once') {
+         durationFormat = null;
+      }
+
+      let duration = moment.duration(durationFormat);
+      let nextScheduleDate = moment(startDate).add(duration).format('YYYY-MM-DD');
+      return nextScheduleDate;
    }
 }

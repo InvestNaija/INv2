@@ -37,11 +37,12 @@ export class OtpService {
       const tokenExists = await this.client.get(params.user.email);
       if (!tokenExists)
          return { success: false, status: 403, message: `Invalid or expired token`, data: params};
-
+      
+      // Delete the token from redis after verification
+      this.deleteOTP(params);
       const token = (JSON.parse(tokenExists) as IOTP);
       const checkToken = await Helper.checkToken({ duration: process.env.TOKEN_TIME!, tokenTime: token.createdAt });
       if (!checkToken) {
-         this.deleteOTP(params);
          return { success: false, status: 403, message: `Invalid or expired token`, data: params};
       }
       return { success: true, status: 200, message: 'OTP verified successfully', data: params};

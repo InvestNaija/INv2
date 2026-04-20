@@ -3,9 +3,8 @@ import { Txn, } from "../../../../domain/sequelize/INv2";
 import { ITxnRepository } from "../../ITxnRepository";
 import { getDbCxn } from "../../../../domain";
 import { injectable } from "inversify";
-import { Exception, } from "@inv2/common";
+import { Exception, IQueryOptions } from "@inv2/common";
 import { Transaction } from "sequelize";
-import { IQueryOptions } from "../../../../../../Common/src/database/IGenericRepository";
 
 @injectable()
 export class TxnRepository implements ITxnRepository {

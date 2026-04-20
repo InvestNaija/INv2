@@ -50,7 +50,7 @@ spec:
           #     service:
           #       name: logs-srv
           #       port:
-          #         number: 3100
+          #         number: 3000
     - host: app.inv2.loc
       http:
         paths:

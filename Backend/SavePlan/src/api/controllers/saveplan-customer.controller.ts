@@ -7,7 +7,7 @@ import { Exception, handleError, INLogger, JoiMWDecorator } from "@inv2/common";
 import { CustomerSaveplanService } from '../../business/services';
 import { CustomerSavePlanValidation } from '../validations/customer.schema';
 
-@controller("/customer/saveplan")
+@controller("/customer")
 export class CustomerSaveplanController {
    constructor(private readonly customerSvc: CustomerSaveplanService) {}
 

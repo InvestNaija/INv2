@@ -1,5 +1,5 @@
 import { Table, Column, DataType, Model, HasMany } from "sequelize-typescript";
-import { TenantUserRole } from "..";
+import { TenantUserRole } from "./tenant-user-role.model";
 
 @Table({
    paranoid: false,

@@ -15,6 +15,12 @@ export interface Data {
   link: string;
 }
 
+export interface CallbackParams {
+  redirectUrl?: string | undefined;
+  gatewayId?: string | undefined;
+  saveCard?: string | undefined;
+}
+
 export interface PaymentRequest {
   amount: number;
   currency: string;
@@ -23,6 +29,8 @@ export interface PaymentRequest {
   module: string;
   moduleId: string;
   gateway: string;
+  reference?: string | undefined;
+  callbackParams?: CallbackParams | undefined;
 }
 
 export interface PaymentResponse {
@@ -123,8 +131,110 @@ export const Data: MessageFns<Data> = {
   },
 };
 
+function createBaseCallbackParams(): CallbackParams {
+  return { redirectUrl: undefined, gatewayId: undefined, saveCard: undefined };
+}
+
+export const CallbackParams: MessageFns<CallbackParams> = {
+  encode(message: CallbackParams, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.redirectUrl !== undefined) {
+      writer.uint32(10).string(message.redirectUrl);
+    }
+    if (message.gatewayId !== undefined) {
+      writer.uint32(18).string(message.gatewayId);
+    }
+    if (message.saveCard !== undefined) {
+      writer.uint32(26).string(message.saveCard);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CallbackParams {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCallbackParams();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.redirectUrl = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.gatewayId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.saveCard = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CallbackParams {
+    return {
+      redirectUrl: isSet(object.redirectUrl) ? globalThis.String(object.redirectUrl) : undefined,
+      gatewayId: isSet(object.gatewayId) ? globalThis.String(object.gatewayId) : undefined,
+      saveCard: isSet(object.saveCard) ? globalThis.String(object.saveCard) : undefined,
+    };
+  },
+
+  toJSON(message: CallbackParams): unknown {
+    const obj: any = {};
+    if (message.redirectUrl !== undefined) {
+      obj.redirectUrl = message.redirectUrl;
+    }
+    if (message.gatewayId !== undefined) {
+      obj.gatewayId = message.gatewayId;
+    }
+    if (message.saveCard !== undefined) {
+      obj.saveCard = message.saveCard;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<CallbackParams>, I>>(base?: I): CallbackParams {
+    return CallbackParams.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<CallbackParams>, I>>(object: I): CallbackParams {
+    const message = createBaseCallbackParams();
+    message.redirectUrl = object.redirectUrl ?? undefined;
+    message.gatewayId = object.gatewayId ?? undefined;
+    message.saveCard = object.saveCard ?? undefined;
+    return message;
+  },
+};
+
 function createBasePaymentRequest(): PaymentRequest {
-  return { amount: 0, currency: "", description: "", userId: "", module: "", moduleId: "", gateway: "" };
+  return {
+    amount: 0,
+    currency: "",
+    description: "",
+    userId: "",
+    module: "",
+    moduleId: "",
+    gateway: "",
+    reference: undefined,
+    callbackParams: undefined,
+  };
 }
 
 export const PaymentRequest: MessageFns<PaymentRequest> = {
@@ -149,6 +259,12 @@ export const PaymentRequest: MessageFns<PaymentRequest> = {
     }
     if (message.gateway !== "") {
       writer.uint32(58).string(message.gateway);
+    }
+    if (message.reference !== undefined) {
+      writer.uint32(66).string(message.reference);
+    }
+    if (message.callbackParams !== undefined) {
+      CallbackParams.encode(message.callbackParams, writer.uint32(74).fork()).join();
     }
     return writer;
   },
@@ -216,6 +332,22 @@ export const PaymentRequest: MessageFns<PaymentRequest> = {
           message.gateway = reader.string();
           continue;
         }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.reference = reader.string();
+          continue;
+        }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.callbackParams = CallbackParams.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -234,6 +366,8 @@ export const PaymentRequest: MessageFns<PaymentRequest> = {
       module: isSet(object.module) ? globalThis.String(object.module) : "",
       moduleId: isSet(object.moduleId) ? globalThis.String(object.moduleId) : "",
       gateway: isSet(object.gateway) ? globalThis.String(object.gateway) : "",
+      reference: isSet(object.reference) ? globalThis.String(object.reference) : undefined,
+      callbackParams: isSet(object.callbackParams) ? CallbackParams.fromJSON(object.callbackParams) : undefined,
     };
   },
 
@@ -260,6 +394,12 @@ export const PaymentRequest: MessageFns<PaymentRequest> = {
     if (message.gateway !== "") {
       obj.gateway = message.gateway;
     }
+    if (message.reference !== undefined) {
+      obj.reference = message.reference;
+    }
+    if (message.callbackParams !== undefined) {
+      obj.callbackParams = CallbackParams.toJSON(message.callbackParams);
+    }
     return obj;
   },
 
@@ -275,6 +415,10 @@ export const PaymentRequest: MessageFns<PaymentRequest> = {
     message.module = object.module ?? "";
     message.moduleId = object.moduleId ?? "";
     message.gateway = object.gateway ?? "";
+    message.reference = object.reference ?? undefined;
+    message.callbackParams = (object.callbackParams !== undefined && object.callbackParams !== null)
+      ? CallbackParams.fromPartial(object.callbackParams)
+      : undefined;
     return message;
   },
 };

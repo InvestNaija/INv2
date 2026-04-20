@@ -10,7 +10,9 @@ import { DBEnums } from "@inv2/common";
 })
 export class SavePlan extends Model {
    
-   @BelongsToMany(() => User, () => SavePlanUser)
+   @BelongsToMany(() => User, {
+      through: { model: () => SavePlanUser, unique: false }
+   })
    declare users: User[];
    @HasMany(() => SavePlanCharge)
    declare saveplanChargeTypes: SavePlanCharge[];

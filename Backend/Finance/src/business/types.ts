@@ -37,3 +37,10 @@ export interface VerifyParams {
    params?: Record<string, unknown>;
    body?: Record<string, unknown>;
 }
+export interface MetaData {
+   application: string;
+   module?: string;
+   module_id?: string;
+   user_id?: string;
+   reference?: string;
+}

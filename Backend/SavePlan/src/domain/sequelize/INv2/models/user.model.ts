@@ -9,7 +9,9 @@ import { SavePlan, SavePlanUser } from "..";
 })
 export class User extends Model {
    
-   @BelongsToMany(() => SavePlan, () => SavePlanUser)
+   @BelongsToMany(() => SavePlan, {
+      through: { model: () => SavePlanUser, unique: false }
+   })
    declare saveplans: SavePlan[];
 
    @Column({ type: DataType.DATE, })

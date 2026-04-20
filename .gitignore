@@ -1,6 +1,8 @@
 .git
 .secrets**
-.env
+.env**
 node_modules
 .DS_Store
 .pnpm-store
+dist
+azure-pipelines.yml

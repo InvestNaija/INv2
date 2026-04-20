@@ -3,9 +3,14 @@ syntax = "proto3";
 package finance.payment;
 
 message Data {
-   string authorization_url = 1;
+   string authorizationUrl = 1;
    string reference = 2;
    string link = 3;
+}
+message CallbackParams {
+   optional string redirectUrl = 1;
+   optional string gatewayId = 2;
+   optional string saveCard = 3;
 }
 message PaymentRequest {
    double amount = 1;
@@ -15,6 +20,8 @@ message PaymentRequest {
    string module = 5;
    string module_id = 6;
    string gateway = 7;
+   optional string reference = 8;
+   optional CallbackParams callbackParams = 9;
 }
 message PaymentResponse {
    bool success = 1;

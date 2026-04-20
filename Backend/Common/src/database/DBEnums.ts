@@ -23,7 +23,7 @@ export class DBEnums {
          {code: 120, name: 'other', label: 'Other'},
       ];
    };
-   static get NOKRelationships() {
+   static get Relationships() {
       return [
          {code: 101, name: "mother", label: "Mother"},
          {code: 102, name: "father", label: "Father"},
@@ -36,6 +36,7 @@ export class DBEnums {
          {code: 109, name: "friend", label: "Friend"},
          {code: 110, name: "partner", label: "Partner"},
          {code: 111, name: "manager", label: "Manager"},
+         {code: 112, name: 'guardian', label: 'Guardian'},
          {code: 130, name: "other", label: "Other"},
       ];
    };
@@ -114,6 +115,16 @@ export class DBEnums {
          {code: 100, name: 'paystack', label: 'Paystack'}, 
          {code: 105, name: 'gtsquad', label: 'GTSquad'}, 
          {code: 110, name: 'uba', label: 'UBA'},
+         {code: 115, name: 'flutterwave', label: 'Flutterwave'},
+         {code: 120, name: 'wallet', label: 'Wallet'},
+      ];
+   }
+   static get UserType() {
+      return [
+         {code: 101, name: 'individual', label: 'Individual'}, 
+         {code: 102, name: 'minor', label: 'Minor'},
+         {code: 103, name: 'joint', label: 'Joint'},
+         {code: 104, name: 'corporate', label: 'Corporate'},
       ];
    }
 }
