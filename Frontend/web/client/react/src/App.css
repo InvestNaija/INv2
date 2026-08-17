@@ -1,42 +1,236 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import "tailwindcss";
+
+/* Dark mode is toggled by adding/removing the `.dark` class on <html>
+   (see ThemeModeProvider), not by OS preference — so `dark:` utilities
+   must key off that class rather than Tailwind's default media-query
+   variant. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --text-content-system: #0e47d8;
+  --text-content-default: #0f0f0f;
+  --text-content-muted: #bfbfbf;
+  --text-content-brand: #00868d;
+  --text-content-subtle: #5a5a5a;
+  --text-content-critical:#E5333E;
+   --container-8xl: 100rem;
+
+  /* Surface/border tokens for the app's most common hardcoded colors
+     (page/card backgrounds, sidebar, dividers) so they can be swapped for
+     dark mode via the `.dark` override block below. */
+  --surface-default: #ffffff;
+  --surface-sidebar: #fafafa;
+  --surface-subtle: #f4f4f4;
+  --border-default: #f4f4f4;
+  --border-muted: #dcdcdc;
+  --icon-muted: #bfbfbf;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Dark-mode values for every semantic token above. Any element styled with
+   `text-(--text-content-default)`, `bg-(--surface-default)`,
+   `border-(--border-default)`, etc. (Tailwind's CSS-variable syntax) picks
+   these up automatically once `.dark` is on <html> — no per-component
+   `dark:` classes needed for anything already using the tokens. */
+.dark {
+  --text-content-default: #f5f5f5;
+  --text-content-muted: #8a8a8a;
+  --text-content-subtle: #b3b3b3;
+
+  --surface-default: #121212;
+  --surface-sidebar: #181818;
+  --surface-subtle: #1e1e1e;
+  --border-default: #2a2a2a;
+  --border-muted: #3a3a3a;
+  --icon-muted: #7a7a7a;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  /* Add @variant rules for specific sizes if needed */
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: var(--text-content-default) !important;
+  background-color: var(--surface-default);
+  height: 100vh !important;
+  font-family: "Inter", sans-serif !important;
+}
+
+
+.css-1lwhjos-MuiPaper-root-MuiDrawer-paper {
+  border-right: none !important;
+}
+
+
+
+.css-1808mag-MuiPaper-root-MuiAccordion-root {
+  background-color: transparent !important;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: none !important;
+  background-image: var(--Paper-overlay);
+  position: relative;
+  -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  overflow-anchor: none;
+  border-radius: 0;
+}
+
+.css-rizt0-MuiTypography-root {
+  color: var(--text-content-default, #0f0f0f) !important;
+  /* Web/Body/B */
+  font-family: var(--font-family-body, Inter) !important;
+  font-size: 16px !important;
+  font-style: normal;
+  font-weight: var(--font-weight-700, 700) !important;
+  line-height: 24px !important; /* 150% */
+}
+
+.css-1lj39kh-MuiAccordionDetails-root {
+  color: var(--text-content-subtle, #5a5a5a);
+  /* Web/Body/R */
+  font-family: var(--font-family-body, Inter);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: var(--font-weight-400, 400);
+  line-height: 24px; /* 150% */
+  padding: 0 !important;
+}
+
+.css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root { 
+  padding: 0 !important;
+}
+
+.css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
+    min-height: 34px !important;
+}
+
+.css-yfrx4k-MuiAccordionSummary-content.Mui-expanded {
+    margin: 10px 0 !important;
+}
+
+.css-er619e-MuiFormHelperText-root {
+  /* margin-left: 0 !important; */
+}
+
+
+@layer base {
+  h1 {
   }
-  to {
-    transform: rotate(360deg);
+  h2 {
+    color: var(--text-content-default);
+    font-size: 32px;
+    font-style: normal;
+    font-weight: var(--font-weight-600, 600);
+    line-height: 44px;
+    letter-spacing: -0.4px;
+  }
+
+  .web-body-m {
+    color: var(--text-content-muted);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: var(--font-weight-500, 500);
+    line-height: 24px; /* 150% */
+  }
+
+  .web-body-r {
+    color: var(--text-content-default);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: var(--font-weight-400, 400);
+    line-height: 24px; /* 150% */
+  }
+
+  .web-button-sm {
+    color: var(--text-content-brand);
+    font-family: var(--font-family-body, Inter);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: var(--font-weight-600, 600);
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.2px;
+  }
+
+  .web-button-sm-step {
+    color: var(--text-content-default);
+    font-family: var(--font-family-body, Inter);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: var(--font-weight-600, 600);
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.2px;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+input {
+  outline: none !important;
 }
 
-.card {
-  padding: 2em;
+
+/* In your global .css file */
+
+.css-lqwr9g-MuiPickersOutlinedInput-notchedOutline {
+  border-width: 0px !important;
 }
 
-.read-the-docs {
-  color: #888;
+.css-1ywowvz-MuiPaper-root {
+    background-color: #fff !important ;
+    color: rgba(0, 0, 0, 0.87);
+    -webkit-transition:none !important;
+    transition: none !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    height: 400px;
+    width: 100%;
+    border: 1px solid #F4F4F4 !important;
+}
+
+.css-fa111x-MuiPaper-root { 
+  box-shadow: none !important;
+  border: 1px solid #F4F4F4 !important;
+  border-radius: 12px !important;
+}
+
+
+.css-1gxxtgy-MuiPickersInputBase-root-MuiPickersOutlinedInput-root.Mui-focused:not(.Mui-error) .MuiPickersOutlinedInput-notchedOutline {
+    border-color: #DCDCDC !important;
+}
+.css-la0uns-MuiFormControl-root-MuiPickersTextField-root fieldset {
+    border-color: #DCDCDC !important;
+}
+
+.css-1gxxtgy-MuiFormControl-root-MuiPickersTextField-root:hover .MuiPickersOutlinedInput-notchedOutline {
+    border-color: #DCDCDC !important;
+}
+
+.css-19opgx6-MuiFormControlLabel-root {
+ margin-right: 0px !important;
+}
+
+.MuiFormControlLabel-root.MuiFormControlLabel-labelPlacementStart {
+ display: flex!important;
+ justify-content: space-between !important;
+ width: 100% !important;
+
+} 
+
+.css-1iw3t7y-MuiFormControl-root {
+  width: 100% !important;
+}
+
+::-webkit-scrollbar {
+    display: none !important;
+}
+
+.login-bg {
+  background-image: url('../../react/src/assets/imgs/auth-bg.svg');
+  background-size: cover;
 }
